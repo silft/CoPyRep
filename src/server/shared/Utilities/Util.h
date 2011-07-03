@@ -20,6 +20,7 @@
 #define _UTIL_H
 
 #include "Common.h"
+#include "DetourAlloc.h"
 
 #include <string>
 #include <vector>
@@ -54,12 +55,25 @@ inline uint32 secsToTimeBitFields(time_t secs)
     return (lt->tm_year - 100) << 24 | lt->tm_mon  << 20 | (lt->tm_mday - 1) << 14 | lt->tm_wday << 11 | lt->tm_hour << 6 | lt->tm_min;
 }
 
+inline void* dtCustomAlloc(int size, dtAllocHint /*hint*/)
+{
+    return (void*)new unsigned char[size];
+}
+
+inline void dtCustomFree(void* ptr)
+{
+    delete [] (unsigned char*)ptr;
+}
+
 /* Return a random number in the range min..max; (max-min) must be smaller than 32768. */
  int32 irand(int32 min, int32 max);
 
 /* Return a random number in the range min..max (inclusive). For reliable results, the difference
 * between max and min should be less than RAND32_MAX. */
  uint32 urand(uint32 min, uint32 max);
+
+ /* Return a random number in the range min..max (inclusive). */
+ float frand(float min, float max);
 
 /* Return a random number in the range 0 .. RAND32_MAX. */
  int32 rand32();
