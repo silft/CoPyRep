@@ -3189,7 +3189,7 @@ Anticheat.MaxReportsForDailyReport = 70
 #		Min count defense players for antifarm
 #              (Default: 5)
 #
-##########################################################
+###################################################################################################
 
 OutdoorPvP.Wintergrasp.Enabled = 1
 OutdoorPvP.Wintergrasp.SaveState.Period = 60000
@@ -3206,3 +3206,26 @@ OutdoorPvP.Wintergrasp.CustomHonorIntactBuilding = 1500
 OutdoorPvP.Wintergrasp.Antifarm.Enable = 1
 OutdoorPvP.Wintergrasp.Antifarm.Atk = 1
 OutdoorPvP.Wintergrasp.Antifarm.Def = 1
+
+###################################################################################################
+# Warden options
+#
+#     WardenLogFile = "warden.log"
+#        Warden log file
+
+WardenLogFile = "warden.log"
+
+#
+#     Warden.Kick = 1
+#        Enable 1 or Disable 0 kick player if no answer\timeout\failed checks
+
+Warden.Kick = 1
+
+#
+#     Warden.BanDay = 3
+#        Number of days for ban player's account if check failed
+#        0 - Disable ban
+
+Warden.BanDay = 3
+
+###################################################################################################
