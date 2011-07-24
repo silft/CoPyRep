@@ -154,7 +154,14 @@ public:
                     break;
                 case DATA_SKADI_THE_RUTHLESS_EVENT:
                     if (data == DONE)
+					{
+						if (Creature* Ymirion = instance->GetCreature(uiKingYmiron))
+                        {
+                            Ymirion->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
+                            Ymirion->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
+                        }
                         HandleGameObject(uiSkadiTheRuthlessDoor, true);
+					}
                     m_auiEncounter[2] = data;
                     break;
                 case DATA_KING_YMIRON_EVENT:
