@@ -936,16 +936,17 @@ public:
             }
         }
 
-        void JustDied(Unit* pKiller)
+        void JustDied(Unit* killer)
         {
             if (uiWhisker)
                 if (Creature *pWhisker = me->GetCreature(*me, uiWhisker))
                     pWhisker->RemoveFromWorld();
 
-            if (pKiller->GetTypeId() == TYPEID_PLAYER)
-                pKiller->GetCharmerOrOwnerPlayerOrPlayerItself()->GroupEventHappens(QUEST_THE_CHAMPION_OF_ANGUISH, pKiller);
-
-        }
+            if (Player* player = killer-> GetCharmerOrOwnerPlayerOrPlayerItself())
+            {
+                player->GroupEventHappens(QUEST_THE_CHAMPION_OF_ANGUISH, killer);
+            }
+         }
     };
 
     CreatureAI *GetAI(Creature *creature) const
