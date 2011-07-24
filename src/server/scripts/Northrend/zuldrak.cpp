@@ -251,9 +251,11 @@ enum eGurgthock
     QUEST_AMPHITHEATER_ANGUISH_YGGDRAS_1          = 12932,
     QUEST_AMPHITHEATER_ANGUISH_MAGNATAUR          = 12933,
     QUEST_AMPHITHEATER_ANGUISH_FROM_BEYOND        = 12934,
+    QUEST_THE_CHAMPION_OF_ANGUISH                 = 12948,
 
     NPC_ORINOKO_TUSKBREAKER                       = 30020,
     NPC_KORRAK_BLOODRAGER                         = 30023,
+    NPC_VLADOF_THE_BUTCHER                        = 30022,
     NPC_YGGDRAS                                   = 30014,
     NPC_STINKBEARD                                = 30017,
     NPC_AZ_BARIN                                  = 30026, // air
@@ -402,6 +404,11 @@ public:
                             uiTimer = 2000;
                             uiPhase = 12;
                             break;
+                        case 
+QUEST_THE_CHAMPION_OF_ANGUISH:
+                            uiTimer = 2000;
+                            uiPhase = 15;
+                            break;
                    }
                         break;
                 }
@@ -524,6 +531,18 @@ public:
                                 pCreature->AI()->SetData(1, uiBossRandom);
                             uiPhase = 0;
                             break;
+                        case 15:
+                            if (Creature* pSummon = me->SummonCreature(NPC_VLADOF_THE_BUTCHER, SpawnPosition[0], TEMPSUMMON_CORPSE_DESPAWN, 1000))
+                                SummonGUID = pSummon->GetGUID();
+                            uiPhase = 16;
+                            uiTimer = 4000;
+                            break;
+                         case 16:
+                            if (Creature* pSummon = Unit::GetCreature(*me, SummonGUID))
+                                pSummon->GetMotionMaster()->MoveJump(5776.319824f, -2981.005371f, 273.100037f, 10.0f, 20.0f);
+                            uiPhase = 0;
+                            SummonGUID = 0;
+                            break;
                     }
                 }else uiTimer -= uiDiff;
             }
@@ -548,6 +567,9 @@ public:
                 pCreature->AI()->SetData(1, pQuest->GetQuestId());
                 break;
             case QUEST_AMPHITHEATER_ANGUISH_FROM_BEYOND:
+                pCreature->AI()->SetData(1, pQuest->GetQuestId());
+                break;
+            case QUEST_THE_CHAMPION_OF_ANGUISH:
                 pCreature->AI()->SetData(1, pQuest->GetQuestId());
                 break;
         }
@@ -800,6 +822,136 @@ public:
     CreatureAI *GetAI(Creature* creature) const
     {
         return new npc_korrak_bloodragerAI(creature);
+    }
+};
+
+/*####
+## npc_vladof_the_butcher
+####*/
+
+class npc_vladof_the_butcher : public CreatureScript
+{
+public:
+    npc_vladof_the_butcher() : CreatureScript("npc_vladof_the_butcher") { }
+
+    struct npc_vladof_the_butcherAI : public ScriptedAI
+    {
+        npc_vladof_the_butcherAI(Creature* pCreature) : ScriptedAI(pCreature)
+        {
+            me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
+            me->SetReactState(REACT_PASSIVE);
+        }
+
+        bool bSummoned;
+        bool bBattleShout;
+        bool bFishyScent;
+
+        uint32 uiBattleShoutTimer;
+        uint32 uiFishyScentTimer;
+
+        uint64 AffectedGUID;
+        uint64 uiWhisker;
+
+        void Reset()
+        {
+            bSummoned           = false;
+            bBattleShout        = false;
+            bFishyScent         = false;
+            uiBattleShoutTimer  = 0;
+            uiFishyScentTimer   = 20000;
+            uiWhisker           = 0;
+            AffectedGUID        = 0;
+        }
+
+        void EnterEvadeMode()
+        {
+            if (Creature *pWhisker = me->GetCreature(*me, uiWhisker))
+                pWhisker->RemoveFromWorld();
+        }
+
+        void MovementInform(uint32 uiType, uint32 /*uiId*/)
+        {
+            if (uiType != POINT_MOTION_TYPE)
+                return;
+
+            me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
+            me->SetReactState(REACT_AGGRESSIVE);
+            me->SetHomePosition(me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation());
+            uiBattleShoutTimer  = 7000;
+        }
+
+        void EnterCombat(Unit* pWho)
+        {
+            DoCast(pWho, SPELL_IMPALE);
+        }
+
+        void UpdateAI(const uint32 uiDiff)
+        {
+            if (!UpdateVictim())
+                return;
+
+            if (!bBattleShout && uiBattleShoutTimer <= uiDiff)
+            {
+                DoCast(me, SPELL_BATTLE_SHOUT);
+                bBattleShout = true;
+            } else uiBattleShoutTimer -= uiDiff;
+
+            if (uiFishyScentTimer <= uiDiff)
+            {
+                if (Unit *pAffected = SelectTarget(SELECT_TARGET_RANDOM, 0))
+                {
+                    DoCast(pAffected, SPELL_FISHY_SCENT);
+                    AffectedGUID = pAffected->GetGUID();
+                }
+                uiFishyScentTimer = 20000;
+            } else uiFishyScentTimer -= uiDiff;
+
+            if (!bSummoned && !HealthAbovePct(50))
+            {
+                DoScriptText(SAY_CALL_FOR_HELP , me);
+                //DoCast(me->getVictim(), SPELL_SUMMON_WHISKER); petai is not working correctly???
+
+                if (Creature *pWhisker = me->SummonCreature(NPC_WHISKER, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 0))
+                    uiWhisker = pWhisker->GetGUID();
+                bSummoned = true;
+            }
+
+            DoMeleeAttackIfReady();
+        }
+
+        void JustSummoned(Creature* pSummon)
+        {
+            switch(pSummon->GetEntry())
+            {
+                case NPC_WHISKER:
+                    pSummon->AI()->AttackStart(me->getVictim());
+                    break;
+                case NPC_HUNGRY_PENGUIN:
+                    if (Unit *pAffected = Unit::GetUnit(*me, AffectedGUID))
+                    {
+                        if (pAffected->isAlive())
+                            pSummon->AI()->AttackStart(pAffected);
+                    }
+                    break;
+            }
+        }
+
+        void JustDied(Unit* killer)
+        {
+            if (uiWhisker)
+                if (Creature *pWhisker = me->GetCreature(*me, uiWhisker))
+                    pWhisker->RemoveFromWorld();
+
+            if (Player* player = killer-> GetCharmerOrOwnerPlayerOrPlayerItself())
+            {
+                player->GroupEventHappens(QUEST_THE_CHAMPION_OF_ANGUISH, killer);
+            }
+         }
+    };
+
+    CreatureAI *GetAI(Creature *creature) const
+    {
+        return new npc_vladof_the_butcherAI(creature);
     }
 };
 
@@ -2045,6 +2197,7 @@ void AddSC_zuldrak()
     new npc_orinoko_tuskbreaker();
     new npc_korrak_bloodrager();
     new npc_yggdras();
+    new npc_vladof_the_butcher();
     new npc_stinkbeard();
     new npc_released_offspring_harkoa();
     new npc_crusade_recruit();
