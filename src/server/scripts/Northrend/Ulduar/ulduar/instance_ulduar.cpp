@@ -703,7 +703,7 @@ public:
                 }
             }
       
-        void ProcessEvent(GameObject* /*go*/, uint32 eventId)
+        void ProcessEvent(WorldObject* /*go*/, uint32 eventId)
         {
             // Flame Leviathan's Tower Event triggers
             Creature* FlameLeviathan = instance->GetCreature(uiLeviathanGUID);

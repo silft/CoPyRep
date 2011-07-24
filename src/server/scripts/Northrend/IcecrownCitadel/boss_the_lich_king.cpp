@@ -202,6 +202,7 @@ enum Spells
     SPELL_FROSTMOURNE_ROOM_TELEPORT_VISUAL                 = 73078,
     SPELL_QUAKE                                            = 72262,
     SPELL_RAISE_DEAD                                       = 71769,
+    SPELL_RAISE_DEAD_EFFECT                                = 72376,
     SPELL_BROKEN_FROSTMOURNE                               = 72398,
     SPELL_BOOM_VISUAL                                      = 72726,
     SPELL_ICEBLOCK_TRIGGER                                 = 71614,
@@ -416,16 +417,9 @@ class boss_the_lich_king : public CreatureScript
                 {
                     furyOfFrostmournenores->EffectRadiusIndex[0] = 22;
                 }
-                if (SpellEntry* riseDead = GET_SPELL(SPELL_RAISE_DEAD))
+                if(SpellEntry* spellRaiseDead = GET_SPELL(SPELL_RAISE_DEAD_EFFECT))
                 {
-                    riseDead->EffectRadiusIndex[0] = 22;
-                    riseDead->EffectRadiusIndex[1] = 22;
-                    riseDead->EffectImplicitTargetA[0] = TARGET_SRC_CASTER;
-                    riseDead->EffectImplicitTargetB[0] = TARGET_UNIT_AREA_ENEMY_SRC;
-                    riseDead->EffectImplicitTargetA[1] = TARGET_SRC_CASTER;
-                    riseDead->EffectImplicitTargetB[1] = TARGET_UNIT_AREA_ENEMY_SRC;
-                    riseDead->EffectAmplitude[0] = 50000;
-                    riseDead->EffectAmplitude[1] = 50000;
+                    spellRaiseDead->EffectRadiusIndex[0] = 22;
                 }
                 if (SpellEntry* massResurrection = GET_SPELL(SPELL_REVIVE))
                 {
@@ -847,7 +841,7 @@ class boss_the_lich_king : public CreatureScript
                                 case EVENT_SUMMON_SHAMBLING_HORROR:
                                 {
                                     DoCast(SPELL_SUMMON_SHAMBLING_HORROR);
-                                    events.ScheduleEvent(EVENT_SUMMON_SHAMBLING_HORROR, 70000, 0, PHASE_1);
+                                    events.ScheduleEvent(EVENT_SUMMON_SHAMBLING_HORROR, 35000, 0, PHASE_1);
                                     break;
                                 }
                                 case EVENT_SUMMON_DRUDGE_GHOULS:
@@ -855,7 +849,7 @@ class boss_the_lich_king : public CreatureScript
                                     PauseForSummoning(true);
                                     DoCast(SPELL_SUMMON_DRUDGE_GHOULS);
                                     events.ScheduleEvent(EVENT_RESTART_COMBAT_MOVEMENT, 4100, 0, PHASE_1);
-                                    events.ScheduleEvent(EVENT_SUMMON_DRUDGE_GHOULS, 60000, 0, PHASE_1);
+                                    events.ScheduleEvent(EVENT_SUMMON_DRUDGE_GHOULS, 30000, 0, PHASE_1);
                                     break;
                                 }
                                 case EVENT_INFEST:
