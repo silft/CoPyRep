@@ -61,7 +61,7 @@ enum CombatPhase
 #define ACTION_MINION_REACHED                     1
 #define DATA_OH_NOVOS                             2
 
-static Position AddSpawnPoint = { -379.20f, -816.76f, 59.70f, 0.0f };
+static Position AddSpawnPoint = { -379.19f, -820.85f, 61.58f, 0.0f };
 static Position CrystalHandlerSpawnPoint = { -326.626343f, -709.956604f, 27.813314f, 0.0f };
 static Position AddDestinyPoint = { -379.314545f, -772.577637f, 28.58837f, 0.0f };
 
@@ -152,7 +152,7 @@ public:
                         summon->GetMotionMaster()->MovePoint(0, AddDestinyPoint);
                         //If spell is casted stops casting arcane field so no spell casting
                         //DoCast(me, SPELL_SUMMON_MINIONS);
-                        uiTimer = 3*IN_MILLISECONDS;
+                        uiTimer = 10*IN_MILLISECONDS;
                     } else uiTimer -= diff;
                     if (crystalHandlerAmount < 4)
                     {
