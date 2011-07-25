@@ -169,9 +169,6 @@ public:
             m_PlayerDeathCount = 0;
             m_HeiganPlayerDeathCount = 0;
             Step = 0;
-		 instance->LoadGrid(139.702469f, -12.263711f);
-
-            Initialize();
         }
 
         std::set<uint64> HeiganEruptionGUID[4];
