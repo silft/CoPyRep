@@ -22147,6 +22147,19 @@ bool Player::InArena() const
     return true;
 }
 
+bool Player::InOutdoorPVP(bool inwar)
+{
+   if (!sWorld->getBoolConfig(CONFIG_OUTDOORPVP_WINTERGRASP_ENABLED))
+       return false;
+
+   OutdoorPvPWG *pvpWG = (OutdoorPvPWG*)sOutdoorPvPMgr->GetOutdoorPvPToZoneId(4197);
+
+   if (!pvpWG || !pvpWG->HasPlayerInWG(this, inwar))
+       return false;
+
+   return true;
+}
+
 bool Player::GetBGAccessByLevel(BattlegroundTypeId bgTypeId) const
 {
     // get a template bg instead of running one
