@@ -1,9 +1,5 @@
-DELETE FROM `spell_script_target` WHERE entry IN (54643);
-INSERT INTO `spell_script_target` (`entry`, `type`, `targetEntry`) VALUES
-(54643,1,23472);
-
-DELETE FROM `game_event` WHERE `entry` IN (50,51);
-INSERT INTO `game_event` (`entry`, `description`, `world_event`) VALUES
+DELETE FROM `game_event` WHERE `eventEntry` IN (50,51);
+INSERT INTO `game_event` (`eventEntry`, `description`, `world_event`) VALUES
 (50, 'Wintergrasp Alliance Defence', 5),
 (51, 'Wintergrasp Horde Defence', 5);
 
