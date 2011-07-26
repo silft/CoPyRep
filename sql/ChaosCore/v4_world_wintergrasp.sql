@@ -145,16 +145,6 @@ INSERT INTO `achievement_criteria_data` (`criteria_id`, `type`, `value1`, `value
 (7716,6,4582,0, ''), -- killed player in Winter's Edge Tower
 (7718,6,4584,0, ''), -- killed player in The Cauldron of Flames
 (7719,6,4589,0, ''); -- killed player in The Chilled Quagmire
-DELETE FROM `spell_script_target` WHERE entry IN
-(56575,56661,56663,56665,56667,56669,61408);
-INSERT INTO `spell_script_target` (`entry`, `type`, `targetEntry`) VALUES
-(56575, 1, 27852),
-(56661, 1, 27852),
-(56663, 1, 27852),
-(56665, 1, 27852),
-(56667, 1, 27852),
-(56669, 1, 27852),
-(61408, 1, 27852);
 
 
 update creature_template set maxhealth = 133525, minhealth = 133525, maxmana = 51360, minmana = 51360, spell1 = 53114, spell2 = 53112, spell3=53110 where entry = 28670;
