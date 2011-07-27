@@ -4299,6 +4299,13 @@ void SpellMgr::LoadSpellCustomAttr()
             spellInfo->EffectSpellClassMask[0] = flag96(423937, 276955137, 2049);
             ++count;
             break;
+		case 32645: // Envenom (Rank 1) 
+        case 32684: // Envenom (Rank 2) 
+        case 57992: // Envenom (Rank 3) 
+        case 57993: // Envenom (Rank 4) 
+            spellInfo->Dispel = 0; 
+            count++;
+			break;
         case 70728: // Exploit Weakness
         case 70840: // Devious Minds
             spellInfo->EffectImplicitTargetA[0] = TARGET_UNIT_CASTER;
