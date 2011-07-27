@@ -62,7 +62,7 @@ UPDATE gameobject_loot_template SET `ChanceOrQuestChance` = 5, `maxcount` = 2 WH
  27503,
  27356);
  
--- Immune masks nether portal + infernal volcano
+-- Immune masks nether portal + infernal volcano + Bosses, LOL
 UPDATE `creature_template` SET `mechanic_immune_mask` = 617299803 WHERE `entry` IN
 (34813, -- Infernal Volcano 10N
  35265, -- Infernal Volcano 10H
@@ -71,4 +71,37 @@ UPDATE `creature_template` SET `mechanic_immune_mask` = 617299803 WHERE `entry` 
  34825, -- Nether Portal 10N
  35278, -- Nether Portal 10H
  35279, -- Nether Portal 25N
- 35280); -- Nether Portal 25H
+ 35280, -- Nether Portal 25H
+ 34796, -- Gormok 10N
+ 35438, -- Gormok 25N
+ 35439, -- Gormok 10H
+ 35440, -- Gormok 25H
+ 34797, -- Icehowl 10N
+ 35447, -- Icehowl 25N
+ 35448, -- Icehowl 10H
+ 35449, -- icehowl 25H
+ 35144, -- Acidmaw 10N
+ 35511, -- Acidmaw 25N
+ 35512, -- Acidmaw 10H
+ 35513, -- Acidmaw 25H
+ 34799, -- Dreadscale 10N
+ 35514, -- Dreadscale 25N
+ 35515, -- Dreadscale 10H
+ 35516, -- Dreadscale 25H
+ 34780, -- Jaraxxus 10N
+ 35216, -- Jaraxxus 25N
+ 35268, -- Jaraxxus 10H
+ 35269, -- Jaraxxus 25H
+ 34497, -- Fjola 10N
+ 35350, -- Fjola 25N
+ 35351, -- Fjola 10H
+ 35352, -- Fjola 25H
+ 34496, -- Eydis 10N
+ 35347, -- Eydis 25N
+ 35348, -- Eydis 10H
+ 35349, -- Eydis 25H
+ 34564, -- Anub'arak 10N
+ 34566, -- Anub'arak 25N
+ 35615, -- Anub'arak 10H
+ 35616); -- Anub'arak 25H
+ 
