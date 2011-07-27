@@ -228,3 +228,10 @@ UPDATE `conditions` SET SourceGroup = 40000 WHERE SourceGroup = 26955;
 -- Delete unused reference loot for t8 tokens on thorim cache
 DELETE FROM `reference_loot_template` WHERE `entry` = 34181;
 
+-- Remove sigil loot from keepers wrong caches, they should be only on hardmode ones.
+-- Freya
+DELETE FROM gameobject_loot_template WHERE `item` IN (45788,45814) AND `entry` IN (27078,27079,27080,26959,26960,26961);
+-- Mimiron
+DELETE FROM gameobject_loot_template WHERE `item` IN (45787,45816) AND `entry` IN (27085,26963);
+-- Thorim
+DELETE FROM gameobject_loot_template WHERE `item` IN (45784,45817) AND `entry` IN (27073,40000);
