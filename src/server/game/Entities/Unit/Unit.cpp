@@ -3751,8 +3751,11 @@ void Unit::RemoveAurasDueToSpellByDispel(uint32 spellId, uint64 casterGUID, Unit
                 case SPELLFAMILY_WARLOCK:
                 {
                     // Unstable Affliction (crash if before removeaura?)
-                    if (aura->GetSpellProto()->SpellFamilyFlags[1] & 0x0100)
-                    {
+					if (aura->GetSpellProto()->SpellFamilyName == SPELLFAMILY_WARLOCK && 
+						aura->GetSpellProto()->SpellFamilyFlags[0] == 0 &&
+						aura->GetSpellProto()->SpellFamilyFlags[1] == 0x0100 &&
+						aura->GetSpellProto()->SpellFamilyFlags[2] == 0 ) //it's better to check all the flags parts and not only [1]
+					{
                         Unit* caster = aura->GetCaster();
                         if (!caster)
                             break;
