@@ -424,9 +424,9 @@ class spell_steelbreaker_static_disruption : public SpellScriptLoader
 
             bool Validate(SpellEntry const* /*spell*/)
             {
-                if (!sSpellStore.LookupEntry(61912))
+                if (!sSpellStore.LookupEntry(61911))
                     return false;
-                if (!sSpellStore.LookupEntry(63494))
+                if (!sSpellStore.LookupEntry(63495))
                     return false;
                 return true;
             }
