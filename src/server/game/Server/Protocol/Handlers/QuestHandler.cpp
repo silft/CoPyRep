@@ -229,6 +229,7 @@ void WorldSession::HandleQuestgiverAcceptQuestOpcode(WorldPacket & recv_data)
     }
 
     _player->PlayerTalkClass->SendCloseGossip();
+	_player->SaveToDB();
 }
 
 void WorldSession::HandleQuestgiverQueryQuestOpcode(WorldPacket & recv_data)
@@ -268,6 +269,8 @@ void WorldSession::HandleQuestgiverQueryQuestOpcode(WorldPacket & recv_data)
         else
             _player->PlayerTalkClass->SendQuestGiverQuestDetails(quest, object->GetGUID(), true);
     }
+	if (_player)
+		_player->SaveToDB();
 }
 
 void WorldSession::HandleQuestQueryOpcode(WorldPacket & recv_data)
@@ -368,6 +371,8 @@ void WorldSession::HandleQuestgiverChooseRewardOpcode(WorldPacket & recv_data)
         else
             _player->PlayerTalkClass->SendQuestGiverOfferReward(quest, guid, true);
     }
+	if (_player)
+		_player->SaveToDB();
 }
 
 void WorldSession::HandleQuestgiverRequestRewardOpcode(WorldPacket & recv_data)
@@ -394,6 +399,9 @@ void WorldSession::HandleQuestgiverRequestRewardOpcode(WorldPacket & recv_data)
 
     if (Quest const *pQuest = sObjectMgr->GetQuestTemplate(quest))
         _player->PlayerTalkClass->SendQuestGiverOfferReward(pQuest, guid, true);
+
+	if (_player)
+		_player->SaveToDB();
 }
 
 void WorldSession::HandleQuestgiverCancel(WorldPacket& /*recv_data*/)
@@ -447,6 +455,8 @@ void WorldSession::HandleQuestLogRemoveQuest(WorldPacket& recv_data)
 
         _player->GetAchievementMgr().UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_QUEST_ABANDONED, 1);
     }
+	if (_player)
+		_player->SaveToDB();
 }
 
 void WorldSession::HandleQuestConfirmAccept(WorldPacket& recv_data)
@@ -482,6 +492,8 @@ void WorldSession::HandleQuestConfirmAccept(WorldPacket& recv_data)
 
         _player->SetDivider(0);
     }
+	if (_player)
+		_player->SaveToDB();
 }
 
 void WorldSession::HandleQuestgiverCompleteQuest(WorldPacket& recv_data)
@@ -530,6 +542,8 @@ void WorldSession::HandleQuestgiverCompleteQuest(WorldPacket& recv_data)
                 _player->PlayerTalkClass->SendQuestGiverOfferReward(pQuest, guid, true);
         }
     }
+	if (_player)
+		_player->SaveToDB();
 }
 
 void WorldSession::HandleQuestgiverQuestAutoLaunch(WorldPacket& /*recvPacket*/)
