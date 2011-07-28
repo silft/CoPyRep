@@ -17,3 +17,7 @@ VALUES
  -- Immune mask volkhan
  UPDATE `creature_template` SET `mechanic_immune_mask` = 617299803 WHERE `entry` IN (28587,31536);
  
+ -- Correct Emblem drop
+ UPDATE `creature_loot_template` SET `item` = 47241 WHERE `item` = 40752;
+ UPDATE `gameobject_loot_template` SET `item` = 47241 WHERE `item` = 40752;
+ 
