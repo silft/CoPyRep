@@ -21,3 +21,9 @@ VALUES
  UPDATE `creature_loot_template` SET `item` = 47241 WHERE `item` = 40752;
  UPDATE `gameobject_loot_template` SET `item` = 47241 WHERE `item` = 40752;
  
+ -- Static Disruption spellscript
+ DELETE FROM `spell_script_names` WHERE `spell_id` IN (61911,63495);
+ INSERT INTO `spell_script_names` VALUES
+ (61911,'spell_steelbreaker_static_disruption'),
+ (63495,'spell_steelbreaker_static_disruption');
+ 
