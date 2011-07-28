@@ -1,3 +1,7 @@
+-- Ruby sanctum bosses respawn time
+UPDATE `creature` SET `spawntimesecs` = 604800 WHERE `id` IN (39863,39751,39746,39747);
+UPDATE `creature_template` SET `rank` = 3 WHERE `entry` IN  (39863,39751,39746,39747); 
+
 -- Charscale Invoker
  UPDATE creature_template SET mindmg = '422',maxdmg = '586',attackpower = '642',dmg_multiplier = '7.5' WHERE entry =40417;
  UPDATE creature_template SET mindmg = '422',maxdmg = '586',attackpower = '642',dmg_multiplier = '12.5' WHERE entry =40418;
