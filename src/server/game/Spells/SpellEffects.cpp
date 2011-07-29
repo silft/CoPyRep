@@ -1268,6 +1268,15 @@ void Spell::EffectDummy(SpellEffIndex effIndex)
                     unitTarget->Kill(unitTarget);
                     return;
                 }
+                case 69922:                                 // Temper Quel'Delar
+                {
+                    if (unitTarget->GetEntry() != 37094)
+                        return;
+
+                    // Return Tempered Quel'Delar
+                    unitTarget->CastSpell(m_caster, 69956, true);
+                    return;
+                }
             }
 
             break;
