@@ -1254,10 +1254,10 @@ public:
                 int32 textId;
                 switch(waveNumber)
                 {
-                    case 0: case 7: textId = -1595136; break; // King Square
-                    case 1: case 4: textId = -1595137; break; // Festival Street Fountain
-                    case 2: case 5: textId = -1595138; break; // Council
-                    case 3: case 6: textId = -1595135; break; // King Square Fountain
+                    case 0: case 7: textId = -1595048; break; // King Square
+                    case 1: case 4: textId = -1595049; break; // Festival Street Fountain
+                    case 2: case 5: textId = -1595050; break; // Council
+                    case 3: case 6: textId = -1595051; break; // King Square Fountain
                 }
                 if(textId < 0)
                     crier->YellToZone(textId, LANG_UNIVERSAL, 0);
@@ -1335,6 +1335,9 @@ public:
 
         if(instance)
         {
+            if (creature->isQuestGiver())
+                player->PrepareQuestMenu(creature->GetGUID());
+
             if (instance->GetData(DATA_CRATE_COUNT) < 5)
             {
                 if(!player->HasItemCount(ITEM_ARCANE_DISRUPTOR, 1))
