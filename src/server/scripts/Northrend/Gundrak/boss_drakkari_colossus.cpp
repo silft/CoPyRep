@@ -93,13 +93,9 @@ class boss_drakkari_colossus : public CreatureScript
             void Reset()
             {
                 _Reset();
-
-                if (GetData(DATA_INTRO_DONE))
-                {
-                    me->SetReactState(REACT_AGGRESSIVE);
-                    me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
-                    me->RemoveAura(SPELL_FREEZE_ANIM);
-                }
+				me->SetReactState(REACT_AGGRESSIVE);
+				me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
+				me->RemoveAura(SPELL_FREEZE_ANIM);
 
                 //events.Reset(); -> done in _Reset();
                 events.ScheduleEvent(EVENT_MIGHTY_BLOW, urand(10000, 30000));
@@ -279,6 +275,8 @@ class boss_drakkari_elemental : public CreatureScript
                 {
                     if (Creature* colossus = Unit::GetCreature(*me, instance->GetData64(DATA_DRAKKARI_COLOSSUS)))
                         killer->Kill(colossus);
+					if (me->HasAura(SPELL_MOJO_VOLLEY))
+						me->RemoveAurasDueToSpell(SPELL_MOJO_VOLLEY);
                 }
             }
 
