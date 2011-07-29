@@ -18,18 +18,14 @@
 #include "ScriptPCH.h"
 #include "culling_of_stratholme.h"
 
-#define MAX_ENCOUNTER 7
-#define ACHIEVEMENT_ZOMBIEFEST 1872
-#define ZOMBIEFEST_MIN_COUNT   100
+#define MAX_ENCOUNTER 5
 
 /* Culling of Stratholme encounters:
-0 - Plague Crates
-1 - Meathook
-2 - Salramm the Fleshcrafter
-3 - Chrono-Lord Epoch
-4 - Mal'Ganis
-5 - Infinite Corruptor (Heroic only)
-6 - Arthas
+0 - Meathook
+1 - Salramm the Fleshcrafter
+2 - Chrono-Lord Epoch
+3 - Mal'Ganis
+4 - Infinite Corruptor (Heroic only)
 */
 
 enum Texts
@@ -37,390 +33,442 @@ enum Texts
     SAY_CRATES_COMPLETED    = 0,
 };
 
-Position const ChromieSummonPos = {1813.298f, 1283.578f, 142.3258f, 3.878161f};
+const char* zombiefestWarnings[12] =
+{
+    "|cFFFFFC00 [Zombiefest!] |cFF00FFFF started.",
+    "|cFFFFFC00 [Zombiefest!] |cFFFE6C00 progress: 10/100.",
+    "|cFFFFFC00 [Zombiefest!] |cFFFF9000 progress: 20/100.",
+    "|cFFFFFC00 [Zombiefest!] |cFFFDB900 progress: 30/100.",
+    "|cFFFFFC00 [Zombiefest!] |cFFFFCC00 progress: 40/100.",
+    "|cFFFFFC00 [Zombiefest!] |cFFFFF600 progress: 50/100.",
+    "|cFFFFFC00 [Zombiefest!] |cFFDDFE00 progress: 60/100.",
+    "|cFFFFFC00 [Zombiefest!] |cFFC6FF00 progress: 70/100.",
+    "|cFFFFFC00 [Zombiefest!] |cFF96FF00 progress: 80/100.",
+    "|cFFFFFC00 [Zombiefest!] |cFF6CFF00 progress: 90/100.",
+    "|cFFFFFC00 [Zombiefest!] |cFF33FF00 completed.",
+    "|cFFFFFC00 [Zombiefest!] |cFFFF0000 failed.",
+};
 
 class instance_culling_of_stratholme : public InstanceMapScript
 {
-public:
-    instance_culling_of_stratholme() : InstanceMapScript("instance_culling_of_stratholme", 595) { }
+    public:
+        instance_culling_of_stratholme() : InstanceMapScript("instance_culling_of_stratholme", 595) { }
 
-    InstanceScript* GetInstanceScript(InstanceMap* pMap) const
-    {
-        return new instance_culling_of_stratholme_InstanceMapScript(pMap);
-    }
-
-    struct instance_culling_of_stratholme_InstanceMapScript : public InstanceScript
-    {
-        instance_culling_of_stratholme_InstanceMapScript(Map* pMap) : InstanceScript(pMap) {}
-
-        uint64 uiArthas;
-        uint64 uiMeathook;
-        uint64 uiSalramm;
-        uint64 uiEpoch;
-        uint64 uiMalGanis;
-        uint64 uiInfinite;
-		uint64 uiChromie;
-
-        uint64 uiShkafGate;
-        uint64 uiMalGanisGate1;
-        uint64 uiMalGanisGate2;
-        uint64 uiExitGate;
-        uint64 uiMalGanisChest;
-        uint32 uiCountdownTimer;
-        uint16 uiCountdownMinute;
-		uint64 _genericBunnyGUID;
-		uint32 _crateCount;
-		// Zombiefest!
-		uint32 zombiesCount;
-		uint32 zombieFestTimer;
-
-        uint32 m_auiEncounter[MAX_ENCOUNTER];
-        std::string str_data;
-
-        uint32 uiCountCrates;
-
-    
-        void Initialize()
+        InstanceScript* GetInstanceScript(InstanceMap* pMap) const
         {
-            memset(&m_auiEncounter, 0, sizeof(m_auiEncounter));
-
-            uiCountCrates = 0;
-            uiCountdownTimer = 0;
-            uiCountdownMinute = 26;
-			zombiesCount = 0;
-			zombieFestTimer = 0;
+            return new instance_culling_of_stratholme_InstanceMapScript(pMap);
         }
 
-
-        bool IsEncounterInProgress() const
+        struct instance_culling_of_stratholme_InstanceMapScript : public InstanceScript
         {
-            for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
-                if (m_auiEncounter[i] == IN_PROGRESS) return true;
-
-            return false;
-        }
-
-        void OnCreatureCreate(Creature* pCreature)
-        {
-            switch(pCreature->GetEntry())
+            instance_culling_of_stratholme_InstanceMapScript(Map* pMap) : InstanceScript(pMap)
             {
-                case NPC_ARTHAS:
-                    uiArthas = pCreature->GetGUID();
-                    break;
-                case NPC_MEATHOOK:
-                    uiMeathook = pCreature->GetGUID();
-                    break;
-                case NPC_SALRAMM:
-                    uiSalramm = pCreature->GetGUID();
-                    break;
-                case NPC_EPOCH:
-                    uiEpoch = pCreature->GetGUID();
-                    break;
-                case NPC_MAL_GANIS:
-                    uiMalGanis = pCreature->GetGUID();
-                    break;
-                case NPC_INFINITE:                                  // default unattackable
-                    uiInfinite = pCreature->GetGUID();
-                    pCreature->SetVisible(false);
-                    pCreature->setFaction(35);
-                    break;
-				case NPC_GENERIC_BUNNY:
-					_genericBunnyGUID = pCreature->GetGUID();
-                    break;
-				case NPC_CHROMIE:
-					uiChromie = pCreature->GetGUID();
-					pCreature->SetVisible(false);
-                    break;
+                _arthasGUID = 0;
+                _meathookGUID = 0;
+                _salrammGUID = 0;
+                _epochGUID = 0;
+                _malGanisGUID = 0;
+                _infiniteGUID = 0;
+                _shkafGateGUID = 0;
+                _malGanisGate1GUID = 0;
+                _malGanisGate2GUID = 0;
+                _exitGateGUID = 0;
+                _malGanisChestGUID = 0;
+                _genericBunnyGUID = 0;
+                _lordaeronCrierGUID = 0;
+                _artasStepUi = 0;
+                memset(&_encounterState[0], 0, sizeof(uint32) * MAX_ENCOUNTER);
+                _crateCount = 0;
+                _zombieFest = 0;
+                _killedZombieCount = 0;
+                _zombieTimer = 60000;
+                _eventTimer = 1500000;
+                _lastTimer = 1500000;
             }
-        }
 
-        void GiveQuestKillAllInInstance(uint32 entry)
-        {
-            Map::PlayerList const &PlayerList = instance->GetPlayers();
-
-            if (PlayerList.isEmpty())
-                return;
-
-            for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
+            bool IsEncounterInProgress() const
             {
-                if (Player* i_pl = i->getSource())
-                    i_pl->KilledMonsterCredit(entry, 0);
+                for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+                    if (_encounterState[i] == IN_PROGRESS)
+                        return true;
+
+                return false;
             }
-        }
 
-        void OnGameObjectCreate(GameObject* pGo)
-        {
-            switch(pGo->GetEntry())
+            void FillInitialWorldStates(WorldPacket& data)
             {
-                case GO_SHKAF_GATE:
-                    uiShkafGate = pGo->GetGUID();
-                    break;
-                case GO_MALGANIS_GATE_1:
-                    uiMalGanisGate1 = pGo->GetGUID();
-                    break;
-                case GO_MALGANIS_GATE_2:
-                    uiMalGanisGate2 = pGo->GetGUID();
-                    break;
-                case GO_EXIT_GATE:
-                    uiExitGate = pGo->GetGUID();
-                    if (m_auiEncounter[4] == DONE)
-                        HandleGameObject(uiExitGate, true);
-                    break;
-                case GO_MALGANIS_CHEST_N:
-                case GO_MALGANIS_CHEST_H:
-                    uiMalGanisChest = pGo->GetGUID();
-                    if (m_auiEncounter[4] == DONE)
-                        pGo->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND);
-                    break;
+                data << uint32(WORLDSTATE_SHOW_CRATES) << uint32(1);
+                data << uint32(WORLDSTATE_CRATES_REVEALED) << uint32(_crateCount);
+                data << uint32(WORLDSTATE_WAVE_COUNT) << uint32(0);
+                data << uint32(WORLDSTATE_TIME_GUARDIAN) << uint32(25);
+                data << uint32(WORLDSTATE_TIME_GUARDIAN_SHOW) << uint32(0);
             }
-        }
 
-        void SetData(uint32 type, uint32 data)
-        {
-            switch(type)
+            void OnCreatureCreate(Creature* creature)
             {
-                case DATA_CRATES_EVENT:
-                    switch(data)
-                    {
-                    case 0: //Entfernt Worldstate
-                        DoUpdateWorldState(WORLDSTATE_NUMBER_CRATES_SHOW, 0);
+                switch (creature->GetEntry())
+                {
+                    case NPC_ARTHAS:
+                        _arthasGUID = creature->GetGUID();
                         break;
-                    case 1: //Addiert ein Punkt
-                        uiCountCrates++;
-                        DoUpdateWorldState(WORLDSTATE_NUMBER_CRATES_COUNT, uiCountCrates);
-                        if(uiCountCrates >= 5)
+                    case NPC_MEATHOOK:
+                        _meathookGUID = creature->GetGUID();
+                        break;
+                    case NPC_SALRAMM:
+                        _salrammGUID = creature->GetGUID();
+                        break;
+                    case NPC_EPOCH:
+                        _epochGUID = creature->GetGUID();
+                        break;
+                    case NPC_MAL_GANIS:
+                        _malGanisGUID = creature->GetGUID();
+                        break;
+                    case NPC_INFINITE:
+                        _infiniteGUID = creature->GetGUID();
+                        break;
+                    case NPC_GENERIC_BUNNY:
+                        _genericBunnyGUID = creature->GetGUID();
+                        break;
+                    case NPC_CITY_MAN:
+                    case NPC_CITY_MAN2:
+                    case NPC_CITY_MAN3:
+                    case NPC_CITY_MAN4:
+                    case 30570: case 31020: case 31021: case 31022: case 31023: // Some individual npcs...
+                    case 31025: case 31018: case 31027: case 31028: case 30994: case 31019:
+                        _citizensList.push_back(creature);
+                        break;
+                    case NPC_LORDAERON_CRIER:
+                        _lordaeronCrierGUID = creature->GetGUID();
+                        break;
+                }
+            }
+
+            void OnGameObjectCreate(GameObject* go)
+            {
+                switch (go->GetEntry())
+                {
+                    case GO_SHKAF_GATE:
+                        _shkafGateGUID = go->GetGUID();
+                        break;
+                    case GO_MALGANIS_GATE_1:
+                        _malGanisGate1GUID = go->GetGUID();
+                        break;
+                    case GO_MALGANIS_GATE_2:
+                        _malGanisGate2GUID = go->GetGUID();
+                        break;
+                    case GO_EXIT_GATE:
+                        _exitGateGUID = go->GetGUID();
+                        if (_encounterState[3] == DONE)
+                            HandleGameObject(_exitGateGUID, true);
+                        break;
+                    case GO_MALGANIS_CHEST_N:
+                    case GO_MALGANIS_CHEST_H:
+                        _malGanisChestGUID = go->GetGUID();
+                        if (_encounterState[3] == DONE)
+                            go->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND);
+                        break;
+                }
+            }
+
+            void SetData(uint32 type, uint32 data)
+            {
+                switch (type)
+                {
+                    case DATA_MEATHOOK_EVENT:
+                        _encounterState[0] = data;
+                        break;
+                    case DATA_SALRAMM_EVENT:
+                        if(data == DONE)
+                            DoUpdateWorldState(WORLDSTATE_WAVE_COUNT, 0);
+                        _encounterState[1] = data;
+                        break;
+                    case DATA_EPOCH_EVENT:
+                        _encounterState[2] = data;
+                        break;
+                    case DATA_MAL_GANIS_EVENT:
+                        _encounterState[3] = data;
+
+                        switch (_encounterState[3])
                         {
-                            m_auiEncounter[0] = DONE;
-                            GiveQuestKillAllInInstance(CREDIT_DISPELLING_ILLUSIONS);
-                            SaveToDB();
+                            case NOT_STARTED:
+                                HandleGameObject(_malGanisGate2GUID, true);
+                                break;
+                            case IN_PROGRESS:
+                                HandleGameObject(_malGanisGate2GUID, false);
+                                break;
+                            case DONE:
+                                HandleGameObject(_exitGateGUID, true);
+                                if (GameObject* go = instance->GetGameObject(_malGanisChestGUID))
+                                    go->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND);
+                                instance->SummonCreature(NPC_CHROMIE_3, ChromieExitSummonPos);
+                                break;
                         }
                         break;
-                    case 2: //Startet den Worldstate
-                        uiCountCrates = 0;
-                        m_auiEncounter[0] = IN_PROGRESS;
-                        DoUpdateWorldState(WORLDSTATE_NUMBER_CRATES_SHOW, 1);
-                        DoUpdateWorldState(WORLDSTATE_NUMBER_CRATES_COUNT, uiCountCrates);
-                        break;
-                    }
-                break;
-                case DATA_MEATHOOK_EVENT:
-                    m_auiEncounter[1] = data;
-                    break;
-                case DATA_SALRAMM_EVENT:
-                    m_auiEncounter[2] = data;
-                    break;
-                case DATA_EPOCH_EVENT:
-                    m_auiEncounter[3] = data;
-                    break;
-                case DATA_MAL_GANIS_EVENT:
-                    m_auiEncounter[4] = data;
-                    switch (m_auiEncounter[4])
-                    {
-                        case NOT_STARTED:
-                            HandleGameObject(uiMalGanisGate2, true);
-                            break;
-                        case IN_PROGRESS:
-                            HandleGameObject(uiMalGanisGate2, false);
-                            break;
-                        case DONE:
-                            GiveQuestKillAllInInstance(CREDIT_A_ROYAL_ESCORT);
-							if (Creature* pCreature = instance->GetCreature(uiChromie))
-                            {
-                                pCreature->SetVisible(true);
-                            }
-                            HandleGameObject(uiExitGate, true);
-                            HandleGameObject(uiMalGanisGate2, true);
-                            if (GameObject* pGo = instance->GetGameObject(uiMalGanisChest))
-                                pGo->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND);
-                            break;
-                    }
-                    break;
-                case DATA_INFINITE_EVENT:
-                    m_auiEncounter[5] = data;
-                    switch (m_auiEncounter[5])
-                    {
-                        case DONE:
-                            uiCountdownMinute = 0;
-                            DoUpdateWorldState(WORLDSTATE_NUMBER_INFINITE_SHOW, 0);
-                            break;
-                        case IN_PROGRESS: //make visible
+                    case DATA_INFINITE_EVENT:
+                        _encounterState[4] = data;
+                        switch (data)
                         {
-                            if (Creature* pCreature = instance->GetCreature(uiInfinite))
+                            case DONE:
+                                DoUpdateWorldState(WORLDSTATE_TIME_GUARDIAN_SHOW, 0);
+                                DoCompleteAchievement(ACHIEVEMENT_CULLING_TIME);
+                                break;
+                            case FAIL:
+                                DoUpdateWorldState(WORLDSTATE_TIME_GUARDIAN_SHOW, 0);
+                                if(Creature* infinite = instance->GetCreature(_infiniteGUID))
+                                    infinite->AI()->DoAction(0);
+                                break;
+                            case IN_PROGRESS:
+                                DoUpdateWorldState(WORLDSTATE_TIME_GUARDIAN_SHOW, 1);
+                                DoUpdateWorldState(WORLDSTATE_TIME_GUARDIAN, 25);
+                                instance->SummonCreature(NPC_INFINITE, InfiniteSummonPos);
+                                break;
+                        }
+                        break;
+                    case DATA_ARTHAS_EVENT:
+                        if (data == FAIL)
+                        {
+                            if (Creature* deadArthas = instance->GetCreature(_arthasGUID))
                             {
-                                pCreature->SetVisible(true);
-                                pCreature->RestoreFaction();
+                                deadArthas->DespawnOrUnsummon(10000);
+
+                                int index;
+
+                                if(_artasStepUi >= 83) // Before last run
+                                    index = 2;
+                                else if (_artasStepUi >= 60) // Before the council
+                                    index = 1;
+                                else // entrance of city
+                                    index = 0;
+
+                                if(Creature* newArthas = instance->SummonCreature(NPC_ARTHAS, ArthasSpawnPositions[index]))
+                                    newArthas->AI()->SetData(0, pow(2.0, index));
                             }
-                        }   break;
-                    }
-	               break;
-	           case DATA_ZOMBIEFEST:
-	                    if (data == ACHI_START)
-	                        zombieFestTimer = 60 * IN_MILLISECONDS;
-	                    else if (data == ACHI_INCREASE)
-	                        ++zombiesCount;
-	                    else if (data == ACHI_RESET)
-	                    {
-	                        zombiesCount = 0;
-	                        zombieFestTimer = 0;
-	                    }
-                    break;
+                        }
+                        break;
                     case DATA_CRATE_COUNT:
                         _crateCount = data;
+                        DoUpdateWorldState(WORLDSTATE_CRATES_REVEALED, _crateCount);
                         if (_crateCount == 5)
                         {
-                            if (Creature* bunny = instance->GetCreature(_genericBunnyGUID))
-                                bunny->CastSpell(bunny, SPELL_CRATES_CREDIT, true);
+                            Map::PlayerList const &players = instance->GetPlayers();
+                            for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+                                itr->getSource()->KilledMonsterCredit(30996, 0);
 
-                           /* // Summon Chromie and global whisper
-                            if (Creature* chromie = instance->SummonCreature(NPC_CHROMIE_2, ChromieSummonPos))
+                            // Summon Chromie and global whisper
+                            if (Creature* chromie = instance->SummonCreature(NPC_CHROMIE_2, ChromieEntranceSummonPos))
                                 if (!instance->GetPlayers().isEmpty())
                                     if (Player* player = instance->GetPlayers().getFirst()->getSource())
-                                        sCreatureTextMgr->SendChat(chromie, SAY_CRATES_COMPLETED, player->GetGUID(), CHAT_MSG_ADDON, LANG_ADDON, TEXT_RANGE_MAP);*/
+                                        sCreatureTextMgr->SendChat(chromie, SAY_CRATES_COMPLETED, player->GetGUID(), CHAT_MSG_ADDON, LANG_ADDON, TEXT_RANGE_MAP);
+                            DoUpdateWorldState(WORLDSTATE_SHOW_CRATES, 0);
                         }
-						//DoUpdateWorldState(WORLDSTATE_CRATES_REVEALED, _crateCount);
                         break;
-                case DATA_ARTHAS_EVENT:
-                    m_auiEncounter[6] = data;
-                    break;
-            }
-
-            if (data == DONE)
-                SaveToDB();
-        }
-
-        uint32 GetData(uint32 type)
-        {
-            switch(type)
-            {
-                case DATA_CRATES_EVENT:               return m_auiEncounter[0];
-                case DATA_MEATHOOK_EVENT:             return m_auiEncounter[1];
-                case DATA_SALRAMM_EVENT:              return m_auiEncounter[2];
-                case DATA_EPOCH_EVENT:                return m_auiEncounter[3];
-                case DATA_MAL_GANIS_EVENT:            return m_auiEncounter[4];
-                case DATA_INFINITE_EVENT:             return m_auiEncounter[5];
-                case DATA_ARTHAS_EVENT:               return m_auiEncounter[6];
-                case DATA_COUNTDOWN:                  return uiCountdownMinute;
-                case DATA_CRATE_COUNT:                return _crateCount;
-	            case DATA_ZOMBIEFEST:
-	                if (zombieFestTimer == 0)
-	                        return ACHI_IS_NOT_STARTED;
-	                    else
-	                        return ACHI_IS_IN_PROGRESS;
-            }
-            return 0;
-        }
-
-        uint64 GetData64(uint32 identifier)
-        {
-            switch(identifier)
-            {
-                case DATA_ARTHAS:                     return uiArthas;
-                case DATA_MEATHOOK:                   return uiMeathook;
-                case DATA_SALRAMM:                    return uiSalramm;
-                case DATA_EPOCH:                      return uiEpoch;
-                case DATA_MAL_GANIS:                  return uiMalGanis;
-                case DATA_INFINITE:                   return uiInfinite;
-                case DATA_SHKAF_GATE:                 return uiShkafGate;
-                case DATA_MAL_GANIS_GATE_1:           return uiMalGanisGate1;
-                case DATA_MAL_GANIS_GATE_2:           return uiMalGanisGate2;
-                case DATA_EXIT_GATE:                  return uiExitGate;
-                case DATA_MAL_GANIS_CHEST:            return uiMalGanisChest;
-            }
-            return 0;
-        }
-
-        std::string GetSaveData()
-        {
-            OUT_SAVE_INST_DATA;
-
-            std::ostringstream saveStream;
-            saveStream << "C S " << m_auiEncounter[0] << " " << m_auiEncounter[1] << " "
-                << m_auiEncounter[2] << " " << m_auiEncounter[3] << " " << m_auiEncounter[4] << " " << m_auiEncounter[5] << " " << m_auiEncounter[6] << " " << uiCountdownMinute;
-
-            str_data = saveStream.str();
-
-            OUT_SAVE_INST_DATA_COMPLETE;
-            return str_data;
-        }
-
-        void Load(const char* in)
-        {
-            if (!in)
-            {
-                OUT_LOAD_INST_DATA_FAIL;
-                return;
-            }
-
-            OUT_LOAD_INST_DATA(in);
-
-            char dataHead1, dataHead2;
-            uint16 data0, data1, data2, data3, data4, data5, data6, data7;
-
-            std::istringstream loadStream(in);
-            loadStream >> dataHead1 >> dataHead2 >> data0 >> data1 >> data2 >> data3 >> data4 >> data5 >> data6 >> data7;
-
-            if (dataHead1 == 'C' && dataHead2 == 'S')
-            {
-                m_auiEncounter[0] = data0;
-                m_auiEncounter[1] = data1;
-                m_auiEncounter[2] = data2;
-                m_auiEncounter[3] = data3;
-                m_auiEncounter[4] = data4;
-                m_auiEncounter[5] = data5;
-                m_auiEncounter[6] = data6;
-                uiCountdownMinute = data7;
-
-                for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
-                    if (m_auiEncounter[i] == IN_PROGRESS || m_auiEncounter[i] == SPECIAL)
-                        m_auiEncounter[i] = NOT_STARTED;
-
-            } else OUT_LOAD_INST_DATA_FAIL;
-
-            OUT_LOAD_INST_DATA_COMPLETE;
-        }
-
-        void Update(uint32 diff)
-        {
-            if (GetData(DATA_INFINITE_EVENT) == SPECIAL || GetData(DATA_INFINITE_EVENT) == IN_PROGRESS)
-                if (uiCountdownMinute)
-                {
-                    if (uiCountdownTimer < diff)
-                    {
-                        uiCountdownMinute--;
-
-                        if (uiCountdownMinute)
+                    case DATA_TRANSFORM_CITIZENS:
+                        for (std::list<Creature*>::iterator itr = _citizensList.begin(); itr != _citizensList.end(); ++itr)
                         {
-                            DoUpdateWorldState(WORLDSTATE_NUMBER_INFINITE_SHOW, 1);
-                            DoUpdateWorldState(WORLDSTATE_NUMBER_INFINITE_TIMER, uiCountdownMinute);
+                            if(Creature* citizen = (*itr))
+                            {
+                                if(!citizen->isDead())
+                                {
+                                    citizen->SummonCreature(NPC_ZOMBIE, citizen->GetPositionX(), citizen->GetPositionY(), citizen->GetPositionZ(), citizen->GetOrientation());
+                                    citizen->DisappearAndDie();
+                                }
+                            }
                         }
-                        else
+                        DoStartTimedAchievement(ACHIEVEMENT_TIMED_TYPE_EVENT, 27737);
+                        break;
+                    case DATA_ZOMBIEFEST:
+                        if (!instance->IsHeroic() || GetData(DATA_ZOMBIEFEST) == DONE)
+                            break;
+
+                        switch(data)
                         {
-                            DoUpdateWorldState(WORLDSTATE_NUMBER_INFINITE_SHOW, 0);
+                            case DONE:
+                                DoCompleteAchievement(ACHIEVEMENT_ZOMBIEFEST);
+                                DoSendNotifyToInstance(zombiefestWarnings[10]);
+                                _zombieFest = data;
+                                break;
+                            case IN_PROGRESS:
+                                DoSendNotifyToInstance(zombiefestWarnings[0]);
+                                _zombieFest = data;
+                                break;
+                            case FAIL:
+                                _killedZombieCount = 0;
+                                _zombieTimer = 60000;
+                                _zombieFest = data;
+                                DoSendNotifyToInstance(zombiefestWarnings[11]);
+                                break;
+                            case SPECIAL:
+                                _killedZombieCount++;
+                                if(_killedZombieCount == 1)
+                                    SetData(DATA_ZOMBIEFEST, IN_PROGRESS);
+                                else if(_killedZombieCount >= 100 && GetData(DATA_ZOMBIEFEST) == IN_PROGRESS)
+                                    SetData(DATA_ZOMBIEFEST, DONE);
+                                else
+                                {
+                                    if(_killedZombieCount%10 == 0)
+                                        DoSendNotifyToInstance(zombiefestWarnings[_killedZombieCount/10]);
+                                }
+                                break;
                         }
-                        SaveToDB();
-                        uiCountdownTimer += 60000;
-                    }
-                    uiCountdownTimer -= diff;
+                        break;
+                    case DATA_ARTHAS_STEP:
+                        _artasStepUi = data;
+                        return;
                 }
-	
-	            // Achievement Zombiefest! control
-	            if (zombieFestTimer)
-	            {
-	                if (zombiesCount >= ZOMBIEFEST_MIN_COUNT)
-	                {
-	                    DoCompleteAchievement(ACHIEVEMENT_ZOMBIEFEST);
-	
-	                    SetData(DATA_ZOMBIEFEST, ACHI_RESET);
-	                    return;
-	                }
-	
-	                if (zombieFestTimer <= diff)
-	                    SetData(DATA_ZOMBIEFEST, ACHI_RESET);
-	                else zombieFestTimer -= diff;
-	            }
-	
-        }
-    };
+
+                if (data == DONE)
+                    SaveToDB();
+            }
+
+            uint32 GetData(uint32 type)
+            {
+                switch (type)
+                {
+                    case DATA_MEATHOOK_EVENT:
+                        return _encounterState[0];
+                    case DATA_SALRAMM_EVENT:
+                        return _encounterState[1];
+                    case DATA_EPOCH_EVENT:
+                        return _encounterState[2];
+                    case DATA_MAL_GANIS_EVENT:
+                        return _encounterState[3];
+                    case DATA_INFINITE_EVENT:
+                        return _encounterState[4];
+                    case DATA_CRATE_COUNT:
+                        return _crateCount;
+                    case DATA_ZOMBIEFEST:
+                        return _zombieFest;
+                }
+                return 0;
+            }
+
+            uint64 GetData64(uint32 identifier)
+            {
+                switch (identifier)
+                {
+                    case DATA_ARTHAS:
+                        return _arthasGUID;
+                    case DATA_MEATHOOK:
+                        return _meathookGUID;
+                    case DATA_SALRAMM:
+                        return _salrammGUID;
+                    case DATA_EPOCH:
+                        return _epochGUID;
+                    case DATA_MAL_GANIS:
+                        return _malGanisGUID;
+                    case DATA_INFINITE:
+                        return _infiniteGUID;
+                    case DATA_CRIER:
+                        return _lordaeronCrierGUID;
+                    case DATA_SHKAF_GATE:
+                        return _shkafGateGUID;
+                    case DATA_MAL_GANIS_GATE_1:
+                        return _malGanisGate1GUID;
+                    case DATA_MAL_GANIS_GATE_2:
+                        return _malGanisGate2GUID;
+                    case DATA_EXIT_GATE:
+                        return _exitGateGUID;
+                    case DATA_MAL_GANIS_CHEST:
+                        return _malGanisChestGUID;
+                }
+                return 0;
+            }
+
+            void Update(uint32 diff)
+            {
+                if(GetData(DATA_ZOMBIEFEST) == IN_PROGRESS)
+                {
+                    if (_zombieTimer <= diff)
+                        SetData(DATA_ZOMBIEFEST, FAIL);
+                    else _zombieTimer -= diff;
+                }
+
+                if(GetData(DATA_INFINITE_EVENT) == IN_PROGRESS)
+                {
+                    if(_eventTimer <= diff)
+                        SetData(DATA_INFINITE_EVENT, FAIL);
+                    else _eventTimer -= diff;
+
+                    if(_eventTimer < _lastTimer - 60000)
+                    {
+                        _lastTimer = _eventTimer;
+                        uint32 tMinutes = _eventTimer / 60000;
+                        DoUpdateWorldState(WORLDSTATE_TIME_GUARDIAN, tMinutes);
+                    }
+                }
+            }
+
+            std::string GetSaveData()
+            {
+                OUT_SAVE_INST_DATA;
+
+                std::ostringstream saveStream;
+                saveStream << "C S " << _encounterState[0] << " " << _encounterState[1] << " "
+                    << _encounterState[2] << " " << _encounterState[3] << " " << _encounterState[4];
+
+                OUT_SAVE_INST_DATA_COMPLETE;
+                return saveStream.str();
+            }
+
+            void Load(const char* in)
+            {
+                if (!in)
+                {
+                    OUT_LOAD_INST_DATA_FAIL;
+                    return;
+                }
+
+                OUT_LOAD_INST_DATA(in);
+
+                char dataHead1, dataHead2;
+                uint16 data0, data1, data2, data3, data4;
+
+                std::istringstream loadStream(in);
+                loadStream >> dataHead1 >> dataHead2 >> data0 >> data1 >> data2 >> data3 >> data4;
+
+                if (dataHead1 == 'C' && dataHead2 == 'S')
+                {
+                    _encounterState[0] = data0;
+                    _encounterState[1] = data1;
+                    _encounterState[2] = data2;
+                    _encounterState[3] = data3;
+                    _encounterState[4] = data4;
+
+                    for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+                        if (_encounterState[i] == IN_PROGRESS)
+                            _encounterState[i] = NOT_STARTED;
+
+                }
+                else
+                    OUT_LOAD_INST_DATA_FAIL;
+
+                OUT_LOAD_INST_DATA_COMPLETE;
+            }
+
+        private:
+            uint64 _arthasGUID;
+            uint64 _meathookGUID;
+            uint64 _salrammGUID;
+            uint64 _epochGUID;
+            uint64 _malGanisGUID;
+            uint64 _infiniteGUID;
+            uint64 _shkafGateGUID;
+            uint64 _malGanisGate1GUID;
+            uint64 _malGanisGate2GUID;
+            uint64 _exitGateGUID;
+            uint64 _malGanisChestGUID;
+            uint64 _genericBunnyGUID;
+            uint64 _lordaeronCrierGUID;
+            uint32 _artasStepUi;
+            uint32 _encounterState[MAX_ENCOUNTER];
+            uint32 _crateCount;
+            uint32 _zombieFest;
+            uint8 _killedZombieCount;
+            uint32 _zombieTimer;
+            std::list<Creature*> _citizensList;
+            uint32 _eventTimer;
+            uint32 _lastTimer;
+        };
 };
 
 void AddSC_instance_culling_of_stratholme()
