@@ -20,16 +20,16 @@
 
 enum Data
 {
-    DATA_CRATES_EVENT,
     DATA_MEATHOOK_EVENT,
     DATA_SALRAMM_EVENT,
     DATA_EPOCH_EVENT,
     DATA_MAL_GANIS_EVENT,
     DATA_INFINITE_EVENT,
     DATA_ARTHAS_EVENT,
-    DATA_COUNTDOWN,
+    DATA_CRATE_COUNT,
+    DATA_TRANSFORM_CITIZENS,
     DATA_ZOMBIEFEST,
-     DATA_CRATE_COUNT
+    DATA_ARTHAS_STEP,
 };
 
 enum Data64
@@ -40,69 +40,80 @@ enum Data64
     DATA_EPOCH,
     DATA_MAL_GANIS,
     DATA_INFINITE,
+    DATA_CRIER,
     DATA_SHKAF_GATE,
     DATA_MAL_GANIS_GATE_1,
     DATA_MAL_GANIS_GATE_2,
     DATA_EXIT_GATE,
-    DATA_MAL_GANIS_CHEST
+    DATA_MAL_GANIS_CHEST,
 };
 
 enum Creatures
 {
-    NPC_MEATHOOK           = 26529,
-    NPC_SALRAMM            = 26530,
-    NPC_EPOCH              = 26532,
-    NPC_MAL_GANIS          = 26533,
-    NPC_INFINITE           = 32273,
-    NPC_ARTHAS             = 26499,
-    NPC_JAINA              = 26497,
-    NPC_UTHER              = 26528,
-    NPC_CHROMIE_2          = 27915,
-    NPC_GENERIC_BUNNY      = 28960,
-    NPC_CHROMIE            = 30997
+    NPC_MEATHOOK        = 26529,
+    NPC_SALRAMM         = 26530,
+    NPC_EPOCH           = 26532,
+    NPC_MAL_GANIS       = 26533,
+    NPC_INFINITE        = 32273,
+    NPC_ARTHAS          = 26499,
+    NPC_JAINA           = 26497,
+    NPC_UTHER           = 26528,
+    NPC_CHROMIE_2       = 27915,
+    NPC_CHROMIE_3       = 30997,
+    NPC_GENERIC_BUNNY   = 28960,
+    NPC_LORDAERON_CRIER = 27913,
+};
+
+enum Citizens
+{
+    NPC_CITY_MAN  = 28167,
+    NPC_CITY_MAN2 = 28169,
+    NPC_CITY_MAN3 = 31126,
+    NPC_CITY_MAN4 = 31127,
+
+    NPC_ZOMBIE    = 27737,
 };
 
 enum GameObjects
 {
-    GO_SHKAF_GATE                                          = 188686,
-    GO_MALGANIS_GATE_1                                     = 187711,
-    GO_MALGANIS_GATE_2                                     = 187723,
-    GO_EXIT_GATE                                           = 191788,
-    GO_MALGANIS_CHEST_N                                    = 190663,
-    GO_MALGANIS_CHEST_H                                    = 193597,
-    GO_SUSPICIOUS_CRATE                                    = 190094,
-    GO_PLAGUED_CRATE                                       = 190095
+    GO_SHKAF_GATE       = 188686,
+    GO_MALGANIS_GATE_1  = 187711,
+    GO_MALGANIS_GATE_2  = 187723,
+    GO_EXIT_GATE        = 191788,
+    GO_MALGANIS_CHEST_N = 190663,
+    GO_MALGANIS_CHEST_H = 193597,
+    GO_SUSPICIOUS_CRATE = 190094,
+    GO_PLAGUED_CRATE    = 190095,
 };
 
-enum KillCredit
+enum WorldStatesCoT
 {
-    CREDIT_A_ROYAL_ESCORT                       = 31006,
-    CREDIT_DISPELLING_ILLUSIONS                 = 30996
+    WORLDSTATE_SHOW_CRATES          = 3479,
+    WORLDSTATE_CRATES_REVEALED      = 3480,
+    WORLDSTATE_WAVE_COUNT           = 3504,
+    WORLDSTATE_TIME_GUARDIAN        = 3931,
+    WORLDSTATE_TIME_GUARDIAN_SHOW   = 3932,
 };
 
-enum WorldStatesCoS
+enum ExtraInfo
 {
-    WORLDSTATE_NUMBER_CRATES_SHOW               = 3479,
-    WORLDSTATE_NUMBER_CRATES_COUNT              = 3480,
-    WORLDSTATE_NUMBER_SCOURGE_WAVES_SHOW_COUNT  = 3504,
-    WORLDSTATE_NUMBER_INFINITE_TIMER            = 3931,
-    WORLDSTATE_NUMBER_INFINITE_SHOW             = 3932,
-    WORLDSTATE_CRATES_REVEALED                  = 3480,
-};
-enum AchievementControl
-{
-    ACHI_IS_NOT_STARTED = 1,
-    ACHI_START,
-    ACHI_IS_IN_PROGRESS,
-    ACHI_COMPLETED,
-    ACHI_FAILED,
-    ACHI_RESET,
-    ACHI_INCREASE,
+    SPELL_CRATES_CREDIT        = 58109,
+    ITEM_ARCANE_DISRUPTOR      = 37888,
+    QUEST_DISPELLING_ILLUSIONS = 13149,
+    QUEST_A_ROYAL_ESCORT       = 13151,
+    ACHIEVEMENT_CULLING_TIME   = 1817,
+    ACHIEVEMENT_ZOMBIEFEST     = 1872,
 };
 
-enum CrateSpells
+Position const ChromieEntranceSummonPos = {1813.29f, 1283.57f, 142.325f, 3.87816f};
+Position const ChromieExitSummonPos     = {2316.56f, 1493.22f, 128.011f, 4.13119f};
+Position const InfiniteSummonPos        = {2334.97f, 1269.46f, 132.882f, 3.23105f};
+
+Position const ArthasSpawnPositions[3] =
 {
-    SPELL_CRATES_CREDIT     = 58109,
+    {2049.41f, 1287.57f, 142.746f, 0.0f},
+    {2364.20f, 1194.66f, 131.575f, 0.226905f},
+    {2536.80f, 1130.81f, 130.928f, 0.152292f},
 };
 
 #endif
