@@ -355,7 +355,7 @@ class boss_deathbringer_saurfang : public CreatureScript
                 if (IsHeroic())
                     DoCast(summon, SPELL_SCENT_OF_BLOOD);
 
-                summon->AI()->DoCast(summon, SPELL_BLOOD_LINK_BEAST, true);
+                summon->AI()->DoCast(me, SPELL_BLOOD_LINK_BEAST, true);
                 summon->AI()->DoCast(summon, SPELL_RESISTANT_SKIN, true);
                 summons.Summon(summon);
                 DoZoneInCombat(summon);
@@ -386,7 +386,7 @@ class boss_deathbringer_saurfang : public CreatureScript
                     case 72445:
                     case 72446:
                         if (me->GetPower(POWER_ENERGY) != me->GetMaxPower(POWER_ENERGY))
-                            target->CastCustomSpell(SPELL_BLOOD_LINK_DUMMY, SPELLVALUE_BASE_POINT0, 1, me, true);
+                            target->CastCustomSpell(SPELL_BLOOD_LINK_DUMMY, SPELLVALUE_BASE_POINT0, 5, me, true);
                         break;
                     default:
                         break;
@@ -1115,7 +1115,7 @@ class spell_deathbringer_rune_of_blood : public SpellScriptLoader
             {
                 PreventHitDefaultEffect(effIndex);  // make this the default handler
                 if (GetCaster()->GetPower(POWER_ENERGY) != GetCaster()->GetMaxPower(POWER_ENERGY))
-                    GetHitUnit()->CastCustomSpell(SPELL_BLOOD_LINK_DUMMY, SPELLVALUE_BASE_POINT0, 1, GetCaster(), true);
+                    GetHitUnit()->CastCustomSpell(SPELL_BLOOD_LINK_DUMMY, SPELLVALUE_BASE_POINT0, 5, GetCaster(), true);
             }
 
             void Register()
