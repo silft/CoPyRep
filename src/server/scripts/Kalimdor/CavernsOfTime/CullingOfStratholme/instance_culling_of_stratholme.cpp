@@ -201,6 +201,9 @@ class instance_culling_of_stratholme : public InstanceMapScript
                                 if (GameObject* go = instance->GetGameObject(_malGanisChestGUID))
                                     go->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND);
                                 instance->SummonCreature(NPC_CHROMIE_3, ChromieExitSummonPos);
+                                Map::PlayerList const &players = instance->GetPlayers();
+                                for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+                                    itr->getSource()->KilledMonsterCredit(31006, 0);
                                 break;
                         }
                         break;
