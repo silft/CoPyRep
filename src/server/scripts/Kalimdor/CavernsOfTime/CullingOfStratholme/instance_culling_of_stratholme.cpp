@@ -272,7 +272,8 @@ class instance_culling_of_stratholme : public InstanceMapScript
                             {
                                 if(!citizen->isDead())
                                 {
-                                    citizen->SummonCreature(NPC_ZOMBIE, citizen->GetPositionX(), citizen->GetPositionY(), citizen->GetPositionZ(), citizen->GetOrientation());
+                                    if(Creature* arthas = instance->GetCreature(GetData64(DATA_ARTHAS)))
+                                        arthas->SummonCreature(NPC_ZOMBIE, citizen->GetPositionX(), citizen->GetPositionY(), citizen->GetPositionZ(), citizen->GetOrientation());
                                     citizen->DisappearAndDie();
                                 }
                             }

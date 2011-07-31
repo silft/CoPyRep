@@ -767,8 +767,6 @@ public:
                             {
                                 uiStalkerGUID = pStalker->GetGUID();
                                 me->SetUInt64Value(UNIT_FIELD_TARGET, uiStalkerGUID);
-                                if(IsHeroic())
-                                    pInstance->SetData(DATA_INFINITE_EVENT, IN_PROGRESS);
                             }
                             JumpToNextStep(1000);
                             break;
@@ -896,7 +894,10 @@ public:
 
                             uiBossEvent = DATA_MEATHOOK_EVENT;
                             if (pInstance)
+                            {
                                 pInstance->SetData(DATA_ARTHAS_EVENT, IN_PROGRESS);
+                                pInstance->SetData(DATA_INFINITE_EVENT, IN_PROGRESS);
+                            }
 
                             me->SetReactState(REACT_DEFENSIVE);
                             SetDespawnAtFar(false);

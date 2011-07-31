@@ -12,13 +12,17 @@ UPDATE `creature_template` SET `RegenHealth` = 0 WHERE `entry` = 26499;
 
 DELETE FROM `script_texts` WHERE entry BETWEEN -1595052 AND -1595048;
 INSERT INTO `script_texts` (entry, content_default, content_loc6, content_loc7) VALUES
-(-1595048, 'Scourge forces has been spotted near the King Square fountain!', '¡Tropas de la plaga han sido avistadas cerca de la fuente de la Plaza del Rey!.', content_loc6),
-(-1595049, 'Scourge forces has been spotted at the King Square!', '¡Tropas de la plaga han sido avistadas en Plaza del Rey!.', content_loc6),
-(-1595051, 'Scourge forces has been spotted near the Festival\'s Street fountain!', '¡Tropas de la plaga han sido avistadas cerca de la fuente de la Calle del Festival!.', content_loc6),
-(-1595052, 'Scourge forces has been spotted near the Council!', '¡Tropas de la plaga han sido avistadas cerca del Concejo!.', content_loc6);
+(-1595048, 'Scourge forces has been spotted at the King Square!', '¡Tropas de la plaga han sido avistadas en Plaza del Rey!.', content_loc6),
+(-1595049, 'Scourge forces has been spotted near the Festival\'s Street fountain!', '¡Tropas de la plaga han sido avistadas cerca de la fuente de la Calle del Festival!.', content_loc6),
+(-1595050, 'Scourge forces has been spotted near the Council!', '¡Tropas de la plaga han sido avistadas cerca del Concejo!.', content_loc6),
+(-1595051, 'Scourge forces has been spotted near the King Square fountain!', '¡Tropas de la plaga han sido avistadas cerca de la fuente de la Plaza del Rey!.', content_loc6);
+UPDATE `script_texts` SET content_default = 'AH!' WHERE entry = -1595008;
 
 -- Spawns del tramo final (Thx Lockness)
 DELETE FROM `creature` WHERE `id` IN (27737,27729,27734,27736,28199,28200,28201,28249,28409,32273);
+
+-- Exit AreaTrigger Teleport
+UPDATE `areatrigger_teleport` SET id = 5181 WHERE id = 5148;
 
 SET @GUID := 142600;
 
