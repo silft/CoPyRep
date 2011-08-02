@@ -44,10 +44,10 @@ UPDATE `creature_template` SET `mechanic_immune_mask`='650854399' WHERE (`entry`
 UPDATE `creature_template` SET `mechanic_immune_mask`='650854399' WHERE (`entry`='38772');
 
 /* Boss - Blood-Queen Lana'thel */
-UPDATE `creature_template` SET `mechanic_immune_mask`='801849343' WHERE (`entry`='37955');
-UPDATE `creature_template` SET `mechanic_immune_mask`='801849343' WHERE (`entry`='38434');
-UPDATE `creature_template` SET `mechanic_immune_mask`='801849343' WHERE (`entry`='38435');
-UPDATE `creature_template` SET `mechanic_immune_mask`='801849343' WHERE (`entry`='38436');
+UPDATE `creature_template` SET `mechanic_immune_mask`='768294911' WHERE (`entry`='37955');
+UPDATE `creature_template` SET `mechanic_immune_mask`='768294911' WHERE (`entry`='38434');
+UPDATE `creature_template` SET `mechanic_immune_mask`='768294911' WHERE (`entry`='38435');
+UPDATE `creature_template` SET `mechanic_immune_mask`='768294911' WHERE (`entry`='38436');
      
 /* Boss - Sindragosa */
 UPDATE `creature_template` SET `mechanic_immune_mask`='667893759' WHERE (`entry`='36853');
