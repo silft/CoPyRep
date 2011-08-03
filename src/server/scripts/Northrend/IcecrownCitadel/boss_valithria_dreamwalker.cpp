@@ -740,8 +740,12 @@ class npc_risen_archmage : public CreatureScript
 
 			void IsSummonedBy(Unit* /*summoner*/)
             {
-                if (Creature* valithria = ObjectAccessor::GetCreature(*me, _instance->GetData64(DATA_VALITHRIA_DREAMWALKER)))
-                    AttackStart(valithria);
+				if (Unit* target = me->FindNearestPlayer(150.0f))
+				{
+					me->GetMotionMaster()->MoveChase(target,150.0f);
+					me->AI()->AttackStart(target);
+				}
+
             }
 
             void UpdateAI(uint32 const diff)
