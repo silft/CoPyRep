@@ -1,0 +1,63 @@
+#################################
+#################################
+# CHAOSCORE TO-DO LIST FOR 3.3.5#
+#########By Greymane#############
+#################################
+#################################
+# The purpose of this file is mainly
+# gather up info about what has to be
+# done and share it with the current
+# repo collabs instead of making
+# particular issue treads.
+#
+# 1)Instance Enviorement
+# A) Icecrown Citadel:
+# - Find out wy sometimes sindragosa
+# event wont start. My guess is that
+# valithria encounter is never finished
+# due to some trigger staying in combat
+# since DBM keep chronometrating encounter
+# timers even after she's defeated.
+# 
+# - Find out wy saurfang's bloodbeasts
+# aren't giving him blood power. The beasts
+# gains the blood link when they are summoned
+# but 1 sec before, it dissapears.
+#
+# - Blood queen's lana'thel bloodbolt problem
+# has already been reported and assigned to shauren
+# on tc. So lets just wait.
+#
+# B) Ruby Sanctum:
+# - Halion's corporeality doesn't work
+# - Raise respawn time of trashes
+#
+# C) Halls of Reflection:
+# - Fix spirit wave's fast spawning issue after the 
+# first boss is defeated.
+#
+# D) Dungeon Finder:
+# - Fix proper encounter quest credit when killing the
+# last bosses on CoS and DTK. (Greymane is already assigned)
+#
+# E) Ulduar:
+# - Find out what broke algalon's cosmic smash.
+#
+# 2) Spell Enviorement (This have a long list but i'll just put the most ugly ones)
+# 
+# A) Warrior's bladestorm: 
+# - It's broken, the warrior can be slowed,
+# Mind controlled, hexed, and cycloned while he's casting it,
+# the slow problem can be fixed by porting old dr tenmas patch
+# into chaoscore http://tinyurl.com/3hps4au and the others ones can be
+# simply solved using spell_linked_spell table
+#
+# B) Rogue's Evenom + Relentless strikes
+# - Rogue's envenom is granting double relentless strikes proc
+# (maybe due to quaston's mess implementing new spell attributes? ¬¬')
+#
+#
+#
+#
+# Any repo collab can feel free to change the list content or it's format
+# if he found a better one :)
