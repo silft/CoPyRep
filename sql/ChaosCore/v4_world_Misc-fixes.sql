@@ -27,3 +27,9 @@ VALUES
  (61911,'spell_steelbreaker_static_disruption'),
  (63495,'spell_steelbreaker_static_disruption');
  
+ -- Since some people reported that they cant see lillehoof even after making
+ -- all of the sons of hodir quest chain, i'll change his phasemask...
+ UPDATE `creature` SET `phaseMask` = 1 WHERE `id` = 32540;
+ -- and his hp to prevent people with "hated" reputation to kill him
+ UPDATE `creature_template` SET `Health_mod` = 500 WHERE `entry` = 32540;
+ 
