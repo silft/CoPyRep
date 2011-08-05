@@ -56,7 +56,11 @@
 # - Rogue's envenom is granting double relentless strikes proc
 # (maybe due to quaston's mess implementing new spell attributes? ¬¬')
 #
+# 3) Core-Battleground Enviorement 
 #
+# - Wintergrasp crash when end
+# - 1x honor rate win 35-35k honor
+# - Shadowsight tower bug - 2 stack tower control
 #
 #
 # Any repo collab can feel free to change the list content or it's format
