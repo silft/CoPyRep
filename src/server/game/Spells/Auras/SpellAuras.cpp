@@ -1479,6 +1479,10 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                 }
                 switch(GetId())
                 {
+                   case 6358: // Seduction
+                        // Interrupt cast if aura removed from target
+                        caster->InterruptNonMeleeSpells(false, 6358, false);
+                        break;
                    case 48018: // Demonic Circle
                         // Do not remove GO when aura is removed by stack
                         // to prevent remove GO added by new spell
