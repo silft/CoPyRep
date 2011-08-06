@@ -85,6 +85,7 @@ public:
         uint32 uiShadowBoltTimer;
         uint32 uiStealFleshTimer;
         uint32 uiSummonGhoulsTimer;
+        uint32 uiRespawnZombiesTimer;
 
         InstanceScript* pInstance;
 
@@ -95,6 +96,7 @@ public:
              uiShadowBoltTimer = urand(8000, 12000);
              uiStealFleshTimer = 15000;
              uiSummonGhoulsTimer = urand(15000, 20000);
+             uiRespawnZombiesTimer = 200000;
 
              if (pInstance)
                  pInstance->SetData(DATA_SALRAMM_EVENT, NOT_STARTED);
@@ -157,7 +159,7 @@ public:
             {
                  DoScriptText(RAND(SAY_SUMMON_GHOULS_1,SAY_SUMMON_GHOULS_2), me);
                 if (Unit* random_target = SelectTarget(SELECT_TARGET_RANDOM, 0))
-	
+
                      DoCast(random_target, SPELL_SUMMON_GHOULS);
                 uiSummonGhoulsTimer = 10000;
 
@@ -169,6 +171,14 @@ public:
                 DoCast(DUNGEON_MODE(SPELL_EXPLODE_GHOUL, H_SPELL_EXPLODE_GHOUL));
                 uiExplodeGhoulTimer = urand(6000, 8000);
             } else uiExplodeGhoulTimer -= diff;
+
+            // Respawn risen zombies at town
+            if (uiRespawnZombiesTimer && uiRespawnZombiesTimer <= diff)
+            {
+                pInstance->SetData(DATA_TRANSFORM_CITIZENS, SPECIAL);
+                uiRespawnZombiesTimer = 0;
+            }
+            else uiRespawnZombiesTimer -= diff;
 
             DoMeleeAttackIfReady();
         }
