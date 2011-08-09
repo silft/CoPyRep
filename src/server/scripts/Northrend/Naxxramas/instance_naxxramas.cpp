@@ -836,30 +836,6 @@ void DoTaunt()
 
 };
 
-class AreaTrigger_at_naxxramas_frostwyrm_wing : public AreaTriggerScript
-{
-    public:
-
-        AreaTrigger_at_naxxramas_frostwyrm_wing()
-            : AreaTriggerScript("at_naxxramas_frostwyrm_wing")
-        {
-        }
-
-        bool OnTrigger(Player* player, AreaTriggerEntry const* trigger)
-        {
-            if (player->isGameMaster())
-                return false;
-
-            InstanceScript *data = player->GetInstanceScript();
-            if (data)
-                for (uint32 i = BOSS_ANUBREKHAN; i < BOSS_SAPPHIRON; ++i)
-                    if (data->GetData(i) != DONE)
-                        return true;
-
-            return false;
-        }
-};
-
 class mr_bigglesworth_npc : public CreatureScript
 {
     public:
@@ -928,7 +904,6 @@ class GOHello_go_naxxramas_portal : public GameObjectScript
 void AddSC_instance_naxxramas()
 {
     new instance_naxxramas();
-    new AreaTrigger_at_naxxramas_frostwyrm_wing();
     new GOHello_go_naxxramas_portal();
     new mr_bigglesworth_npc();
 }
