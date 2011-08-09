@@ -33,3 +33,6 @@ VALUES
  -- and his hp to prevent people with "hated" reputation to kill him
  UPDATE `creature_template` SET `Health_mod` = 500 WHERE `entry` = 32540;
  
+ -- Patchwerk respawn time
+ UPDATE `creature_template` SET `rank` = 0 WHERE `entry` = 31099;
+ 
