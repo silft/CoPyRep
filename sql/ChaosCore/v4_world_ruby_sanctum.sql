@@ -1,6 +1,14 @@
 -- Ruby sanctum bosses respawn time
 UPDATE `creature` SET `spawntimesecs` = 604800 WHERE `id` IN (39863,39751,39746,39747);
-UPDATE `creature_template` SET `rank` = 3 WHERE `entry` IN  (39863,39751,39746,39747); 
+UPDATE `creature_template` SET `rank` = 3 WHERE `entry` IN  (39863,39751,39746,39747);
+
+-- Ruby Sanctum bosses id saving
+UPDATE `creature_template` SET `flags_extra` = 1 WHERE `entry` IN
+(39863,39864,39944,39945, -- Halion
+ 39751,39920, -- Baltharus
+ 39746,39805, -- General Zarithrian
+ 39747,39823); -- Saviana Ragefire
+ 
 
 -- Charscale Invoker
  UPDATE creature_template SET mindmg = '422',maxdmg = '586',attackpower = '642',dmg_multiplier = '7.5' WHERE entry =40417;
