@@ -4301,6 +4301,11 @@ void SpellMgr::LoadSpellCustomAttr()
             spellInfo->AttributesEx3 |= SPELL_ATTR3_NO_DONE_BONUS;
             ++count;
             break;
+		case 28478: // Kel'thuzad's Frostbolt 10N
+		case 55802: // Kel'thuzad's Frostbolt 25N
+			spellInfo->InterruptFlags |= SPELL_INTERRUPT_FLAG_INTERRUPT;
+			++count;
+			break;
         case 8145: // Tremor Totem (instant pulse)
         case 6474: // Earthbind Totem (instant pulse)
             spellInfo->AttributesEx5 |= SPELL_ATTR5_START_PERIODIC_AT_APPLY;
@@ -4347,36 +4352,6 @@ void SpellMgr::LoadSpellCustomAttr()
             spellInfo->AuraInterruptFlags = AURA_INTERRUPT_FLAG_HITBYSPELL | AURA_INTERRUPT_FLAG_TAKE_DAMAGE;
             ++count;
             break;
-		// Dark/Light Vortex, hack to prevent channeling cancel
-		// Dark Vortex
-		case 66058:
-		case 67182:
-		case 67183:
-		case 67184:
-		//Light Vortex
-		case 66046:
-		case 67206:
-		case 67207:
-		case 67208:
-			spellInfo->ChannelInterruptFlags &= ~AURA_INTERRUPT_FLAG_MELEE_ATTACK;
-			spellInfo->ChannelInterruptFlags &= ~AURA_INTERRUPT_FLAG_MOVE;
-			spellInfo->InterruptFlags &= ~SPELL_INTERRUPT_FLAG_PUSH_BACK;
-			++count;
-			break;
-		// Twin Pact, hack to prevent casting cancel
-		// Dark Pact
-		case 65875:
-		case 67303:
-		case 67304:
-		case 67305:
-		// Light Pact
-		case 65876:
-		case 67306:
-		case 67307:
-		case 67308:
-			spellInfo->InterruptFlags &= ~SPELL_INTERRUPT_FLAG_PUSH_BACK;
-			++count;
-			break;
         // ULDUAR SPELLS
         //
         case 62968:     // Brightleaf's Essence
@@ -4516,6 +4491,43 @@ void SpellMgr::LoadSpellCustomAttr()
             spellInfo->DurationIndex = 85;
             ++count;
             break;
+		case 66532: // Lord Jaraxxus Fireball 10N
+		case 66963: // Lord Jaraxxus Fireball 25N
+		case 66964: // Lord Jaraxxus Fireball 10H
+		case 66965: // Lord Jaraxxus Fireball 25H
+			spellInfo->InterruptFlags |= SPELL_INTERRUPT_FLAG_INTERRUPT;
+			++count;
+			break;
+		// Dark/Light Vortex, hack to prevent channeling cancel
+		// Dark Vortex
+		case 66058:
+		case 67182:
+		case 67183:
+		case 67184:
+		//Light Vortex
+		case 66046:
+		case 67206:
+		case 67207:
+		case 67208:
+			spellInfo->ChannelInterruptFlags &= ~AURA_INTERRUPT_FLAG_MELEE_ATTACK;
+			spellInfo->ChannelInterruptFlags &= ~AURA_INTERRUPT_FLAG_MOVE;
+			spellInfo->InterruptFlags &= ~SPELL_INTERRUPT_FLAG_PUSH_BACK;
+			++count;
+			break;
+		// Twin Pact, hack to prevent casting cancel
+		// Dark Pact
+		case 65875:
+		case 67303:
+		case 67304:
+		case 67305:
+		// Light Pact
+		case 65876:
+		case 67306:
+		case 67307:
+		case 67308:
+			spellInfo->InterruptFlags &= ~SPELL_INTERRUPT_FLAG_PUSH_BACK;
+			++count;
+			break;
         // ENDOF TRIAL OF THE CRUSADER SPELLS
         //
         // ICECROWN CITADEL SPELLS
@@ -4538,6 +4550,13 @@ void SpellMgr::LoadSpellCustomAttr()
             spellInfo->EffectRadiusIndex[0] = 8;    // 5yd
             ++count;
             break;
+		case 71420: // Lady Deathwhisper Frostbolt 10N
+		case 72007: // Lady Deathwhisper Frostbolt 25N
+		case 72501: // Lady Deathwhisper Frostbolt 10H
+		case 72502: // Lady Deathwhisper Frostbolt 25H
+			spellInfo->InterruptFlags |= SPELL_INTERRUPT_FLAG_INTERRUPT;
+			++count;
+			break;
         case 69075: // Bone Storm (Lord Marrowgar)
         case 70834: // Bone Storm (Lord Marrowgar)
         case 70835: // Bone Storm (Lord Marrowgar)

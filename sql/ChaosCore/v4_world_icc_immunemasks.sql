@@ -5,10 +5,10 @@ UPDATE `creature_template` SET `mechanic_immune_mask`='667893759' WHERE (`entry`
 UPDATE `creature_template` SET `mechanic_immune_mask`='667893759' WHERE (`entry`='37959');
      
 /* Boss - Lady Deathwhisper */
-UPDATE `creature_template` SET `mechanic_immune_mask`='667893759' WHERE (`entry`='36855');
-UPDATE `creature_template` SET `mechanic_immune_mask`='667893759' WHERE (`entry`='38106');
-UPDATE `creature_template` SET `mechanic_immune_mask`='667893759' WHERE (`entry`='38296');
-UPDATE `creature_template` SET `mechanic_immune_mask`='667893759' WHERE (`entry`='38297');
+UPDATE `creature_template` SET `mechanic_immune_mask`='634339327' WHERE (`entry`='36855');
+UPDATE `creature_template` SET `mechanic_immune_mask`='634339327' WHERE (`entry`='38106');
+UPDATE `creature_template` SET `mechanic_immune_mask`='634339327' WHERE (`entry`='38296');
+UPDATE `creature_template` SET `mechanic_immune_mask`='634339327' WHERE (`entry`='38297');
      
 /* Boss - Deathbringer Saurfang */
 UPDATE `creature_template` SET `mechanic_immune_mask`='650854399' WHERE (`entry`='38583');
