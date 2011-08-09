@@ -135,7 +135,7 @@ class instance_culling_of_stratholme : public InstanceMapScript
                     case NPC_CITY_MAN4:
                     case 30570: case 31020: case 31021: case 31022: case 31023: // Some individual npcs...
                     case 31025: case 31018: case 31027: case 31028: case 30994: case 31019:
-                        _citizensList.push_back(creature);
+                        _citizensList.push_back(creature->GetGUID());
                         break;
                     case NPC_LORDAERON_CRIER:
                         _lordaeronCrierGUID = creature->GetGUID();
@@ -179,7 +179,12 @@ class instance_culling_of_stratholme : public InstanceMapScript
                         break;
                     case DATA_SALRAMM_EVENT:
                         if(data == DONE)
+                        {
                             DoUpdateWorldState(WORLDSTATE_WAVE_COUNT, 0);
+                            if(ArthasNeedsTeleport())
+                                if(Creature* arthas = instance->GetCreature(_arthasGUID))
+                                    arthas->AI()->SetData(1, 0);
+                        }
                         _encounterState[1] = data;
                         break;
                     case DATA_EPOCH_EVENT:
@@ -266,19 +271,37 @@ class instance_culling_of_stratholme : public InstanceMapScript
                         }
                         break;
                     case DATA_TRANSFORM_CITIZENS:
-                        for (std::list<Creature*>::iterator itr = _citizensList.begin(); itr != _citizensList.end(); ++itr)
+                        switch(data)
                         {
-                            if(Creature* citizen = (*itr))
-                            {
-                                if(!citizen->isDead())
+                            case SPECIAL: // Respawn Zombies
+                                while (!_zombiesList.empty())
                                 {
-                                    if(Creature* arthas = instance->GetCreature(GetData64(DATA_ARTHAS)))
-                                        arthas->SummonCreature(NPC_ZOMBIE, citizen->GetPositionX(), citizen->GetPositionY(), citizen->GetPositionZ(), citizen->GetOrientation());
-                                    citizen->DisappearAndDie();
+                                    Creature *summon = instance->GetCreature(*_zombiesList.begin());
+                                    if (!summon)
+                                        _zombiesList.erase(_zombiesList.begin());
+                                    else
+                                    {
+                                        _zombiesList.erase(_zombiesList.begin());
+                                        if (TempSummon* summ = summon->ToTempSummon())
+                                        {
+                                            summon->DestroyForNearbyPlayers();
+                                            summ->UnSummon();
+                                        }
+                                        else
+                                            summon->DisappearAndDie();
+                                    }
                                 }
-                            }
+                            case IN_PROGRESS: // Transform Citizens
+                                for (std::list<uint64>::iterator itr = _citizensList.begin(); itr != _citizensList.end(); ++itr)
+                                    if(Creature* citizen = instance->GetCreature((*itr)))
+                                    {
+                                        if(Creature* arthas = instance->GetCreature(GetData64(DATA_ARTHAS)))
+                                            if(Creature* risenZombie = arthas->SummonCreature(NPC_ZOMBIE, citizen->GetPositionX(), citizen->GetPositionY(), citizen->GetPositionZ(), citizen->GetOrientation())) //, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 5000))
+                                                _zombiesList.push_back(risenZombie->GetGUID());
+                                        citizen->SetPhaseMask(2, true);
+                                    }
+                                break;
                         }
-                        DoStartTimedAchievement(ACHIEVEMENT_TIMED_TYPE_EVENT, 27737);
                         break;
                     case DATA_ZOMBIEFEST:
                         if (!instance->IsHeroic() || GetData(DATA_ZOMBIEFEST) == DONE)
@@ -469,9 +492,24 @@ class instance_culling_of_stratholme : public InstanceMapScript
             uint32 _zombieFest;
             uint8 _killedZombieCount;
             uint32 _zombieTimer;
-            std::list<Creature*> _citizensList;
+            std::list<Position> _citizensPosList;
+            std::list<uint64> _citizensList;
+            std::list<uint64> _zombiesList;
             uint32 _eventTimer;
             uint32 _lastTimer;
+
+            bool ArthasNeedsTeleport()
+            {
+                if(Creature* arthas = instance->GetCreature(_arthasGUID))
+                {
+                    Map::PlayerList const &players = instance->GetPlayers();
+                    for(Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+                        if(Player* player = itr->getSource())
+                            if(player->GetDistance(arthas) >= 210.0f)
+                                return true;
+                }
+                return false;
+            }
         };
 };
 

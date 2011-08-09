@@ -870,7 +870,7 @@ public:
                             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
                             me->SetReactState(REACT_PASSIVE);
                             // Transform all citizens, handled on InstanceScript
-                            pInstance->SetData(DATA_TRANSFORM_CITIZENS, 0);
+                            pInstance->SetData(DATA_TRANSFORM_CITIZENS, IN_PROGRESS);
                             JumpToNextStep(500);
                             break;
                         case 38:
@@ -896,7 +896,9 @@ public:
                             if (pInstance)
                             {
                                 pInstance->SetData(DATA_ARTHAS_EVENT, IN_PROGRESS);
-                                pInstance->SetData(DATA_INFINITE_EVENT, IN_PROGRESS);
+
+                                if(IsHeroic())
+                                    pInstance->SetData(DATA_INFINITE_EVENT, IN_PROGRESS);
                             }
 
                             me->SetReactState(REACT_DEFENSIVE);
@@ -995,8 +997,6 @@ public:
                             break;
                         //After Gossip 2 (waypoint 22)
                         case 61:
-                            me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
-                            me->SetReactState(REACT_AGGRESSIVE);
                             if (Creature* pDisguised0 = Unit::GetCreature(*me, uiInfiniteDraconianGUID[0]))
                                 pDisguised0->SetUInt64Value(UNIT_FIELD_TARGET, me->GetGUID());
                             if (Creature* pDisguised1 = Unit::GetCreature(*me, uiInfiniteDraconianGUID[1]))
@@ -1011,6 +1011,8 @@ public:
                             JumpToNextStep(7000);
                             break;
                         case 63:
+                            me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
+                            me->SetReactState(REACT_AGGRESSIVE);
                             DoScriptText(SAY_PHASE303, me);
                             SetHoldState(false);
                             bStepping = false;
@@ -1241,11 +1243,19 @@ public:
                 DoCast(me, SPELL_HOLY_LIGHT);
         }
 
-        void SetData(uint32 /*type*/, uint32 gossipStep)
+        void SetData(uint32 id, uint32 data)
         {
-            respawned = true;
-            uiGossipStep = gossipStep;
-            me->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
+            switch(id)
+            {
+                case 0:
+                    respawned = true;
+                    uiGossipStep = data;
+                    me->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
+                    break;
+                case 1:
+                    SetNextWaypoint(19, true);
+                    break;
+            }
         }
 
         void SendCrierWarning(uint8 waveNumber)
