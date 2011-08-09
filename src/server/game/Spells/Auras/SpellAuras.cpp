@@ -209,6 +209,9 @@ void AuraApplication::BuildUpdatePacket(ByteBuffer& data, bool remove) const
 
 void AuraApplication::HandleEffect(uint8 effIndex, bool apply)
 {
+	if (!effIndex || !apply)
+		return;
+
     if (GetRemoveMode() || GetBase()->IsRemoved())
         return;
 
