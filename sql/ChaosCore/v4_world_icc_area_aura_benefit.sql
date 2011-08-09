@@ -1,3 +1,3 @@
 -- Lower ICC aura benefit
-UPDATE `spell_area` SET `spell` = 73816 WHERE `spell` = 73822; -- Hellscreams warsong
-UPDATE `spell_area` SET `spell` = 73762 WHERE `spell` = 73828; -- Strength of Wrynn
+UPDATE `spell_area` SET `spell` = 73819 WHERE `spell` = 73816; -- Hellscreams warsong
+UPDATE `spell_area` SET `spell` = 73825 WHERE `spell` = 73762; -- Strength of Wrynn
