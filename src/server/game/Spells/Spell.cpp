@@ -7283,8 +7283,8 @@ bool Spell::CanExecuteTriggersOnHit(uint8 effMask) const
     // don't allow to proc for dummy-only spell target hits
     // prevents triggering/procing effects twice from spells like Eviscerate
     for (uint8 i = 0;effMask && i < MAX_SPELL_EFFECTS; ++i)
-    {
-        if (m_spellInfo->Effect[i] == SPELL_EFFECT_DUMMY)
+    {                                                       // hack for envenom, remove this once relentless strikes stop proccing twice from it.
+        if (m_spellInfo->Effect[i] == SPELL_EFFECT_DUMMY || m_spellInfo->SpellIconID == 2237 && m_spellInfo->Effect[i] == SPELL_EFFECT_APPLY_AURA)
             effMask &= ~(1<<i);
     }
     return effMask;
