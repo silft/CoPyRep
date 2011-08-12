@@ -507,6 +507,7 @@ m_caster(Caster), m_spellValue(new SpellValue(m_spellInfo))
     m_castedClientside = castedClientside;
     m_IsTriggeredSpell = bool(triggered || (info->AttributesEx4 & SPELL_ATTR4_TRIGGERED));
     m_CastItem = NULL;
+	m_castItemGUID = 0;
 
     unitTarget = NULL;
     itemTarget = NULL;
