@@ -41,58 +41,56 @@ enum Achievements
 enum Events
 {
     // =========== PHASE ONE ===============
-    EVENT_ARCANE_BREATH = 1,
-    EVENT_ARCANE_STORM  = 2,
-    EVENT_VORTEX        = 3,
-    EVENT_POWER_SPARKS  = 4,
+    EVENT_ARCANE_BREATH			= 1,
+    EVENT_ARCANE_STORM			= 2,
+    EVENT_VORTEX				= 3,
+    EVENT_POWER_SPARKS			= 4,
 
     // =========== PHASE TWO ===============
-    EVENT_SURGE_POWER   = 5, // wowhead is wrong, Surge of Power is casted instead of Arcane Pulse (source sniffs!)
-    EVENT_SUMMON_ARCANE = 6,
+    EVENT_SURGE_POWER			= 5, // wowhead is wrong, Surge of Power is casted instead of Arcane Pulse (source sniffs!)
+    EVENT_SUMMON_ARCANE			= 6,
 
     // =========== PHASE TWO ===============
-    EVENT_SURGE_POWER_PHASE_3 = 7,
-    EVENT_STATIC_FIELD = 8,
+    EVENT_SURGE_POWER_PHASE_3	= 7,
+    EVENT_STATIC_FIELD			= 8,
 
     // =============== YELLS ===============
-    EVENT_YELL_0 = 9,
-    EVENT_YELL_1 = 10,
-    EVENT_YELL_2 = 11,
-    EVENT_YELL_3 = 12,
-    EVENT_YELL_4 = 13,
+    EVENT_YELL_0				= 9,
+    EVENT_YELL_1				= 10,
+    EVENT_YELL_2				= 11,
+    EVENT_YELL_3				= 12,
+    EVENT_YELL_4				= 13,
 };
 
 enum Phases
 {
-    PHASE_ONE = 1,
-    PHASE_TWO = 2,
+    PHASE_ONE	= 1,
+    PHASE_TWO	= 2,
     PHASE_THREE = 3
 };
 
 enum Spells
 {
-    SPELL_ARCANE_BREATH = 56272,
-    SPELL_ARCANE_STORM  = 57459,
-    SPELL_BERSEKER      = 60670,
+    SPELL_ARCANE_BREATH			= 56272,
+    SPELL_ARCANE_STORM			= 57459,
+    SPELL_BERSEKER				= 60670,
 
-    SPELL_VORTEX_1 = 56237, // seems that frezze object animation
-    SPELL_VORTEX_2 = 55873, // visual effect
-    SPELL_VORTEX_3 = 56105, // this spell must handle all the script - casted by the boss and to himself
-    //SPELL_VORTEX_4 = 55853, // damage | used to enter to the vehicle - defined in eye_of_eternity.h
-    //SPELL_VORTEX_5 = 56263, // damage | used to enter to the vehicle - defined in eye_of_eternity.h
-    SPELL_VORTEX_6 = 73040, // teleport - (casted to all raid) | caster 30090 | target player
+    SPELL_VORTEX_1				= 56237, // seems that frezze object animation
+    SPELL_VORTEX_2				= 55873, // visual effect
+    SPELL_VORTEX_3				= 56105, // this spell must handle all the script - casted by the boss and to himself
+    SPELL_VORTEX_6				= 73040, // teleport - (casted to all raid) | caster 30090 | target player
 
-    SPELL_PORTAL_VISUAL_CLOSED = 55949,
-    SPELL_SUMMON_POWER_PARK = 56142,
-    SPELL_POWER_SPARK_DEATH = 55852,
-    SPELL_POWER_SPARK_MALYGOS = 56152,
+    SPELL_PORTAL_VISUAL_CLOSED	= 55949,
+    SPELL_SUMMON_POWER_PARK		= 56142,
+    SPELL_POWER_SPARK_DEATH		= 55852,
+    SPELL_POWER_SPARK_MALYGOS	= 56152,
 
-    SPELL_SURGE_POWER = 56505, // used in phase 2
-    SPELL_SUMMON_ARCANE_BOMB = 56429,
-    SPELL_ARCANE_OVERLOAD = 56432,
-    SPELL_SUMMOM_RED_DRAGON = 56070,
-    SPELL_SURGE_POWER_PHASE_3 = 57407,
-    SPELL_STATIC_FIELD = 57430
+    SPELL_SURGE_POWER			= 56505, // used in phase 2
+    SPELL_SUMMON_ARCANE_BOMB	= 56429,
+    SPELL_ARCANE_OVERLOAD		= 56432,
+    SPELL_SUMMOM_RED_DRAGON		= 56070,
+    SPELL_SURGE_POWER_PHASE_3	= 57407,
+    SPELL_STATIC_FIELD			= 57430
 };
 
 enum Movements
@@ -111,8 +109,8 @@ enum Seats
 
 enum Factions
 {
-    FACTION_FRIENDLY = 35,
-    FACTION_HOSTILE = 14
+    FACTION_FRIENDLY	= 35,
+    FACTION_HOSTILE		= 14
 };
 
 enum Actions
@@ -135,13 +133,13 @@ enum MalygosSays
     SAY_KILLED_PLAYER_P_ONE,
     SAY_END_P_ONE,
     SAY_AGGRO_P_TWO,
-    SAY_ANTI_MAGIC_SHELL, // not sure when execute it
-    SAY_MAGIC_BLAST,  // not sure when execute it
+    SAY_ANTI_MAGIC_SHELL,		// not sure when execute it
+    SAY_MAGIC_BLAST,			// not sure when execute it
     SAY_KILLED_PLAYER_P_TWO,
     SAY_END_P_TWO,
     SAY_INTRO_P_THREE,
     SAY_AGGRO_P_THREE,
-    SAY_SURGE_POWER,  // not sure when execute it
+    SAY_SURGE_POWER,			// not sure when execute it
     SAY_BUFF_SPARK,
     SAY_KILLED_PLAYER_P_THREE,
     SAY_SPELL_CASTING_P_THREE,
@@ -155,20 +153,20 @@ const Position HoverDiskWaypoints[MAX_HOVER_DISK_WAYPOINTS] =
 {
    {782.9821f, 1296.652f, 282.1114f, 0.0f},
    {779.5459f, 1287.228f, 282.1393f, 0.0f},
-   {773.0028f, 1279.52f, 282.4164f, 0.0f},
+   {773.0028f, 1279.52f,  282.4164f, 0.0f},
    {764.3626f, 1274.476f, 282.4731f, 0.0f},
    {754.3961f, 1272.639f, 282.4171f, 0.0f},
-   {744.4422f, 1274.412f, 282.222f, 0.0f},
-   {735.575f, 1279.742f, 281.9674f, 0.0f},
+   {744.4422f, 1274.412f, 282.222f,  0.0f},
+   {735.575f,  1279.742f, 281.9674f, 0.0f},
    {729.2788f, 1287.187f, 281.9943f, 0.0f},
    {726.1191f, 1296.688f, 282.2997f, 0.0f},
    {725.9396f, 1306.531f, 282.2448f, 0.0f},
    {729.3045f, 1316.122f, 281.9108f, 0.0f},
    {735.8322f, 1323.633f, 282.1887f, 0.0f},
    {744.4616f, 1328.999f, 281.9948f, 0.0f},
-   {754.4739f, 1330.666f, 282.049f, 0.0f},
-   {764.074f, 1329.053f, 281.9949f, 0.0f},
-   {772.8409f, 1323.951f, 282.077f, 0.0f},
+   {754.4739f, 1330.666f, 282.049f,  0.0f},
+   {764.074f,  1329.053f, 281.9949f, 0.0f},
+   {772.8409f, 1323.951f, 282.077f,  0.0f},
    {779.5085f, 1316.412f, 281.9145f, 0.0f},
    {782.8365f, 1306.778f, 282.3035f, 0.0f},
 };
@@ -180,7 +178,7 @@ const Position HoverDiskWaypoints[MAX_HOVER_DISK_WAYPOINTS] =
 const Position MalygosPhaseTwoWaypoints[MALYGOS_MAX_WAYPOINTS] =
 {
     {812.7299f, 1391.672f, 283.2763f, 0.0f},
-    {848.2912f, 1358.61f, 283.2763f, 0.0f},
+    {848.2912f, 1358.61f,  283.2763f, 0.0f},
     {853.9227f, 1307.911f, 283.2763f, 0.0f},
     {847.1437f, 1265.538f, 283.2763f, 0.0f},
     {839.9229f, 1245.245f, 283.2763f, 0.0f},
@@ -194,7 +192,7 @@ const Position MalygosPhaseTwoWaypoints[MALYGOS_MAX_WAYPOINTS] =
     {662.9109f, 1350.291f, 283.2763f, 0.0f},
     {677.6391f, 1377.607f, 283.2763f, 0.0f},
     {704.8198f, 1401.162f, 283.2763f, 0.0f},
-    {755.2642f, 1417.1f, 283.2763f, 0.0f},
+    {755.2642f, 1417.1f,   283.2763f, 0.0f},
 };
 
 #define MAX_SUMMONS_PHASE_TWO 4
@@ -202,8 +200,16 @@ const Position MalygosPhaseTwoWaypoints[MALYGOS_MAX_WAYPOINTS] =
 #define MAX_MALYGOS_POS 2
 const Position MalygosPositions[MAX_MALYGOS_POS] =
 {
-    {754.544f, 1301.71f, 320.0f, 0.0f},
-    {754.39f, 1301.27f, 292.91f, 0.0f},
+    {754.544f, 1301.71f, 320.0f,  0.0f},
+    {754.39f,  1301.27f, 292.91f, 0.0f},
+};
+
+enum AlexstraszaYells
+{
+    SAY_ONE,
+    SAY_TWO,
+    SAY_THREE,
+    SAY_FOUR
 };
 
 class boss_malygos : public CreatureScript
@@ -268,7 +274,6 @@ public:
         void EnterEvadeMode()
         {
             me->SetHomePosition(homePosition);
-
             me->AddUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
 
             BossAI::EnterEvadeMode();
@@ -297,7 +302,7 @@ public:
 
             // this despawns Hover Disks
             summons.DespawnAll();
-            // players that used Hover Disk are no in the aggro list
+            // players that used Hover Disk are not in the aggro list
             me->SetInCombatWithZone();
             std::list<HostileReference*> &m_threatlist = me->getThreatManager().getThreatList();
             for (std::list<HostileReference*>::const_iterator itr = m_threatlist.begin(); itr!= m_threatlist.end(); ++itr)
@@ -325,23 +330,23 @@ public:
             switch (_phase)
             {
                 case PHASE_ONE:
-                    events.ScheduleEvent(EVENT_ARCANE_BREATH, urand(15, 20)*IN_MILLISECONDS, 0, _phase);
-                    events.ScheduleEvent(EVENT_ARCANE_STORM, urand(5, 10)*IN_MILLISECONDS, 0, _phase);
-                    events.ScheduleEvent(EVENT_VORTEX, urand(30, 40)*IN_MILLISECONDS, 0, _phase);
-                    events.ScheduleEvent(EVENT_POWER_SPARKS, urand(30, 35)*IN_MILLISECONDS, 0, _phase);
+                    events.ScheduleEvent(EVENT_ARCANE_BREATH, urand(15000, 20000), 0, _phase);
+                    events.ScheduleEvent(EVENT_ARCANE_STORM, urand(5000, 10000), 0, _phase);
+                    events.ScheduleEvent(EVENT_VORTEX, urand(30000, 40000), 0, _phase);
+                    events.ScheduleEvent(EVENT_POWER_SPARKS, urand(30000, 35000), 0, _phase);
                     break;
                 case PHASE_TWO:
                     events.ScheduleEvent(EVENT_YELL_0, 0, 0, _phase);
-                    events.ScheduleEvent(EVENT_YELL_1, 24*IN_MILLISECONDS, 0, _phase);
-                    events.ScheduleEvent(EVENT_SURGE_POWER, urand(60, 70)*IN_MILLISECONDS, 0, _phase);
-                    events.ScheduleEvent(EVENT_SUMMON_ARCANE, urand(2, 5)*IN_MILLISECONDS, 0, _phase);
+                    events.ScheduleEvent(EVENT_YELL_1, 24000, 0, _phase);
+                    events.ScheduleEvent(EVENT_SURGE_POWER, urand(60000, 70000), 0, _phase);
+                    events.ScheduleEvent(EVENT_SUMMON_ARCANE, urand(2000, 5000), 0, _phase);
                     break;
                 case PHASE_THREE:
                     events.ScheduleEvent(EVENT_YELL_2, 0, 0, _phase);
-                    events.ScheduleEvent(EVENT_YELL_3, 8*IN_MILLISECONDS, 0, _phase);
-                    events.ScheduleEvent(EVENT_YELL_4, 16*IN_MILLISECONDS, 0, _phase);
-                    events.ScheduleEvent(EVENT_SURGE_POWER_PHASE_3, urand(7, 16)*IN_MILLISECONDS, 0, _phase);
-                    events.ScheduleEvent(EVENT_STATIC_FIELD, urand(20, 30)*IN_MILLISECONDS, 0, _phase);
+                    events.ScheduleEvent(EVENT_YELL_3, 8000, 0, _phase);
+                    events.ScheduleEvent(EVENT_YELL_4, 16000, 0, _phase);
+                    events.ScheduleEvent(EVENT_SURGE_POWER_PHASE_3, urand(7000, 16000), 0, _phase);
+                    events.ScheduleEvent(EVENT_STATIC_FIELD, urand(20000, 30000), 0, _phase);
                     break;
                 default:
                     break;
@@ -367,15 +372,17 @@ public:
 
             switch (phase)
             {
-            case PHASE_ONE:
-                Talk(SAY_KILLED_PLAYER_P_ONE);
-                break;
-            case PHASE_TWO:
-                Talk(SAY_KILLED_PLAYER_P_TWO);
-                break;
-            case PHASE_THREE:
-                Talk(SAY_KILLED_PLAYER_P_THREE);
-                break;
+				case PHASE_ONE:
+					Talk(SAY_KILLED_PLAYER_P_ONE);
+					break;
+				case PHASE_TWO:
+					Talk(SAY_KILLED_PLAYER_P_TWO);
+					break;
+				case PHASE_THREE:
+					Talk(SAY_KILLED_PLAYER_P_THREE);
+					break;
+				default:
+					break;
             }
         }
 
@@ -446,6 +453,8 @@ public:
                     // malygos will move into center of platform and then he does not chase dragons, he just turns to his current target.
                     me->GetMotionMaster()->MoveIdle();
                     break;
+				default:
+					break;
             }
         }
 
@@ -458,18 +467,17 @@ public:
             me->GetMotionMaster()->MoveIdle();
             me->GetMotionMaster()->MovePoint(MOVE_DEEP_BREATH_ROTATION, MalygosPhaseTwoWaypoints[0]);
 
-            Creature* summon = me->SummonCreature(NPC_HOVER_DISK_CASTER, HoverDiskWaypoints[MAX_HOVER_DISK_WAYPOINTS-1]);
-            if (summon && summon->IsAIEnabled)
-                summon->AI()->DoAction(ACTION_HOVER_DISK_START_WP_2);
-            summon = me->SummonCreature(NPC_HOVER_DISK_CASTER, HoverDiskWaypoints[0]);
-            if (summon && summon->IsAIEnabled)
-                summon->AI()->DoAction(ACTION_HOVER_DISK_START_WP_1);
+            if (Creature* summon = me->SummonCreature(NPC_HOVER_DISK_CASTER, HoverDiskWaypoints[MAX_HOVER_DISK_WAYPOINTS-1]))
+				if (summon->IsAIEnabled)
+					summon->AI()->DoAction(ACTION_HOVER_DISK_START_WP_2);
+            if (Creature* summon = me->SummonCreature(NPC_HOVER_DISK_CASTER, HoverDiskWaypoints[0]))
+				if (summon->IsAIEnabled)
+					summon->AI()->DoAction(ACTION_HOVER_DISK_START_WP_1);
 
             for (uint8 i = 0; i < 2; i++)
             {
                 // not sure about its position.
-                summon = me->SummonCreature(NPC_HOVER_DISK_MELEE, HoverDiskWaypoints[0]);
-                if (summon)
+                if (Creature* summon = me->SummonCreature(NPC_HOVER_DISK_MELEE, HoverDiskWaypoints[0]))
                     summon->SetInCombatWithZone();
             }
         }
@@ -491,7 +499,8 @@ public:
                         me->GetMotionMaster()->MovementExpired();
                         me->GetMotionMaster()->MoveIdle();
                     }
-                } else
+                } 
+				else
                 {
                     if (me->GetMotionMaster()->GetCurrentMovementGeneratorType() != POINT_MOTION_TYPE)
                     {
@@ -545,37 +554,37 @@ public:
                         break;
                     case EVENT_ARCANE_BREATH:
                         DoCast(me->getVictim(), SPELL_ARCANE_BREATH);
-                        events.ScheduleEvent(EVENT_ARCANE_BREATH, urand(35, 60)*IN_MILLISECONDS, 0, PHASE_ONE);
+                        events.ScheduleEvent(EVENT_ARCANE_BREATH, urand(35000, 60000), 0, PHASE_ONE);
                         break;
                     case EVENT_ARCANE_STORM:
                         DoCast(me->getVictim(), SPELL_ARCANE_STORM);
-                        events.ScheduleEvent(EVENT_ARCANE_STORM, urand(5, 10)*IN_MILLISECONDS, 0, PHASE_ONE);
+                        events.ScheduleEvent(EVENT_ARCANE_STORM, urand(5000, 10000), 0, PHASE_ONE);
                         break;
                     case EVENT_VORTEX:
                         PrepareForVortex();
-                        events.ScheduleEvent(EVENT_VORTEX, urand(60, 80)*IN_MILLISECONDS, 0, PHASE_ONE);
+                        events.ScheduleEvent(EVENT_VORTEX, urand(60000, 80000), 0, PHASE_ONE);
                         break;
                     case EVENT_POWER_SPARKS:
                         instance->SetData(DATA_POWER_SPARKS_HANDLING, 0);
-                        events.ScheduleEvent(EVENT_POWER_SPARKS, urand(30, 35)*IN_MILLISECONDS, 0, PHASE_ONE);
+                        events.ScheduleEvent(EVENT_POWER_SPARKS, urand(30000, 35000), 0, PHASE_ONE);
                         break;
                     case EVENT_SURGE_POWER:
                         me->GetMotionMaster()->MoveIdle();
                         delayedMovement = true;
                         DoCast(SPELL_SURGE_POWER);
-                        events.ScheduleEvent(EVENT_SURGE_POWER, urand(60, 70)*IN_MILLISECONDS, 0, PHASE_TWO);
+                        events.ScheduleEvent(EVENT_SURGE_POWER, urand(60000, 70000), 0, PHASE_TWO);
                         break;
                     case EVENT_SUMMON_ARCANE:
                         DoCast(SPELL_SUMMON_ARCANE_BOMB);
-                        events.ScheduleEvent(EVENT_SUMMON_ARCANE, urand(12, 15)*IN_MILLISECONDS, 0, PHASE_TWO);
+                        events.ScheduleEvent(EVENT_SUMMON_ARCANE, urand(12000, 15000), 0, PHASE_TWO);
                         break;
                     case EVENT_SURGE_POWER_PHASE_3:
                         DoCast(GetTargetPhaseThree(), SPELL_SURGE_POWER_PHASE_3);
-                        events.ScheduleEvent(EVENT_SURGE_POWER_PHASE_3, urand(7, 16)*IN_MILLISECONDS, 0, PHASE_THREE);
+                        events.ScheduleEvent(EVENT_SURGE_POWER_PHASE_3, urand(7000, 16000), 0, PHASE_THREE);
                         break;
                     case EVENT_STATIC_FIELD:
                         DoCast(GetTargetPhaseThree(), SPELL_STATIC_FIELD);
-                        events.ScheduleEvent(EVENT_STATIC_FIELD, urand(20, 30)*IN_MILLISECONDS, 0, PHASE_THREE);
+                        events.ScheduleEvent(EVENT_STATIC_FIELD, urand(20000, 30000), 0, PHASE_THREE);
                         break;
                     default:
                         break;
@@ -587,19 +596,19 @@ public:
 
         Unit* GetTargetPhaseThree()
         {
-            Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0);
+            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
+			{
+				// we are a drake
+				if (target->GetVehicleKit())
+					return target;
 
-            // we are a drake
-            if (target->GetVehicleKit())
-                return target;
-
-            // we are a player using a drake (or at least you should)
-            if (target->GetTypeId() == TYPEID_PLAYER)
-            {
-                if (Unit* base = target->GetVehicleBase())
-                    return base;
-            }
-
+				// we are a player using a drake (or at least you should)
+				if (target->GetTypeId() == TYPEID_PLAYER)
+				{
+					if (Unit* base = target->GetVehicleBase())
+						return base;
+				}
+			}
             // is a player falling from a vehicle?
             return NULL;
         }
@@ -613,11 +622,11 @@ public:
     private:
         uint8 phase;
         uint32 bersekerTimer;
-        uint8 currentPos; // used for phase 2 rotation...
-        bool delayedMovement; // used in phase2.
-        uint32 delayedMovementTimer; // used in phase 2
+        uint8 currentPos;				// used for phase 2 rotation...
+        bool delayedMovement;			// used in phase2.
+        uint32 delayedMovementTimer;	// used in phase 2
         uint8 summonDeaths;
-        Position homePosition; // it can get bugged because core thinks we are pathing
+        Position homePosition;			// it can get bugged because core thinks we are pathing
         bool mustTalk;
         bool cannotMove;
     };
@@ -635,15 +644,11 @@ public:
 
         void HandleScript(SpellEffIndex /*effIndex*/)
         {
-            Unit* caster = GetCaster();
-
-            if (!caster)
-                return;
-
-            // each player will enter to the trigger vehicle (entry 30090) already spawned (each one can hold up to 5 players, it has 5 seats)
-            // the players enter to the vehicles casting SPELL_VORTEX_4 OR SPELL_VORTEX_5
-            if (InstanceScript* instance = caster->GetInstanceScript())
-                instance->SetData(DATA_VORTEX_HANDLING, 0);
+            if (Unit* caster = GetCaster())
+				// each player will enter to the trigger vehicle (entry 30090) already spawned (each one can hold up to 5 players, it has 5 seats)
+				// the players enter to the vehicles casting SPELL_VORTEX_4 OR SPELL_VORTEX_5
+				if (InstanceScript* instance = caster->GetInstanceScript())
+					instance->SetData(DATA_VORTEX_HANDLING, 0);
 
             // the rest of the vortex execution continues when SPELL_VORTEX_2 is removed.
         }
@@ -738,13 +743,12 @@ public:
 
         void Reset()
         {
-            summonTimer = urand(5, 7)*IN_MILLISECONDS;
+            summonTimer = urand(5000, 7000);
         }
 
         void UpdateAI(uint32 const diff)
         {
-            if (!me->HasAura(SPELL_PORTAL_VISUAL_CLOSED) &&
-                !me->HasAura(SPELL_PORTAL_OPENED))
+            if (!me->HasAura(SPELL_PORTAL_VISUAL_CLOSED) && !me->HasAura(SPELL_PORTAL_OPENED))
                 DoCast(me, SPELL_PORTAL_VISUAL_CLOSED, true);
 
             if (instance)
@@ -753,19 +757,19 @@ public:
                 {
                     if (malygos->AI()->GetData(DATA_PHASE) != PHASE_ONE)
                     {
-                        me->RemoveAura(SPELL_PORTAL_OPENED);
-                        DoCast(me, SPELL_PORTAL_VISUAL_CLOSED, true);
+                        if (me->HasAura(SPELL_PORTAL_OPENED))
+						{
+							me->RemoveAura(SPELL_PORTAL_OPENED);
+							DoCast(me, SPELL_PORTAL_VISUAL_CLOSED, true);
+						}
                     }
                 }
             }
 
-            if (!me->HasAura(SPELL_PORTAL_OPENED))
-                return;
-
             if (summonTimer <= diff)
             {
                 DoCast(SPELL_SUMMON_POWER_PARK);
-                summonTimer = urand(5, 7)*IN_MILLISECONDS;
+                summonTimer = urand(5000, 7000);
             } else summonTimer -= diff;
         }
 
@@ -910,6 +914,7 @@ public:
                     // Hack: Fall ground function can fail (remember the platform is a gameobject), we will teleport the disk to the ground
                     if (me->GetPositionZ() > GROUND_Z)
                         me->NearTeleportTo(me->GetPositionX(), me->GetPositionY(), GROUND_Z, 0);
+
                     me->SetHomePosition(me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation());
                     me->setFaction(FACTION_FRIENDLY);
                     me->AI()->EnterEvadeMode();
@@ -1030,10 +1035,12 @@ public:
                 if (Creature* malygos = Unit::GetCreature(*me, instance->GetData64(DATA_MALYGOS)))
                 {
                     summoner->CastSpell(me, SPELL_RIDE_RED_DRAGON, true);
-                    float victim_threat = malygos->getThreatManager().getThreat(summoner);
                     malygos->getThreatManager().resetAllAggro();
                     malygos->AI()->AttackStart(me);
-                    malygos->AddThreat(me, victim_threat);
+
+					float victim_threat = malygos->getThreatManager().getThreat(summoner);
+					if (victim_threat)
+						malygos->AddThreat(me, victim_threat);
                 }
             }
         }
@@ -1055,14 +1062,6 @@ public:
         uint32 timer;
         bool entered;
     };
-};
-
-enum AlexstraszaYells
-{
-    SAY_ONE,
-    SAY_TWO,
-    SAY_THREE,
-    SAY_FOUR
 };
 
 class npc_alexstrasza_eoe : public CreatureScript
@@ -1094,19 +1093,21 @@ public:
                 {
                     case EVENT_YELL_1:
                         Talk(SAY_ONE);
-                        events.ScheduleEvent(EVENT_YELL_2, 4*IN_MILLISECONDS);
+                        events.ScheduleEvent(EVENT_YELL_2, 4000);
                         break;
                     case EVENT_YELL_2:
                         Talk(SAY_TWO);
-                        events.ScheduleEvent(EVENT_YELL_3, 4*IN_MILLISECONDS);
+                        events.ScheduleEvent(EVENT_YELL_3, 4000);
                         break;
                     case EVENT_YELL_3:
                         Talk(SAY_THREE);
-                        events.ScheduleEvent(EVENT_YELL_4, 7*IN_MILLISECONDS);
+                        events.ScheduleEvent(EVENT_YELL_4, 7000);
                         break;
                     case EVENT_YELL_4:
                         Talk(SAY_FOUR);
                         break;
+					default:
+						break;
                 }
             }
         }
