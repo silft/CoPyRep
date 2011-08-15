@@ -1945,10 +1945,10 @@ public:
                         DoCast(target,RAND(SPELL_DRAINING_POISON,SPELL_BLACK_PLAGUE,SPELL_APATHY,SPELL_CURSE_OF_DOOM),false);
                     break;
                 case CONSTRICTOR_TENTACLE:
-                    if(Unit* target =  me->FindNearestPlayer(50.0f,true))
+                    if (Unit* target =  me->FindNearestPlayer(50.0f, true))
                     {
-                        DoCast(target,SPELL_LUNGE,true);
-                        DoCast(target,SPELL_SQUEEZE,true);
+                        target->CastSpell(me, SPELL_LUNGE, true);
+                        //DoCast(target,SPELL_SQUEEZE,true);
                     }
                     break;
                 }
@@ -2041,7 +2041,7 @@ public:
             bPhase = PORTAL_PHASE_BRAIN_NONE;
         }
 
-        void UpdateAI(const uint32 diff) {}
+        void UpdateAI(uint32 const /*diff*/) {}
     };
 };
 
@@ -3042,8 +3042,10 @@ class spell_summon_tentacle_position : public SpellScriptLoader
             void ChangeSummonPos(SpellEffIndex /*effIndex*/)
             {
                 WorldLocation summonPos = *GetTargetDest();
-                if(Unit* caster = GetCaster())
-                    summonPos.m_positionZ = caster->GetMap()->GetHeight(summonPos.GetPositionX(),summonPos.GetPositionY(),summonPos.GetPositionZ(),true,50.0f);
+                if (Unit* caster = GetCaster())
+                    summonPos.m_positionZ = caster->GetMap()->GetHeight(summonPos.GetPositionX(), summonPos.GetPositionY(), summonPos.GetPositionZ());
+
+				SetTargetDest(summonPos);
             }
 
             void Register()
