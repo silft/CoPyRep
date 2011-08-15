@@ -41,56 +41,56 @@ enum Achievements
 enum Events
 {
     // =========== PHASE ONE ===============
-    EVENT_ARCANE_BREATH			= 1,
-    EVENT_ARCANE_STORM			= 2,
-    EVENT_VORTEX				= 3,
-    EVENT_POWER_SPARKS			= 4,
+    EVENT_ARCANE_BREATH         = 1,
+    EVENT_ARCANE_STORM          = 2,
+    EVENT_VORTEX                = 3,
+    EVENT_POWER_SPARKS          = 4,
 
     // =========== PHASE TWO ===============
-    EVENT_SURGE_POWER			= 5, // wowhead is wrong, Surge of Power is casted instead of Arcane Pulse (source sniffs!)
-    EVENT_SUMMON_ARCANE			= 6,
+    EVENT_SURGE_POWER           = 5, // wowhead is wrong, Surge of Power is casted instead of Arcane Pulse (source sniffs!)
+    EVENT_SUMMON_ARCANE         = 6,
 
     // =========== PHASE TWO ===============
-    EVENT_SURGE_POWER_PHASE_3	= 7,
-    EVENT_STATIC_FIELD			= 8,
+    EVENT_SURGE_POWER_PHASE_3   = 7,
+    EVENT_STATIC_FIELD          = 8,
 
     // =============== YELLS ===============
-    EVENT_YELL_0				= 9,
-    EVENT_YELL_1				= 10,
-    EVENT_YELL_2				= 11,
-    EVENT_YELL_3				= 12,
-    EVENT_YELL_4				= 13,
+    EVENT_YELL_0                = 9,
+    EVENT_YELL_1                = 10,
+    EVENT_YELL_2                = 11,
+    EVENT_YELL_3                = 12,
+    EVENT_YELL_4                = 13,
 };
 
 enum Phases
 {
-    PHASE_ONE	= 1,
-    PHASE_TWO	= 2,
+    PHASE_ONE   = 1,
+    PHASE_TWO   = 2,
     PHASE_THREE = 3
 };
 
 enum Spells
 {
-    SPELL_ARCANE_BREATH			= 56272,
-    SPELL_ARCANE_STORM			= 57459,
-    SPELL_BERSEKER				= 60670,
+    SPELL_ARCANE_BREATH         = 56272,
+    SPELL_ARCANE_STORM          = 57459,
+    SPELL_BERSEKER              = 60670,
 
-    SPELL_VORTEX_1				= 56237, // seems that frezze object animation
-    SPELL_VORTEX_2				= 55873, // visual effect
-    SPELL_VORTEX_3				= 56105, // this spell must handle all the script - casted by the boss and to himself
-    SPELL_VORTEX_6				= 73040, // teleport - (casted to all raid) | caster 30090 | target player
+    SPELL_VORTEX_1              = 56237, // seems that frezze object animation
+    SPELL_VORTEX_2              = 55873, // visual effect
+    SPELL_VORTEX_3              = 56105, // this spell must handle all the script - casted by the boss and to himself
+    SPELL_VORTEX_6              = 73040, // teleport - (casted to all raid) | caster 30090 | target player
 
-    SPELL_PORTAL_VISUAL_CLOSED	= 55949,
-    SPELL_SUMMON_POWER_PARK		= 56142,
-    SPELL_POWER_SPARK_DEATH		= 55852,
-    SPELL_POWER_SPARK_MALYGOS	= 56152,
+    SPELL_PORTAL_VISUAL_CLOSED  = 55949,
+    SPELL_SUMMON_POWER_PARK     = 56142,
+    SPELL_POWER_SPARK_DEATH     = 55852,
+    SPELL_POWER_SPARK_MALYGOS   = 56152,
 
-    SPELL_SURGE_POWER			= 56505, // used in phase 2
-    SPELL_SUMMON_ARCANE_BOMB	= 56429,
-    SPELL_ARCANE_OVERLOAD		= 56432,
-    SPELL_SUMMOM_RED_DRAGON		= 56070,
-    SPELL_SURGE_POWER_PHASE_3	= 57407,
-    SPELL_STATIC_FIELD			= 57430
+    SPELL_SURGE_POWER           = 56505, // used in phase 2
+    SPELL_SUMMON_ARCANE_BOMB    = 56429,
+    SPELL_ARCANE_OVERLOAD       = 56432,
+    SPELL_SUMMOM_RED_DRAGON     = 56070,
+    SPELL_SURGE_POWER_PHASE_3   = 57407,
+    SPELL_STATIC_FIELD          = 57430
 };
 
 enum Movements
@@ -109,8 +109,8 @@ enum Seats
 
 enum Factions
 {
-    FACTION_FRIENDLY	= 35,
-    FACTION_HOSTILE		= 14
+    FACTION_FRIENDLY    = 35,
+    FACTION_HOSTILE     = 14
 };
 
 enum Actions
@@ -133,13 +133,13 @@ enum MalygosSays
     SAY_KILLED_PLAYER_P_ONE,
     SAY_END_P_ONE,
     SAY_AGGRO_P_TWO,
-    SAY_ANTI_MAGIC_SHELL,		// not sure when execute it
-    SAY_MAGIC_BLAST,			// not sure when execute it
+    SAY_ANTI_MAGIC_SHELL,       // not sure when execute it
+    SAY_MAGIC_BLAST,            // not sure when execute it
     SAY_KILLED_PLAYER_P_TWO,
     SAY_END_P_TWO,
     SAY_INTRO_P_THREE,
     SAY_AGGRO_P_THREE,
-    SAY_SURGE_POWER,			// not sure when execute it
+    SAY_SURGE_POWER,            // not sure when execute it
     SAY_BUFF_SPARK,
     SAY_KILLED_PLAYER_P_THREE,
     SAY_SPELL_CASTING_P_THREE,
@@ -151,24 +151,24 @@ enum MalygosSays
 // Sniffed data (x,y,z)
 const Position HoverDiskWaypoints[MAX_HOVER_DISK_WAYPOINTS] =
 {
-   {782.9821f, 1296.652f, 282.1114f, 0.0f},
-   {779.5459f, 1287.228f, 282.1393f, 0.0f},
-   {773.0028f, 1279.52f,  282.4164f, 0.0f},
-   {764.3626f, 1274.476f, 282.4731f, 0.0f},
-   {754.3961f, 1272.639f, 282.4171f, 0.0f},
-   {744.4422f, 1274.412f, 282.222f,  0.0f},
-   {735.575f,  1279.742f, 281.9674f, 0.0f},
-   {729.2788f, 1287.187f, 281.9943f, 0.0f},
-   {726.1191f, 1296.688f, 282.2997f, 0.0f},
-   {725.9396f, 1306.531f, 282.2448f, 0.0f},
-   {729.3045f, 1316.122f, 281.9108f, 0.0f},
-   {735.8322f, 1323.633f, 282.1887f, 0.0f},
-   {744.4616f, 1328.999f, 281.9948f, 0.0f},
-   {754.4739f, 1330.666f, 282.049f,  0.0f},
-   {764.074f,  1329.053f, 281.9949f, 0.0f},
-   {772.8409f, 1323.951f, 282.077f,  0.0f},
-   {779.5085f, 1316.412f, 281.9145f, 0.0f},
-   {782.8365f, 1306.778f, 282.3035f, 0.0f},
+    {782.9821f, 1296.652f, 282.1114f, 0.0f},
+    {779.5459f, 1287.228f, 282.1393f, 0.0f},
+    {773.0028f, 1279.52f,  282.4164f, 0.0f},
+    {764.3626f, 1274.476f, 282.4731f, 0.0f},
+    {754.3961f, 1272.639f, 282.4171f, 0.0f},
+    {744.4422f, 1274.412f, 282.222f,  0.0f},
+    {735.575f,  1279.742f, 281.9674f, 0.0f},
+    {729.2788f, 1287.187f, 281.9943f, 0.0f},
+    {726.1191f, 1296.688f, 282.2997f, 0.0f},
+    {725.9396f, 1306.531f, 282.2448f, 0.0f},
+    {729.3045f, 1316.122f, 281.9108f, 0.0f},
+    {735.8322f, 1323.633f, 282.1887f, 0.0f},
+    {744.4616f, 1328.999f, 281.9948f, 0.0f},
+    {754.4739f, 1330.666f, 282.049f,  0.0f},
+    {764.074f,  1329.053f, 281.9949f, 0.0f},
+    {772.8409f, 1323.951f, 282.077f,  0.0f},
+    {779.5085f, 1316.412f, 281.9145f, 0.0f},
+    {782.8365f, 1306.778f, 282.3035f, 0.0f},
 };
 
 #define GROUND_Z 268
@@ -372,17 +372,17 @@ public:
 
             switch (phase)
             {
-				case PHASE_ONE:
-					Talk(SAY_KILLED_PLAYER_P_ONE);
-					break;
-				case PHASE_TWO:
-					Talk(SAY_KILLED_PLAYER_P_TWO);
-					break;
-				case PHASE_THREE:
-					Talk(SAY_KILLED_PLAYER_P_THREE);
-					break;
-				default:
-					break;
+                case PHASE_ONE:
+                    Talk(SAY_KILLED_PLAYER_P_ONE);
+                    break;
+                case PHASE_TWO:
+                    Talk(SAY_KILLED_PLAYER_P_TWO);
+                    break;
+                case PHASE_THREE:
+                    Talk(SAY_KILLED_PLAYER_P_THREE);
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -453,8 +453,8 @@ public:
                     // malygos will move into center of platform and then he does not chase dragons, he just turns to his current target.
                     me->GetMotionMaster()->MoveIdle();
                     break;
-				default:
-					break;
+                default:
+                    break;
             }
         }
 
@@ -468,11 +468,11 @@ public:
             me->GetMotionMaster()->MovePoint(MOVE_DEEP_BREATH_ROTATION, MalygosPhaseTwoWaypoints[0]);
 
             if (Creature* summon = me->SummonCreature(NPC_HOVER_DISK_CASTER, HoverDiskWaypoints[MAX_HOVER_DISK_WAYPOINTS-1]))
-				if (summon->IsAIEnabled)
-					summon->AI()->DoAction(ACTION_HOVER_DISK_START_WP_2);
+                if (summon->IsAIEnabled)
+                    summon->AI()->DoAction(ACTION_HOVER_DISK_START_WP_2);
             if (Creature* summon = me->SummonCreature(NPC_HOVER_DISK_CASTER, HoverDiskWaypoints[0]))
-				if (summon->IsAIEnabled)
-					summon->AI()->DoAction(ACTION_HOVER_DISK_START_WP_1);
+                if (summon->IsAIEnabled)
+                    summon->AI()->DoAction(ACTION_HOVER_DISK_START_WP_1);
 
             for (uint8 i = 0; i < 2; i++)
             {
@@ -500,7 +500,7 @@ public:
                         me->GetMotionMaster()->MoveIdle();
                     }
                 } 
-				else
+                else
                 {
                     if (me->GetMotionMaster()->GetCurrentMovementGeneratorType() != POINT_MOTION_TYPE)
                     {
@@ -537,57 +537,57 @@ public:
             {
                 switch (eventId)
                 {
-                    case EVENT_YELL_2:
-                        Talk(SAY_END_P_TWO);
-                        break;
-                    case EVENT_YELL_3:
-                        Talk(SAY_INTRO_P_THREE);
-                        break;
-                    case EVENT_YELL_4:
-                        Talk(SAY_AGGRO_P_THREE);
-                        break;
-                    case EVENT_YELL_0:
-                        Talk(SAY_END_P_ONE);
-                        break;
-                    case EVENT_YELL_1:
-                        Talk(SAY_AGGRO_P_TWO);
-                        break;
-                    case EVENT_ARCANE_BREATH:
-                        DoCast(me->getVictim(), SPELL_ARCANE_BREATH);
-                        events.ScheduleEvent(EVENT_ARCANE_BREATH, urand(35000, 60000), 0, PHASE_ONE);
-                        break;
-                    case EVENT_ARCANE_STORM:
-                        DoCast(me->getVictim(), SPELL_ARCANE_STORM);
-                        events.ScheduleEvent(EVENT_ARCANE_STORM, urand(5000, 10000), 0, PHASE_ONE);
-                        break;
-                    case EVENT_VORTEX:
-                        PrepareForVortex();
-                        events.ScheduleEvent(EVENT_VORTEX, urand(60000, 80000), 0, PHASE_ONE);
-                        break;
-                    case EVENT_POWER_SPARKS:
-                        instance->SetData(DATA_POWER_SPARKS_HANDLING, 0);
-                        events.ScheduleEvent(EVENT_POWER_SPARKS, urand(30000, 35000), 0, PHASE_ONE);
-                        break;
-                    case EVENT_SURGE_POWER:
-                        me->GetMotionMaster()->MoveIdle();
-                        delayedMovement = true;
-                        DoCast(SPELL_SURGE_POWER);
-                        events.ScheduleEvent(EVENT_SURGE_POWER, urand(60000, 70000), 0, PHASE_TWO);
-                        break;
-                    case EVENT_SUMMON_ARCANE:
-                        DoCast(SPELL_SUMMON_ARCANE_BOMB);
-                        events.ScheduleEvent(EVENT_SUMMON_ARCANE, urand(12000, 15000), 0, PHASE_TWO);
-                        break;
-                    case EVENT_SURGE_POWER_PHASE_3:
-                        DoCast(GetTargetPhaseThree(), SPELL_SURGE_POWER_PHASE_3);
-                        events.ScheduleEvent(EVENT_SURGE_POWER_PHASE_3, urand(7000, 16000), 0, PHASE_THREE);
-                        break;
-                    case EVENT_STATIC_FIELD:
-                        DoCast(GetTargetPhaseThree(), SPELL_STATIC_FIELD);
-                        events.ScheduleEvent(EVENT_STATIC_FIELD, urand(20000, 30000), 0, PHASE_THREE);
-                        break;
-                    default:
-                        break;
+                case EVENT_YELL_2:
+                    Talk(SAY_END_P_TWO);
+                    break;
+                case EVENT_YELL_3:
+                    Talk(SAY_INTRO_P_THREE);
+                    break;
+                case EVENT_YELL_4:
+                    Talk(SAY_AGGRO_P_THREE);
+                    break;
+                case EVENT_YELL_0:
+                    Talk(SAY_END_P_ONE);
+                    break;
+                case EVENT_YELL_1:
+                    Talk(SAY_AGGRO_P_TWO);
+                    break;
+                case EVENT_ARCANE_BREATH:
+                    DoCast(me->getVictim(), SPELL_ARCANE_BREATH);
+                    events.ScheduleEvent(EVENT_ARCANE_BREATH, urand(35000, 60000), 0, PHASE_ONE);
+                    break;
+                case EVENT_ARCANE_STORM:
+                    DoCast(me->getVictim(), SPELL_ARCANE_STORM);
+                    events.ScheduleEvent(EVENT_ARCANE_STORM, urand(5000, 10000), 0, PHASE_ONE);
+                    break;
+                case EVENT_VORTEX:
+                    PrepareForVortex();
+                    events.ScheduleEvent(EVENT_VORTEX, urand(60000, 80000), 0, PHASE_ONE);
+                    break;
+                case EVENT_POWER_SPARKS:
+                    instance->SetData(DATA_POWER_SPARKS_HANDLING, 0);
+                    events.ScheduleEvent(EVENT_POWER_SPARKS, urand(30000, 35000), 0, PHASE_ONE);
+                    break;
+                case EVENT_SURGE_POWER:
+                    me->GetMotionMaster()->MoveIdle();
+                    delayedMovement = true;
+                    DoCast(SPELL_SURGE_POWER);
+                    events.ScheduleEvent(EVENT_SURGE_POWER, urand(60000, 70000), 0, PHASE_TWO);
+                    break;
+                case EVENT_SUMMON_ARCANE:
+                    DoCast(SPELL_SUMMON_ARCANE_BOMB);
+                    events.ScheduleEvent(EVENT_SUMMON_ARCANE, urand(12000, 15000), 0, PHASE_TWO);
+                    break;
+                case EVENT_SURGE_POWER_PHASE_3:
+                    DoCast(GetTargetPhaseThree(), SPELL_SURGE_POWER_PHASE_3);
+                    events.ScheduleEvent(EVENT_SURGE_POWER_PHASE_3, urand(7000, 16000), 0, PHASE_THREE);
+                    break;
+                case EVENT_STATIC_FIELD:
+                    DoCast(GetTargetPhaseThree(), SPELL_STATIC_FIELD);
+                    events.ScheduleEvent(EVENT_STATIC_FIELD, urand(20000, 30000), 0, PHASE_THREE);
+                    break;
+                default:
+                    break;
                 }
             }
 
@@ -597,18 +597,18 @@ public:
         Unit* GetTargetPhaseThree()
         {
             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0))
-			{
-				// we are a drake
-				if (target->GetVehicleKit())
-					return target;
+            {
+                // we are a drake
+                if (target->GetVehicleKit())
+                    return target;
 
-				// we are a player using a drake (or at least you should)
-				if (target->GetTypeId() == TYPEID_PLAYER)
-				{
-					if (Unit* base = target->GetVehicleBase())
-						return base;
-				}
-			}
+                // we are a player using a drake (or at least you should)
+                if (target->GetTypeId() == TYPEID_PLAYER)
+                {
+                    if (Unit* base = target->GetVehicleBase())
+                        return base;
+                }
+            }
             // is a player falling from a vehicle?
             return NULL;
         }
@@ -622,11 +622,11 @@ public:
     private:
         uint8 phase;
         uint32 bersekerTimer;
-        uint8 currentPos;				// used for phase 2 rotation...
-        bool delayedMovement;			// used in phase2.
-        uint32 delayedMovementTimer;	// used in phase 2
+        uint8 currentPos;               // used for phase 2 rotation...
+        bool delayedMovement;           // used in phase2.
+        uint32 delayedMovementTimer;    // used in phase 2
         uint8 summonDeaths;
-        Position homePosition;			// it can get bugged because core thinks we are pathing
+        Position homePosition;          // it can get bugged because core thinks we are pathing
         bool mustTalk;
         bool cannotMove;
     };
@@ -642,13 +642,13 @@ public:
     {
         PrepareSpellScript(spell_malygos_vortex_dummy_SpellScript)
 
-        void HandleScript(SpellEffIndex /*effIndex*/)
+            void HandleScript(SpellEffIndex /*effIndex*/)
         {
             if (Unit* caster = GetCaster())
-				// each player will enter to the trigger vehicle (entry 30090) already spawned (each one can hold up to 5 players, it has 5 seats)
-				// the players enter to the vehicles casting SPELL_VORTEX_4 OR SPELL_VORTEX_5
-				if (InstanceScript* instance = caster->GetInstanceScript())
-					instance->SetData(DATA_VORTEX_HANDLING, 0);
+                // each player will enter to the trigger vehicle (entry 30090) already spawned (each one can hold up to 5 players, it has 5 seats)
+                // the players enter to the vehicles casting SPELL_VORTEX_4 OR SPELL_VORTEX_5
+                if (InstanceScript* instance = caster->GetInstanceScript())
+                    instance->SetData(DATA_VORTEX_HANDLING, 0);
 
             // the rest of the vortex execution continues when SPELL_VORTEX_2 is removed.
         }
@@ -667,61 +667,61 @@ public:
 
 class spell_malygos_vortex_visual : public SpellScriptLoader
 {
-    public:
-        spell_malygos_vortex_visual() : SpellScriptLoader("spell_malygos_vortex_visual") { }
+public:
+    spell_malygos_vortex_visual() : SpellScriptLoader("spell_malygos_vortex_visual") { }
 
-        class spell_malygos_vortex_visual_AuraScript : public AuraScript
+    class spell_malygos_vortex_visual_AuraScript : public AuraScript
+    {
+        PrepareAuraScript(spell_malygos_vortex_visual_AuraScript);
+
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
-            PrepareAuraScript(spell_malygos_vortex_visual_AuraScript);
-
-            void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
+            if (Unit* caster = GetCaster())
             {
-                if (Unit* caster = GetCaster())
+                std::list<HostileReference*> &m_threatlist = caster->getThreatManager().getThreatList();
+                for (std::list<HostileReference*>::const_iterator itr = m_threatlist.begin(); itr!= m_threatlist.end(); ++itr)
                 {
-                    std::list<HostileReference*> &m_threatlist = caster->getThreatManager().getThreatList();
-                    for (std::list<HostileReference*>::const_iterator itr = m_threatlist.begin(); itr!= m_threatlist.end(); ++itr)
+                    if (Unit* target = (*itr)->getTarget())
                     {
-                        if (Unit* target = (*itr)->getTarget())
+                        Player* targetPlayer = target->ToPlayer();
+
+                        if (!targetPlayer || targetPlayer->isGameMaster())
+                            continue;
+
+                        if (InstanceScript* instance = caster->GetInstanceScript())
                         {
-                            Player* targetPlayer = target->ToPlayer();
-
-                            if (!targetPlayer || targetPlayer->isGameMaster())
-                                continue;
-
-                            if (InstanceScript* instance = caster->GetInstanceScript())
-                            {
-                                // teleport spell - i am not sure but might be it must be casted by each vehicle when its passenger leaves it
-                                if (Creature* trigger = caster->GetMap()->GetCreature(instance->GetData64(DATA_TRIGGER)))
-                                    trigger->CastSpell(targetPlayer, SPELL_VORTEX_6, true);
-                            }
+                            // teleport spell - i am not sure but might be it must be casted by each vehicle when its passenger leaves it
+                            if (Creature* trigger = caster->GetMap()->GetCreature(instance->GetData64(DATA_TRIGGER)))
+                                trigger->CastSpell(targetPlayer, SPELL_VORTEX_6, true);
                         }
-                    }
-
-                    if (Creature* malygos = caster->ToCreature())
-                    {
-                        // This is a hack, we have to re add players to the threat list because when they enter to the vehicles they are removed.
-                        // Anyway even with this issue, the boss does not enter in evade mode - this prevents iterate an empty list in the next vortex execution.
-                        malygos->SetInCombatWithZone();
-
-                        malygos->RemoveUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
-
-                        malygos->GetMotionMaster()->MoveChase(caster->getVictim());
-                        malygos->RemoveAura(SPELL_VORTEX_1);
                     }
                 }
 
+                if (Creature* malygos = caster->ToCreature())
+                {
+                    // This is a hack, we have to re add players to the threat list because when they enter to the vehicles they are removed.
+                    // Anyway even with this issue, the boss does not enter in evade mode - this prevents iterate an empty list in the next vortex execution.
+                    malygos->SetInCombatWithZone();
+
+                    malygos->RemoveUnitMovementFlag(MOVEMENTFLAG_LEVITATING);
+
+                    malygos->GetMotionMaster()->MoveChase(caster->getVictim());
+                    malygos->RemoveAura(SPELL_VORTEX_1);
+                }
             }
 
-            void Register()
-            {
-                AfterEffectRemove += AuraEffectRemoveFn(spell_malygos_vortex_visual_AuraScript::OnRemove, EFFECT_0, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
-            }
-        };
-
-        AuraScript* GetAuraScript() const
-        {
-            return new spell_malygos_vortex_visual_AuraScript();
         }
+
+        void Register()
+        {
+            AfterEffectRemove += AuraEffectRemoveFn(spell_malygos_vortex_visual_AuraScript::OnRemove, EFFECT_0, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
+        }
+    };
+
+    AuraScript* GetAuraScript() const
+    {
+        return new spell_malygos_vortex_visual_AuraScript();
+    }
 };
 
 class npc_portal_eoe: public CreatureScript
@@ -758,10 +758,10 @@ public:
                     if (malygos->AI()->GetData(DATA_PHASE) != PHASE_ONE)
                     {
                         if (me->HasAura(SPELL_PORTAL_OPENED))
-						{
-							me->RemoveAura(SPELL_PORTAL_OPENED);
-							DoCast(me, SPELL_PORTAL_VISUAL_CLOSED, true);
-						}
+                        {
+                            me->RemoveAura(SPELL_PORTAL_OPENED);
+                            DoCast(me, SPELL_PORTAL_VISUAL_CLOSED, true);
+                        }
                     }
                 }
             }
@@ -875,7 +875,7 @@ public:
         {
             if (me->GetEntry() == NPC_HOVER_DISK_CASTER)
                 me->SetReactState(REACT_PASSIVE);
-             else
+            else
                 me->SetInCombatWithZone();
 
             instance = creature->GetInstanceScript();
@@ -1038,9 +1038,9 @@ public:
                     malygos->getThreatManager().resetAllAggro();
                     malygos->AI()->AttackStart(me);
 
-					float victim_threat = malygos->getThreatManager().getThreat(summoner);
-					if (victim_threat)
-						malygos->AddThreat(me, victim_threat);
+                    float victim_threat = malygos->getThreatManager().getThreat(summoner);
+                    if (victim_threat)
+                        malygos->AddThreat(me, victim_threat);
                 }
             }
         }
@@ -1106,8 +1106,8 @@ public:
                     case EVENT_YELL_4:
                         Talk(SAY_FOUR);
                         break;
-					default:
-						break;
+                    default:
+                        break;
                 }
             }
         }
@@ -1118,16 +1118,16 @@ public:
 
 class achievement_denyin_the_scion : public AchievementCriteriaScript
 {
-    public:
-        achievement_denyin_the_scion() : AchievementCriteriaScript("achievement_denyin_the_scion") { }
+public:
+    achievement_denyin_the_scion() : AchievementCriteriaScript("achievement_denyin_the_scion") { }
 
-        bool OnCheck(Player* source, Unit* /*target*/)
-        {
-            if (Unit* disk = source->GetVehicleBase())
-                if (disk->GetEntry() == NPC_HOVER_DISK_CASTER || disk->GetEntry() == NPC_HOVER_DISK_MELEE)
-                    return true;
-            return false;
-        }
+    bool OnCheck(Player* source, Unit* /*target*/)
+    {
+        if (Unit* disk = source->GetVehicleBase())
+            if (disk->GetEntry() == NPC_HOVER_DISK_CASTER || disk->GetEntry() == NPC_HOVER_DISK_MELEE)
+                return true;
+        return false;
+    }
 };
 
 void AddSC_boss_malygos()
