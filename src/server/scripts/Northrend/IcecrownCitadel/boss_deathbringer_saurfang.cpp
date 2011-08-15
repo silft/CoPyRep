@@ -355,7 +355,7 @@ class boss_deathbringer_saurfang : public CreatureScript
                 if (IsHeroic())
                     DoCast(summon, SPELL_SCENT_OF_BLOOD);
 
-                summon->AI()->DoCast(me, SPELL_BLOOD_LINK_BEAST, true);
+                summon->AI()->DoCast(summon, SPELL_BLOOD_LINK_BEAST, true);
                 summon->AI()->DoCast(summon, SPELL_RESISTANT_SKIN, true);
                 summons.Summon(summon);
                 DoZoneInCombat(summon);
