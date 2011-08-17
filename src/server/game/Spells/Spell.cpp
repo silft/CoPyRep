@@ -2923,7 +2923,7 @@ void Spell::prepare(SpellCastTargets const* targets, AuraEffect const* triggered
     SpellCastResult result = CheckCast(true);
     if (result != SPELL_CAST_OK && !IsAutoRepeat())          //always cast autorepeat dummy for triggering
     {
-        if (triggeredByAura && triggeredByAura->GetSpellProto()->AttributesEx & (SPELL_ATTR1_CHANNELED_1 | SPELL_ATTR1_CHANNELED_2))
+        if (triggeredByAura && triggeredByAura->GetBase()->GetSpellProto()->AttributesEx & (SPELL_ATTR1_CHANNELED_1 | SPELL_ATTR1_CHANNELED_2))
         {
             SendChannelUpdate(0);
             triggeredByAura->GetBase()->SetDuration(0);
