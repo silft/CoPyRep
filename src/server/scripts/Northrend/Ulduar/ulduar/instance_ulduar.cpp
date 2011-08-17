@@ -851,14 +851,6 @@ public:
              return true;
         }
 
-        EncounterState GetBossState(uint32 type)
-        {
-            if (type > MAX_ENCOUNTER)
-                return NOT_STARTED;
-
-            return EncounterState(uiEncounter[type]);
-        }
-
         void SetData(uint32 type, uint32 data)
         {
             switch (type)
@@ -1073,9 +1065,6 @@ public:
                         tmpState = NOT_STARTED;
 
                     SetBossState(i, EncounterState(tmpState));
-
-                    // needed because of custom GetBossState(uint32 type) ?
-                    uiEncounter[i] = tmpState;
                 }
                 uint32 tmpState, tmpState2;
                 loadStream >> tmpState >> tmpState2;
