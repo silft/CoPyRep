@@ -4535,8 +4535,6 @@ void SpellMgr::LoadSpellCustomAttr()
 		case 67206:
 		case 67207:
 		case 67208:
-			spellInfo->ChannelInterruptFlags &= ~AURA_INTERRUPT_FLAG_MELEE_ATTACK;
-			spellInfo->ChannelInterruptFlags &= ~AURA_INTERRUPT_FLAG_MOVE;
 			spellInfo->InterruptFlags &= ~SPELL_INTERRUPT_FLAG_PUSH_BACK;
 			++count;
 			break;

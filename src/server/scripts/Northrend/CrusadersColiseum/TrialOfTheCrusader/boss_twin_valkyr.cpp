@@ -387,7 +387,7 @@ struct boss_twin_baseAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if (!m_pInstance || !UpdateVictim())
+        if (!m_pInstance || !UpdateVictim() || me->HasUnitState(UNIT_STAT_CASTING))
             return;
 
 		if (m_pInstance->GetData(DATA_HEALTH_TWIN_SHARED) != 0)
@@ -440,7 +440,7 @@ struct boss_twin_baseAI : public ScriptedAI
                 break;
         }
 
-        if (m_uiSpikeTimer <= uiDiff && !me->HasUnitState(UNIT_STAT_CASTING))
+        if (m_uiSpikeTimer <= uiDiff)
         {
             DoCastVictim(m_uiSpikeSpellId);
             m_uiSpikeTimer = 20*IN_MILLISECONDS;
@@ -448,7 +448,7 @@ struct boss_twin_baseAI : public ScriptedAI
         else
             m_uiSpikeTimer -= uiDiff;
 
-        if (IsHeroic() && m_uiTouchTimer <= uiDiff && !me->HasUnitState(UNIT_STAT_CASTING))
+        if (IsHeroic() && m_uiTouchTimer <= uiDiff)
         {
             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 200, true, m_uiOtherEssenceSpellId))
                 me->CastCustomSpell(m_uiTouchSpellId, SPELLVALUE_MAX_TARGETS, 1, target, false);
@@ -457,7 +457,7 @@ struct boss_twin_baseAI : public ScriptedAI
         else
             m_uiTouchTimer -= uiDiff;
 
-        if (m_uiColorballsTimer <= uiDiff && !me->HasUnitState(UNIT_STAT_CASTING))
+        if (m_uiColorballsTimer <= uiDiff)
         {
             if (m_uiWaveCount >= 2)
             {
@@ -474,7 +474,7 @@ struct boss_twin_baseAI : public ScriptedAI
         else
             m_uiColorballsTimer -= uiDiff;
 
-        if (!m_bIsBerserk && m_uiBerserkTimer <= uiDiff && !me->HasUnitState(UNIT_STAT_CASTING))
+        if (!m_bIsBerserk && m_uiBerserkTimer <= uiDiff)
         {
             DoCast(me, SPELL_BERSERK);
             DoScriptText(SAY_BERSERK, me);

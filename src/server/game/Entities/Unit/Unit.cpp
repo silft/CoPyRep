@@ -1965,7 +1965,7 @@ bool Unit::CanMoveWhileCasting()
             if (spell->getState() == SPELL_STATE_CASTING)
             {
                 uint32 channelInterruptFlags = spell->m_spellInfo->ChannelInterruptFlags;
-                if (!(channelInterruptFlags & SPELL_INTERRUPT_FLAG_MOVEMENT))
+                if (!(channelInterruptFlags & SPELL_INTERRUPT_FLAG_MOVEMENT || AURA_INTERRUPT_FLAG_MOVE))
                     canMove = true;
             }
         }
@@ -1985,7 +1985,7 @@ bool Unit::CanAttackWhileCasting()
             if (spell->getState() == SPELL_STATE_CASTING)
             {
                 uint32 channelInterruptFlags = spell->m_spellInfo->ChannelInterruptFlags;
-                if (channelInterruptFlags & SPELL_INTERRUPT_FLAG_AUTOATTACK)
+                if (!(channelInterruptFlags & SPELL_INTERRUPT_FLAG_AUTOATTACK || AURA_INTERRUPT_FLAG_MELEE_ATTACK))
                     canAutoAttack = true;
             }
         }

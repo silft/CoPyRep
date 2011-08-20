@@ -94,21 +94,21 @@ void PetAI::UpdateAI(const uint32 diff)
     // me->getVictim() can't be used for check in case stop fighting, me->getVictim() clear at Unit death etc.
     if (me->getVictim())
     {
-        if (_needToStop() || me->HasUnitState(UNIT_STAT_CASTING) || targetHasCC)
+        if (_needToStop())
         {
             sLog->outStaticDebug("Pet AI stopped attacking [guid=%u]", me->GetGUIDLow());
             _stopAttack();
             return;
         }
         targetHasCC = _CheckTargetCC(me->getVictim());
-		if (!me->HasUnitState(UNIT_STAT_CASTING) || !targetHasCC)
-			DoMeleeAttackIfReady();
+		
+		DoMeleeAttackIfReady();
     }
     else if (owner && me->GetCharmInfo()) //no victim
     {
         Unit *nextTarget = SelectNextTarget();
 
-        if (me->HasReactState(REACT_PASSIVE) || me->HasUnitState(UNIT_STAT_CASTING))
+        if (me->HasReactState(REACT_PASSIVE))
             _stopAttack();
         else if (nextTarget)
             AttackStart(nextTarget);
