@@ -9198,6 +9198,10 @@ bool Unit::HandleProcTriggerSpell(Unit* victim, uint32 damage, AuraEffect* trigg
                 return false;
             break;
         }
+        // Deathbringer Saurfang - Blood Link
+        case 72202:
+            target = FindNearestCreature(37813, 75.0f); // NPC_DEATHBRINGER_SAURFANG = 37813
+            break;
         // Culling the Herd
         case 70893:
         {

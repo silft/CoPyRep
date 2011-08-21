@@ -14,7 +14,7 @@
  - Find out wy saurfang's bloodbeasts
  aren't giving him blood power. The beasts
  gains the blood link when they are summoned
- but 1 sec before, it dissapears.
+ but 1 sec before, it dissapears. (This should be fixed need feedback anyway)
 -fix the traps on the way to Lord Marrowgar
 -update gunship battle script and add SQL files for it
 
