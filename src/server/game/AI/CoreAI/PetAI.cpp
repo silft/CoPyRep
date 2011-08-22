@@ -95,6 +95,7 @@ void PetAI::UpdateAI(const uint32 diff)
     if (me->getVictim())
     {
         if (_needToStop())
+
         {
             sLog->outStaticDebug("Pet AI stopped attacking [guid=%u]", me->GetGUIDLow());
             _stopAttack();
@@ -109,6 +110,7 @@ void PetAI::UpdateAI(const uint32 diff)
         Unit *nextTarget = SelectNextTarget();
 
         if (me->HasReactState(REACT_PASSIVE))
+
             _stopAttack();
         else if (nextTarget)
             AttackStart(nextTarget);
