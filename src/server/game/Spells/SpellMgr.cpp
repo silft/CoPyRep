@@ -4255,6 +4255,10 @@ void SpellMgr::LoadSpellCustomAttr()
             spellInfo->SpellFamilyFlags[2] = 0x10;
             ++count;
             break;
+        case 63163: // Apply Enchanted Bridle (Argent Tournament)
+            spellInfo->EffectDieSides[0] = 0;
+            ++count;
+            break;
         case 41013: // Parasitic Shadowfiend Passive
             spellInfo->EffectApplyAuraName[0] = 4; // proc debuff, and summon infinite fiends
             ++count;
