@@ -288,18 +288,31 @@ class boss_professor_putricide : public CreatureScript
                         if (HealthAbovePct(80))
                             return;
                         me->SetReactState(REACT_PASSIVE);
+						RemoveAdds();
                         DoAction(ACTION_CHANGE_PHASE);
                         break;
                     case PHASE_COMBAT_2:
                         if (HealthAbovePct(35))
                             return;
                         me->SetReactState(REACT_PASSIVE);
+						RemoveAdds();
                         DoAction(ACTION_CHANGE_PHASE);
                         break;
                     default:
                         break;
                 }
             }
+
+			void RemoveAdds()
+			{
+				Creature* Ooze = me->FindNearestCreature(NPC_VOLATILE_OOZE,100.0f);
+				Creature* Cloud = me->FindNearestCreature(NPC_GAS_CLOUD,100.0f);
+				if (Ooze)
+					Ooze->DisappearAndDie();
+				if (Cloud)
+					Cloud->DisappearAndDie();
+			}
+
 
             void MovementInform(uint32 type, uint32 id)
             {
