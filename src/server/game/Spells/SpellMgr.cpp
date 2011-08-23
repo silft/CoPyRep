@@ -4486,6 +4486,10 @@ void SpellMgr::LoadSpellCustomAttr()
             spellInfo->AttributesEx |= SPELL_ATTR1_DISPEL_AURAS_ON_IMMUNITY;
             ++count;
             break;
+        case 62311: // Algalon - Cosmic Smash
+        case 64596: // Algalon - Cosmic Smash
+            spellInfo->rangeIndex = 13;
+            break;
         case 62470: // Deafening Thunder - Spell::DoSpellHitOnUnit sends EVADE if speed > 0
             spellInfo->speed = 0;
             ++count;
