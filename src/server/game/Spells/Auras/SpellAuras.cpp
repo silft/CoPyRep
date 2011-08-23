@@ -209,7 +209,7 @@ void AuraApplication::BuildUpdatePacket(ByteBuffer& data, bool remove) const
 
 void AuraApplication::HandleEffect(uint8 effIndex, bool apply)
 {
-	if (GetBase()->GetId() == 69240) // hack to prevent vile gas crash.
+	if (GetBase()->GetId() == 69248 || GetBase()->GetId() == 69240 || GetBase()->GetId() == 69244) //hack to prevent vile gas crash.
 		return;
 
     if (GetRemoveMode() || GetBase()->IsRemoved())
