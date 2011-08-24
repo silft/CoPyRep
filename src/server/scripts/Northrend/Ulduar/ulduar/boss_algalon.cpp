@@ -1405,16 +1405,16 @@ class spell_algalon_cosmic_smash_initial : public SpellScriptLoader
                 unitList = m_unitList;
             }
 
-            void HandleForceCast(SpellEffIndex /*effIndex*/)
+            void HandleForceCast(SpellEffIndex effIndex)
             {
+				PreventHitDefaultEffect(effIndex);
+
                 Unit* caster = GetCaster();
                 Unit* target = GetHitUnit();
-				for (uint32 i = 0; i < MAX_SPELL_EFFECTS; ++i)
-				{
-					uint32 triggered_spell_id = GetSpellInfo()->EffectTriggerSpell[i];
-					if (caster && target && GetSpellInfo()->Effect[i] != 0)
-						target->CastSpell(target, triggered_spell_id, true, NULL, NULL, caster->GetGUID());
-				}
+				uint32 triggered_spell_id = GetSpellInfo()->EffectTriggerSpell[effIndex];
+
+				if (caster && target)
+					target->CastSpell(target, triggered_spell_id, true, NULL, NULL, caster->GetGUID());
             }
 
             void Register()
@@ -1422,6 +1422,7 @@ class spell_algalon_cosmic_smash_initial : public SpellScriptLoader
                 OnUnitTargetSelect += SpellUnitTargetFn(spell_algalon_cosmic_smash_initial_SpellScript::FilterTargetsInitial, EFFECT_0, TARGET_UNIT_AREA_ENEMY_SRC);
                 OnUnitTargetSelect += SpellUnitTargetFn(spell_algalon_cosmic_smash_initial_SpellScript::FillTargetsSubsequential, EFFECT_1, TARGET_UNIT_AREA_ENEMY_SRC);
 				OnEffect += SpellEffectFn(spell_algalon_cosmic_smash_initial_SpellScript::HandleForceCast, EFFECT_0, SPELL_EFFECT_FORCE_CAST);
+				OnEffect += SpellEffectFn(spell_algalon_cosmic_smash_initial_SpellScript::HandleForceCast, EFFECT_1, SPELL_EFFECT_FORCE_CAST);
             }
 
             std::list<Unit*> m_unitList; 
