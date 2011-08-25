@@ -3,6 +3,10 @@
 UPDATE `creature_template` SET `faction_A` = 16, `faction_H` = 16 WHERE `entry` = 29851;
 
 -- Sons of hodir chain quest fixes
+-- The last of her kind. (workaround)
+-- Injuried Icemaw Matriarch
+UPDATE `creature` SET `phaseMask` = 1 WHERE `id` = 29563;
+
 -- Missing Lok'lira the Crone spawn
 DELETE FROM `creature` WHERE `id`=29975;
 INSERT INTO `creature` (`guid`,`id`,`map`,`spawnMask`,`phaseMask`,`modelid`,`equipment_id`,`position_x`,`position_y`,`position_z`,`orientation`,`spawntimesecs`,`spawndist`,`currentwaypoint`,`curhealth`,`curmana`,`MovementType`,`npcflag`,`unit_flags`,`dynamicflags`) VALUES
