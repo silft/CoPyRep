@@ -11,6 +11,7 @@
 set(scripts_STAT_SRCS
   ${scripts_STAT_SRCS}
     Custom/npc_argent_ring_restorer.cpp
+    Custom/npc_reset_cooldown.cpp
 )
 
 message("  -> Prepared: Custom")

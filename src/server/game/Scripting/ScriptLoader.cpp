@@ -1261,6 +1261,7 @@ void AddBattlegroundScripts()
 /* This is where custom scripts' loading functions should be declared. */
 
 void AddSC_npc_argent_ring_restorer();
+void AddSC_npc_reset_cooldown();
 #endif
 
 void AddCustomScripts()
@@ -1269,5 +1270,6 @@ void AddCustomScripts()
     /* This is where custom scripts should be added. */
 
 AddSC_npc_argent_ring_restorer();
+AddSC_npc_reset_cooldown();
 #endif
 }
