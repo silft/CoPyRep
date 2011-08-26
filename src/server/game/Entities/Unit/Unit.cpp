@@ -11137,7 +11137,7 @@ bool Unit::isSpellCrit(Unit* victim, SpellEntry const* spellProto, SpellSchoolMa
 {
 	// For totems get crit from owner 
     if (GetTypeId() == TYPEID_UNIT && this->ToCreature()->isTotem()) 
-        if (Unit *owner = GetOwner() && victim)
+        if (Unit *owner = GetOwner())
 			return owner->isSpellCrit(victim, spellProto, schoolMask, attackType); 
 
     // Mobs can't crit with spells.
