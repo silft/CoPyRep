@@ -1260,6 +1260,7 @@ void AddBattlegroundScripts()
 #ifdef SCRIPTS
 /* This is where custom scripts' loading functions should be declared. */
 
+void AddSC_npc_argent_ring_restorer();
 #endif
 
 void AddCustomScripts()
@@ -1267,5 +1268,6 @@ void AddCustomScripts()
 #ifdef SCRIPTS
     /* This is where custom scripts should be added. */
 
+AddSC_npc_argent_ring_restorer();
 #endif
 }
