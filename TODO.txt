@@ -33,7 +33,6 @@
 -------------------------------------------------------
 (Ulduar)
 
--Fix Algalons cosmic smash visual
 -Fix the snow hills if Hodir casts his winterspell (they dont appear so u cant survive it)
 
 -------------------------------------------------------
