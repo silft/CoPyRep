@@ -1,3 +1,16 @@
 DELETE FROM creature WHERE guid = 137561;
 DELETE FROM creature WHERE guid = 136533;
 DELETE FROM creature WHERE guid = 136534;
+DELETE FROM creature WHERE guid = 136093;
+DELETE FROM creature WHERE guid = 136094;
+DELETE FROM creature WHERE guid = 202849;
+DELETE FROM creature WHERE guid = 202851;
+DELETE FROM creature WHERE guid = 202850;
+DELETE FROM creature WHERE guid = 202847;
+DELETE FROM creature WHERE guid = 202848;
+DELETE FROM creature WHERE guid = 202855;
+DELETE FROM creature WHERE guid = 202857;
+DELETE FROM creature WHERE guid = 202853;
+DELETE FROM creature WHERE guid = 202854;
+DELETE FROM creature WHERE guid = 202856;
+DELETE FROM creature WHERE guid = 202852;
