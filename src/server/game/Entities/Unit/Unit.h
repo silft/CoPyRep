@@ -1471,7 +1471,7 @@ class Unit : public WorldObject
             return true;
         }
 
-        virtual uint32 GetShieldBlockValue() const =0;
+        virtual uint32 GetShieldBlockValue(bool LimitForSpell = false) const =0;
         uint32 GetUnitMeleeSkill(Unit const* target = NULL) const { return (target ? getLevelForTarget(target) : getLevel()) * 5; }
         uint32 GetDefenseSkillValue(Unit const* target = NULL) const;
         uint32 GetWeaponSkillValue(WeaponAttackType attType, Unit const* target = NULL) const;
