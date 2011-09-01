@@ -302,16 +302,19 @@ class boss_professor_putricide : public CreatureScript
                         break;
                 }
             }
-
-			void RemoveAdds()
-			{
-				Creature* Ooze = me->FindNearestCreature(NPC_VOLATILE_OOZE,100.0f);
-				Creature* Cloud = me->FindNearestCreature(NPC_GAS_CLOUD,100.0f);
-				if (Ooze)
-					Ooze->DisappearAndDie();
-				if (Cloud)
-					Cloud->DisappearAndDie();
-			}
+            
+            void RemoveAdds()
+            {
+                std::list<Unit*> unitList;
+                if (!unitList.empty())
+                    for (std::list<Unit*>::iterator itr = unitList.begin(); itr != unitList.end(); ++itr)
+                    {
+                        if ((*itr)->ToCreature()->GetEntry() == NPC_VOLATILE_OOZE)
+                            (*itr)->ToCreature()->DespawnOrUnsummon();
+                        if ((*itr)->ToCreature()->GetEntry() == NPC_GAS_CLOUD)
+                            (*itr)->ToCreature()->DespawnOrUnsummon();
+                    }
+            }
 
 
             void MovementInform(uint32 type, uint32 id)

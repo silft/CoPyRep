@@ -854,7 +854,9 @@ class instance_icecrown_citadel : public InstanceMapScript
                                 if (FrostwyrmCount)
                                 {
                                     --FrostwyrmCount;
-                                    if (!FrostwyrmCount)
+                                    Creature* rimefang = instance->GetCreature(RimefangGUID);
+                                    Creature* spinestalker = instance->GetCreature(SpinestalkerGUID);
+                                    if (!FrostwyrmCount || rimefang && rimefang->isDead() && spinestalker && spinestalker->isDead())
                                     {
                                         instance->LoadGrid(SindragosaSpawnPos.GetPositionX(), SindragosaSpawnPos.GetPositionY());
                                         if (Creature* boss = instance->SummonCreature(NPC_SINDRAGOSA, SindragosaSpawnPos))

@@ -3515,11 +3515,15 @@ class spell_valkyr_carry_can_cast : public SpellScriptLoader
             {
                 Unit* caster = GetCaster(), *target = GetHitUnit();
 
+                InstanceScript* instance = GetCaster()->GetInstanceScript();
+
                 if (!(target && target->isAlive() && caster))
                     return;
 
-                if (target->GetTypeId() == TYPEID_PLAYER)
-                    target->CastSpell(caster, SPELL_VALKYR_GRAB_PLAYER, true);
+                if (instance)
+                    if (Creature* lichKing = ObjectAccessor::GetCreature(*caster, instance->GetData64(DATA_THE_LICH_KING)))
+                        if (target->GetTypeId() == TYPEID_PLAYER && target != lichKing->getVictim())
+                            target->CastSpell(caster, SPELL_VALKYR_GRAB_PLAYER, true);
             }
 
             void Register()
