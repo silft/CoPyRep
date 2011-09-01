@@ -5812,9 +5812,23 @@ float Player::GetTotalBaseModValue(BaseModGroup modGroup) const
     return m_auraBaseMod[modGroup][FLAT_MOD] * m_auraBaseMod[modGroup][PCT_MOD];
 }
 
-uint32 Player::GetShieldBlockValue() const
+uint32 Player::GetShieldBlockValue(bool LimitForSpell) const
 {
     float value = (m_auraBaseMod[SHIELD_BLOCK_VALUE][FLAT_MOD] + GetStat(STAT_STRENGTH) * 0.5f - 10)*m_auraBaseMod[SHIELD_BLOCK_VALUE][PCT_MOD];
+
+	if (LimitForSpell == true) 
+    { 
+        uint8 level = getLevel(); 
+        uint16 softCap = level * 30; 
+        float hardCap = level * 34.5f; 
+        float hardCapBaseBlockValue = level * 39.5f; 
+ 
+        //If value less than softCap then don't have to modify. 
+        if (value >= hardCapBaseBlockValue) 
+            value = hardCap; 
+        else if (value > softCap) 
+            value = softCap + 0.95f * (value - softCap) - 0.000625f * pow(value - softCap, 2); 
+    } 
 
     value = (value < 0) ? 0 : value;
 

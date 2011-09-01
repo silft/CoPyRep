@@ -491,7 +491,7 @@ class Creature : public Unit, public GridObject<Creature>
         void AI_SendMoveToPacket(float x, float y, float z, uint32 time, uint32 MovementFlags, uint8 type);
         CreatureAI * AI() const { return (CreatureAI*)i_AI; }
 
-        uint32 GetShieldBlockValue() const                  //dunno mob block value
+        uint32 GetShieldBlockValue(bool LimitForSpell = false) const                  //dunno mob block value
         {
             return (getLevel()/2 + uint32(GetStat(STAT_STRENGTH)/20));
         }

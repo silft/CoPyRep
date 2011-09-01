@@ -486,7 +486,7 @@ void Spell::SpellDamageSchoolDmg(SpellEffIndex effIndex)
                     ApplyPctF(damage, m_caster->GetTotalAttackPowerValue(BASE_ATTACK));
                 // Shield Slam
                 else if (m_spellInfo->SpellFamilyFlags[1] & 0x200 && m_spellInfo->Category == 1209)
-                    damage += int32(m_caster->ApplyEffectModifiers(m_spellInfo, effIndex, float(m_caster->GetShieldBlockValue())));
+                    damage += int32(m_caster->ApplyEffectModifiers(m_spellInfo, effIndex, float(m_caster->GetShieldBlockValue(true))));
                 // Victory Rush
                 else if (m_spellInfo->SpellFamilyFlags[1] & 0x100)
                     ApplyPctF(damage, m_caster->GetTotalAttackPowerValue(BASE_ATTACK));
@@ -752,7 +752,7 @@ void Spell::SpellDamageSchoolDmg(SpellEffIndex effIndex)
                 // Shield of Righteousness
                 if (m_spellInfo->SpellFamilyFlags[EFFECT_1] & 0x100000)
                 {
-                    damage += CalculatePctN(m_caster->GetShieldBlockValue(), SpellMgr::CalculateSpellEffectAmount(m_spellInfo, EFFECT_1));
+                    damage += CalculatePctN(m_caster->GetShieldBlockValue(true), SpellMgr::CalculateSpellEffectAmount(m_spellInfo, EFFECT_1));
                     break;
                 }
                 break;
