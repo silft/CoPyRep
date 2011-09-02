@@ -317,6 +317,17 @@ class boss_professor_putricide : public CreatureScript
             }
 
 
+			void RemoveAdds()
+			{
+				Creature* Ooze = me->FindNearestCreature(NPC_VOLATILE_OOZE,100.0f);
+				Creature* Cloud = me->FindNearestCreature(NPC_GAS_CLOUD,100.0f);
+				if (Ooze)
+					Ooze->DisappearAndDie();
+				if (Cloud)
+					Cloud->DisappearAndDie();
+			}
+
+
             void MovementInform(uint32 type, uint32 id)
             {
                 if (type != POINT_MOTION_TYPE)
