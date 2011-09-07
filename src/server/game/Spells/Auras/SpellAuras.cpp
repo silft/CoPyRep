@@ -209,7 +209,8 @@ void AuraApplication::BuildUpdatePacket(ByteBuffer& data, bool remove) const
 
 void AuraApplication::HandleEffect(uint8 effIndex, bool apply)
 {
-	if (GetBase()->GetId() == 69248 || GetBase()->GetId() == 69240 || GetBase()->GetId() == 69244) //hack to prevent vile gas crash.
+    // Do not reapply linked auras with mechanic effects
+	if (GetBase()->GetSpellProto()->EffectApplyAuraName[effIndex] & SPELL_AURA_LINKED && GetAllSpellMechanicMask(GetBase()->GetSpellProto()) != 0) 
 		return;
 
     if (GetRemoveMode() || GetBase()->IsRemoved())
