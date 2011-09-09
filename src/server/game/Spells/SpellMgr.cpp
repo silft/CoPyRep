@@ -4393,6 +4393,10 @@ void SpellMgr::LoadSpellCustomAttr()
             spellInfo->DurationIndex = 39;
             count++;
             break;
+        case 62207: // Brightleaf's unstable sun beam
+            spellInfo->Effect[1] = 0;
+            count++;
+            break;
         case 62713:     // Ironbranch's Essence
             spellInfo->DurationIndex = 39;
 			mSpellCustomAttr[i] |= SPELL_ATTR0_CU_EXCLUDE_SELF;

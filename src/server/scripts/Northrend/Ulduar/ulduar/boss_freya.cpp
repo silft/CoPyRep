@@ -468,8 +468,7 @@ class boss_freya : public CreatureScript
                             break;
                         }
                         case EVENT_UNSTABLE_ENERGY:
-                            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true))
-                                DoCast(target, SPELL_FREYA_UNSTABLE_SUNBEAM, true);
+                            me->CastCustomSpell(SPELL_FREYA_UNSTABLE_SUNBEAM, SPELLVALUE_MAX_TARGETS, RAID_MODE<int32>(3, 6));
                             events.ScheduleEvent(EVENT_UNSTABLE_ENERGY, urand(15000, 20000));
                             break;
                         case EVENT_WAVE:
@@ -1508,49 +1507,37 @@ class npc_nature_bomb : public CreatureScript
 
 class npc_unstable_sun_beam : public CreatureScript
 {
-    public:
-        npc_unstable_sun_beam() : CreatureScript("npc_unstable_sun_beam") { }
-
-        struct npc_unstable_sun_beamAI : public Scripted_NoMovementAI
+public:
+    npc_unstable_sun_beam() : CreatureScript("npc_unstable_sun_beam") { }
+    
+    struct npc_unstable_sun_beamAI : public Scripted_NoMovementAI
+    {
+        npc_unstable_sun_beamAI(Creature* creature) : Scripted_NoMovementAI(creature)
         {
-            npc_unstable_sun_beamAI(Creature* creature) : Scripted_NoMovementAI(creature)
-            {
-                despawnTimer = urand(7000, 12000);
-                instance = me->GetInstanceScript();
-                DoCast(me, SPELL_PHOTOSYNTHESIS);
-                DoCast(me, SPELL_UNSTABLE_SUN_BEAM);
-                me->SetReactState(REACT_PASSIVE);
-            }
-
-            void UpdateAI(uint32 const diff)
-            {
-                if (despawnTimer <= diff)
-                {
-                    DoCastAOE(SPELL_UNSTABLE_ENERGY, true);
-                    me->DisappearAndDie();
-                }
-                else
-                    despawnTimer -= diff;
-            }
-
-            void SpellHitTarget(Unit* target, SpellEntry const* spell)
-            {
-                if (target && spell->Id == SPELL_UNSTABLE_ENERGY)
-                {
-                    target->RemoveAurasDueToSpell(SPELL_UNSTABLE_SUN_BEAM);
-                    target->RemoveAurasDueToSpell(SPELL_UNSTABLE_SUN_BEAM_TRIGGERED);
-                }
-            }
-
-        private:
-            InstanceScript* instance;
-            uint32 despawnTimer;
-        };
-
-        CreatureAI* GetAI(Creature* creature) const
-        {
-            return new npc_unstable_sun_beamAI(creature);
+            DoCast(me, SPELL_UNSTABLE_SUN_BEAM,true);
+            DoCast(me, SPELL_PHOTOSYNTHESIS);
         }
+
+        uint32 unstableEnergyTimer;
+        
+        void Reset()
+        {
+            unstableEnergyTimer = urand(15,25) * IN_MILLISECONDS;
+        }
+        
+        void UpdateAI(const uint32 uiDiff)
+        {
+            if (unstableEnergyTimer <= uiDiff)
+                DoCastAOE(SPELL_UNSTABLE_ENERGY);
+            else
+                unstableEnergyTimer -= uiDiff;
+        }
+    };
+
+    CreatureAI* GetAI(Creature* creature) const
+    {
+        return new npc_unstable_sun_beamAI(creature);
+    }
 };
 
 class spell_freya_attuned_to_nature_dose_reduction : public SpellScriptLoader
@@ -1634,6 +1621,54 @@ class spell_freya_iron_roots : public SpellScriptLoader
         SpellScript* GetSpellScript() const
         {
             return new spell_freya_iron_roots_SpellScript();
+        }
+};
+
+
+class spell_unstable_energy : public SpellScriptLoader
+{
+    public:
+        spell_unstable_energy() : SpellScriptLoader("spell_unstable_energy") { }
+
+        class spell_unstable_energy_SpellScript : public SpellScript
+        {
+            PrepareSpellScript(spell_unstable_energy_SpellScript);
+
+            bool Validate(SpellEntry const* /*spellEntry*/)
+            {
+                if (!sSpellStore.LookupEntry(SPELL_UNSTABLE_SUN_BEAM_TRIGGERED))
+                    return false;
+                return true;
+            }
+
+            void CalculateDamage(SpellEffIndex /*effIndex*/)
+            {
+                uint32 sunbeamstack = GetHitUnit()->GetAuraCount(SPELL_UNSTABLE_SUN_BEAM_TRIGGERED);
+
+                if (!sunbeamstack)
+                    return;
+                else
+                    SetHitDamage(int32(GetHitDamage() + (GetHitDamage() * (sunbeamstack * 0.10f))));
+            }
+
+            void HandleAfterHit() 
+            {
+                if (GetHitUnit()->HasAura(SPELL_UNSTABLE_SUN_BEAM_TRIGGERED))
+                {
+                    GetHitUnit()->RemoveAurasDueToSpell(SPELL_UNSTABLE_SUN_BEAM_TRIGGERED);
+                    GetCaster()->ToCreature()->DisappearAndDie();
+                }
+            }
+            void Register()
+            {
+                OnEffect += SpellEffectFn(spell_unstable_energy_SpellScript::CalculateDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
+                AfterHit += SpellHitFn(spell_unstable_energy_SpellScript::HandleAfterHit);
+            }
+        };
+
+        SpellScript* GetSpellScript() const
+        {
+            return new spell_unstable_energy_SpellScript();
         }
 };
 
@@ -1734,6 +1769,7 @@ void AddSC_boss_freya()
     new npc_healthy_spore();
     new npc_unstable_sun_beam();
     new npc_iron_roots();
+    new spell_unstable_energy();
     new spell_freya_attuned_to_nature_dose_reduction();
     new spell_freya_iron_roots();
     new achievement_getting_back_to_nature();

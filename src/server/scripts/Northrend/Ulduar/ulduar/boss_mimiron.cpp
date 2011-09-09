@@ -251,6 +251,7 @@ public:
             me->GetMotionMaster()->MoveTargetedHome();
 
             instance->SetData(DATA_MIMIRON_ELEVATOR, GO_STATE_ACTIVE);
+            instance->SetBossState(TYPE_MIMIRON, FAIL);
 
             phase = PHASE_NULL;
             uiStep = 0;

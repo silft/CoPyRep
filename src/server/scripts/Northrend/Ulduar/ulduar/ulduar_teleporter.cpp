@@ -105,7 +105,7 @@ public:
                 pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Teleport to the Shattered Walkway", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + WALKWAY);
             if (pInstance->GetBossState(TYPE_AURIAYA) == DONE || pPlayer->isGameMaster())
                 pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Teleport to the Conservatory of Life", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + CONSERVATORY);
-            if (pInstance->GetBossState(TYPE_FREYA) == DONE || pPlayer->isGameMaster())
+            if (pInstance->GetBossState(TYPE_MIMIRON) == DONE || pInstance->GetBossState(TYPE_MIMIRON) == FAIL || pPlayer->isGameMaster())
                 pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Teleport to the Spark of Imagination", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + SPARK);
             if (pInstance->GetBossState(TYPE_VEZAX) == DONE || pPlayer->isGameMaster())
                 pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Teleport to Descent into Madness", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + MADNESS);
