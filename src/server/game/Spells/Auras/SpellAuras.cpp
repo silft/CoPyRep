@@ -210,7 +210,7 @@ void AuraApplication::BuildUpdatePacket(ByteBuffer& data, bool remove) const
 void AuraApplication::HandleEffect(uint8 effIndex, bool apply)
 {
     // Do not reapply linked auras with mechanic effects
-	if (GetBase()->GetSpellProto()->EffectApplyAuraName[effIndex] & SPELL_AURA_LINKED && GetAllSpellMechanicMask(GetBase()->GetSpellProto()) != 0) 
+	if (GetBase()->GetSpellProto()->EffectApplyAuraName[effIndex] == SPELL_AURA_LINKED && GetSpellMechanicMask(GetBase()->GetSpellProto(), effIndex) != 0) 
 		return;
 
     if (GetRemoveMode() || GetBase()->IsRemoved())
