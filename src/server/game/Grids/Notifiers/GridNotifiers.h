@@ -1159,6 +1159,23 @@ namespace Trinity
         float i_range;
     };
 
+    class AnyPlayerInObjectRangeCheckWithAura
+    {
+    public:
+        AnyPlayerInObjectRangeCheckWithAura(WorldObject const* obj, float range, uint32 spellid) : i_obj(obj), i_range(range), i_spell(spellid) {}
+        bool operator()(Player* u)
+        {
+            if (u->isAlive() && i_obj->IsWithinDistInMap(u, i_range) && u->HasAura(i_spell))
+                return true;
+
+            return false;
+        }
+    private:
+        WorldObject const* i_obj;
+        float i_range;
+        uint32 i_spell;
+    };
+
     class NearestPlayerInObjectRangeCheck
     {
         public:

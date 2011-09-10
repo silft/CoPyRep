@@ -2401,6 +2401,15 @@ Player* WorldObject::FindNearestPlayer(float range, bool alive)
   return player;
   }
 
+Player* WorldObject::FindNearestPlayerWithAura(uint32 spellid, float range, bool alive)
+{
+  Player* player = NULL;
+  Trinity::AnyPlayerInObjectRangeCheckWithAura check(this, GetVisibilityRange(), spellid);
+  Trinity::PlayerSearcher<Trinity::AnyPlayerInObjectRangeCheckWithAura> searcher(this, player, check);
+  VisitNearbyWorldObject(range, searcher);
+  return player;
+  }
+
 std::list<Player*> WorldObject::GetNearestPlayersList(float range, bool alive) {
     std::list<Player*> players;
     Trinity::AnyPlayerInObjectRangeCheck checker(this, range);

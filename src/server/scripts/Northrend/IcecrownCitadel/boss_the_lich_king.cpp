@@ -2023,11 +2023,14 @@ class npc_vile_spirit : public CreatureScript
                                 Player* player = curVictim->ToPlayer();
                                 uint8 count = 0;
 
-                                while ((!player->isTargetableForAttack() || !player->HasAura(SPELL_IN_FROSTMOURNE_ROOM)) && count++ < 20)
-                                    player = SelectRandomAttackablePlayerInTheMap(me->GetMap());
+                                if (player)
+                                {
+                                    while ((!player->isTargetableForAttack() || !player->HasAura(SPELL_IN_FROSTMOURNE_ROOM)) && count++ < 20)
+                                        player = SelectRandomAttackablePlayerInTheMap(me->GetMap());
 
-                                EnterEvadeMode();
-                                AttackStart(player);
+                                    EnterEvadeMode();
+                                    AttackStart(player);
+                                }
                             }
 
                             events.ScheduleEvent(EVENT_CHECK_PLAYER_IN_FROSTMOURNE_ROOM, 2000);
@@ -2291,7 +2294,7 @@ class npc_ice_sphere : public CreatureScript
 
             void Reset()
             {
-                //events.ScheduleEvent(EVENT_MOVE_FORWARD, 2000);
+                events.ScheduleEvent(EVENT_MOVE_FORWARD, 3000);
                 SetCombatMovement(false);
                 me->SetReactState(REACT_PASSIVE);
                 me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE);
