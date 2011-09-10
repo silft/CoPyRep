@@ -171,6 +171,15 @@ enum CreaturesIds
     NPC_REANIMATED_ADHERENT                     = 38010,
     NPC_VENGEFUL_SHADE                          = 38222,
 
+	//Gunship Battle
+	NPC_ALLIGSTRIGGER_10            = 400031,
+	NPC_HORDEGSTRIGGER_10            = 400030,
+	NPC_ALLIGSTRIGGER_25            = 400036,
+	NPC_HORDEGSTRIGGER_25            = 400035,
+	NPC_CANONTRIGGER              = 400032,
+	NPC_FIGHTTRIGGER              = 400033,
+	NPC_PORTAL                  = 400034,
+
     // Deathbringer Saurfang
     NPC_DEATHBRINGER_SAURFANG                   = 37813,
     NPC_BLOOD_BEAST                             = 38508,
@@ -297,6 +306,12 @@ enum GameObjectsIds
     // Lady Deathwhisper
     GO_ORATORY_OF_THE_DAMNED_ENTRANCE       = 201563,
     GO_LADY_DEATHWHISPER_ELEVATOR           = 202220,
+
+	//Gunship Battle
+	GO_HORDE_GUNSHIP              = 1915002,
+	GO_ALLI_GUNSHIP                = 1914902,
+	GO_HORDE_GUNSHIP_2              = 1915001,
+	GO_ALLI_GUNSHIP_2              = 1914901,
 
     // Deathbringer Saurfang
     GO_SAURFANG_S_DOOR                      = 201825,
