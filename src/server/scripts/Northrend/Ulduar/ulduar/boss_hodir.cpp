@@ -544,46 +544,6 @@ class npc_icicle : public CreatureScript
         };
 };
 
-class npc_snowpacked_icicle : public CreatureScript
-{
-    public:
-        npc_snowpacked_icicle() : CreatureScript("npc_snowpacked_icicle") { }
-
-        struct npc_snowpacked_icicleAI : public ScriptedAI
-        {
-            npc_snowpacked_icicleAI(Creature* creature) : ScriptedAI(creature)
-            {
-                me->SetDisplayId(me->GetCreatureInfo()->Modelid2);
-                me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_PACIFIED);
-                me->SetReactState(REACT_PASSIVE);
-            }
-
-            uint32 despawnTimer;
-
-            void Reset()
-            {
-                despawnTimer = 12000;
-            }
-
-            void UpdateAI(uint32 const diff)
-            {
-                if (despawnTimer <= diff)
-                {
-                    if (GameObject* Snowdrift = me->FindNearestGameObject(GO_SNOWDRIFT, 2.0f))
-                        me->RemoveGameObject(Snowdrift, true);
-                    me->DespawnOrUnsummon();
-                }
-                else
-                    despawnTimer -= diff;
-            }
-        };
-
-        CreatureAI* GetAI(Creature* creature) const
-        {
-            return new npc_snowpacked_icicleAI(creature);
-        };
-};
-
 class npc_hodir_priest : public CreatureScript
 {
     public:
@@ -993,7 +953,6 @@ void AddSC_boss_hodir()
 {
     new boss_hodir();
     new npc_icicle();
-    new npc_snowpacked_icicle();
     new npc_hodir_priest();
     new npc_hodir_shaman();
     new npc_hodir_druid();
