@@ -4282,6 +4282,7 @@ void SpellMgr::LoadSpellCustomAttr()
             break;
         case 63163: // Apply Enchanted Bridle (Argent Tournament)
             spellInfo->EffectDieSides[0] = 0;
+            spellInfo->EffectBasePoints[0] = 52391; // Ride Vehicle (forces seat 0)
             ++count;
             break;
         case 41013: // Parasitic Shadowfiend Passive
