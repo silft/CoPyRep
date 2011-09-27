@@ -4302,6 +4302,38 @@ void SpellMgr::LoadSpellCustomAttr()
             spellInfo->AttributesEx &= ~SPELL_ATTR1_CANT_TARGET_SELF;
             ++count;
             break;
+        case 6359: // Seduction
+            spellInfo->SchoolMask = SPELL_SCHOOL_MASK_MAGIC;
+            ++count;
+            break;
+        case 53209: // Chimera shot
+            spellInfo->SchoolMask = SPELL_SCHOOL_MASK_NORMAL;
+            ++count;
+            break;
+		case 5171:  // Slice and Dice 
+        case 6774:  
+		case 52916: // Honor Among Thieves
+			spellInfo->AttributesEx3 |= SPELL_ATTR3_NO_INITIAL_AGGRO;
+			count++;
+            break;
+        case 1126: // Mark of the wild ranks
+        case 5232:
+        case 5234:
+        case 6756:
+        case 8907:
+        case 9884:
+        case 9885:
+        case 24752:
+        case 26990:  
+        case 39233:
+        case 48469:
+        case 21849: // Gift of the Wild ranks
+        case 21850:
+        case 26991: 
+        case 48470:
+            spellInfo->EffectMiscValue[2] = 124; // Those spells must not apply holy resist
+            ++count;
+            break;
         // target allys instead of enemies, target A is src_caster, spells with effect like that have ally target
         // this is the only known exception, probably just wrong data
         case 29214: // Wrath of the Plaguebringer
