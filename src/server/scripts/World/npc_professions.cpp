@@ -18,8 +18,8 @@
 
 /* ScriptData
 SDName: Npc_Professions
-SD%Complete: 80
-SDComment: Provides learn/unlearn/relearn-options for professions. Not supported: Unlearn engineering, re-learn engineering, re-learn leatherworking.
+SD%Complete: 95
+SDComment: Provides learn/unlearn/relearn-options for professions. Some npc texts are still unknown.
 SDCategory: NPCs
 EndScriptData */
 
@@ -43,7 +43,8 @@ there is no difference here (except that default text is chosen with `gameobject
 
 #define TALK_HAMMER_UNLEARN         "Forgetting your Hammersmithing skill is not something to do lightly. If you choose to abandon it you will forget all recipes that require Hammersmithing to create!"
 #define TALK_AXE_UNLEARN            "Forgetting your Axesmithing skill is not something to do lightly. If you choose to abandon it you will forget all recipes that require Axesmithing to create!"
-#define TALK_SWORD_UNLEARN          "Forgetting your Swordsmithing skill is not something to do lightly. If you choose to abandon it you will forget all recipes that require Swordsmithing to create!"
+
+#define TALK_ENGINEER_SPEC_LEARN    "Hundreds of various diagrams and schematics begin to take shape on the pages of the book. You recognize some of the diagrams while others remain foreign but familiar."
 
 /*###
 # generic defines
@@ -52,6 +53,19 @@ there is no difference here (except that default text is chosen with `gameobject
 #define GOSSIP_SENDER_LEARN         50
 #define GOSSIP_SENDER_UNLEARN       51
 #define GOSSIP_SENDER_CHECK         52
+
+/*###
+# Known npc_text IDs
+###*/
+
+#define TALK_SWORD_UNLEARN        10329 //"Forgetting your Swordsmithing skill is not something to do lightly. If you choose to abandon it you will forget all recipes that require Swordsmithing to create!"
+
+#define TALK_TRANSMUTE_UNLEARN    11076 //"Forgetting your skill in Transmutation Mastery is not something to do lightly.  Are you absolutely sure?"
+#define TALK_ELIXIR_UNLEARN        11075 //"Forgetting your skill in Elixir Mastery is not something to do lightly.  Are you absolutely sure?"
+
+#define TALK_ELEMENTAL_UNLEARN    10302 //"Forgetting elemental leatherworking is not something to do lightly.  If you choose to abandon it you will forget all recipes that require elemental leatherworking as well!"
+
+#define TALK_LEATHER_SPEC_LEARN    8326  //The assortment of images, shapes, and markings come together before your eyes. The book seems to know your skill with leatherworking and offers you a choice - but be warned - you may only select one and once you have done so, may not change your mind!:
 
 /*###
 # gossip item and box texts
@@ -101,8 +115,12 @@ there is no difference here (except that default text is chosen with `gameobject
 
 #define BOX_UNLEARN_TAILOR_SPEC     "Do you really want to unlearn your tailoring specialty and lose all associated recipes? \n Cost: "
 
-#define GOSSIP_LEARN_GOBLIN         "I am absolutely certain that i want to learn Goblin engineering"
-#define GOSSIP_LEARN_GNOMISH        "I am absolutely certain that i want to learn Gnomish engineering"
+#define GOSSIP_LEARN_GOBLIN    "I am 100% confident that I wish to learn in the ways of goblin engineering."
+#define GOSSIP_UNLEARN_GOBLIN  "I wish to unlearn my Goblin Engineering specialization!"
+#define GOSSIP_LEARN_GNOMISH  "I am 100% confident that I wish to learn in the ways ofgnomish engineering."
+#define GOSSIP_UNLEARN_GNOMISH  "I wish to unlearn my Gnomish Engineering specialization!"
+#define BOX_UNLEARN_GOBLIN_SPEC    "Do you really want to unlearn your Goblin Engineering specialization and lose all asociated recipes?"
+#define BOX_UNLEARN_GNOMISH_SPEC    "Do you really want to unlearn your Gnomish Engineering specialization and lose all asociated recipes?"
 
 /*###
 # spells defines
@@ -150,6 +168,9 @@ there is no difference here (except that default text is chosen with `gameobject
 #define S_GOBLIN                20222
 #define S_GNOMISH               20219
 
+#define S_UNLEARN_GOBLIN       68334
+#define S_UNLEARN_GNOMISH      68333
+
 #define S_LEARN_GOBLIN          20221
 #define S_LEARN_GNOMISH         20220
 
@@ -186,7 +207,7 @@ int32 DoLearnCost(Player* /*player*/)                      //tailor, alchemy
     return 200000;
 }
 
-int32 DoHighUnlearnCost(Player* /*player*/)                //tailor, alchemy
+int32 DoHighUnlearnCost(Player* /*pPlayer*/)                //tailor, alchemy, engineering
 {
     return 1500000;
 }
@@ -333,6 +354,23 @@ void ProfessionUnlearnSpells(Player* player, uint32 type)
             player->removeSpell(26756);                     // Frozen Shadoweave Shoulders
             player->removeSpell(26757);                     // Frozen Shadoweave Boots
             player->removeSpell(26758);                     // Frozen Shadoweave Robe
+            break;
+        case 68334:                       // S_UNLEARN_GOBLIN
+            player->removeSpell(30565);                     // Foreman's Enchanted Helmet
+            player->removeSpell(30566);                     // Foreman's Reinforced Helmet
+            player->removeSpell(30563);                     // Goblin Rocket Launcher
+            player->removeSpell(56514);                     // Global Thermal Sapper Charge
+            player->removeSpell(36954);                     // Dimensional Ripper - Area 52
+            player->removeSpell(23486);                     // Dimensional Ripper - Everlook
+            break;
+        case 68333:                      // S_UNLEARN_GNOMISH
+            player->removeSpell(30575);                     // Gnomish Battle Goggles
+            player->removeSpell(30574);                     // Gnomish Power Goggles
+            player->removeSpell(56473);                     // Gnomish X-Ray Specs
+            player->removeSpell(30569);                     // Gnomish Poultryizer
+            player->removeSpell(30563);                     // Ultrasafe Transporter - Toshley's Station
+            player->removeSpell(23489);                     // Ultrasafe Transporter - Gadgetzan
+            player->removeSpell(23129);                     // World Enlarger
             break;
     }
 }
@@ -500,13 +538,11 @@ public:
             {
                 case 22427:                                     //Zarevhi
                     player->ADD_GOSSIP_ITEM_EXTENDED(0, GOSSIP_UNLEARN_TRANSMUTE, GOSSIP_SENDER_CHECK, uiAction, BOX_UNLEARN_ALCHEMY_SPEC, DoHighUnlearnCost(player), false);
-                                                                //unknown textID ()
-                    player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
+                    player->SEND_GOSSIP_MENU(TALK_TRANSMUTE_UNLEARN, creature->GetGUID());
                     break;
                 case 19052:                                     //Lorokeem
                     player->ADD_GOSSIP_ITEM_EXTENDED(0, GOSSIP_UNLEARN_ELIXIR, GOSSIP_SENDER_CHECK, uiAction,    BOX_UNLEARN_ALCHEMY_SPEC, DoHighUnlearnCost(player), false);
-                                                                //unknown textID ()
-                    player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
+                    player->SEND_GOSSIP_MENU(TALK_ELIXIR_UNLEARN, creature->GetGUID());
                     break;
                 case 17909:                                     //Lauranna Thar'well
                     player->ADD_GOSSIP_ITEM_EXTENDED(0, GOSSIP_UNLEARN_POTION, GOSSIP_SENDER_CHECK, uiAction,    BOX_UNLEARN_ALCHEMY_SPEC, DoHighUnlearnCost(player), false);
@@ -756,8 +792,7 @@ public:
                     break;
                 case 11193:
                     player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_LEARN_SWORD,  GOSSIP_SENDER_CHECK, uiAction);
-                                                                //unknown textID (TALK_SWORD_LEARN)
-                    player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
+                    player->SEND_GOSSIP_MENU(TALK_SWORD_UNLEARN, creature->GetGUID());
                     break;
             }
         }
@@ -945,6 +980,150 @@ public:
     }
 };
 
+
+/*###
+#start menues for Book "Soothsaying for Dummies"
+###*/
+
+bool HasLeatherSpell(Player* pPlayer)
+{
+  if (pPlayer->HasSpell(S_ELEMENTAL) || pPlayer->HasSpell(S_DRAGON) || pPlayer->HasSpell(S_TRIBAL))
+    return true;
+  return false;
+}
+
+bool HasEngineerSpell(Player* pPlayer)
+{
+  if (pPlayer->HasSpell(S_GNOMISH) || pPlayer->HasSpell(S_GOBLIN))
+    return true;
+  return false;
+}
+
+class obj_soothsaying_for_dummies : public GameObjectScript
+{
+public:
+  obj_soothsaying_for_dummies() : GameObjectScript("obj_soothsaying_for_dummies") { }
+
+  bool OnGossipHello(Player* pPlayer, GameObject* pGameObject)
+  {
+    uint32 eGameObject = pGameObject->GetEntry();
+
+    if (pPlayer->HasSkill(SKILL_LEATHERWORKING) && pPlayer->GetBaseSkillValue(SKILL_LEATHERWORKING) >= 225 && pPlayer->getLevel() > 39)
+    {
+      if (pPlayer->GetQuestRewardStatus(5143) || pPlayer->GetQuestRewardStatus(5144) || pPlayer->GetQuestRewardStatus(5145))
+      {
+        if (!HasLeatherSpell(pPlayer)) 
+        {
+          pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_LEARN_DRAGON,    GOSSIP_SENDER_CHECK,    GOSSIP_ACTION_INFO_DEF + 1);
+          pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_LEARN_ELEMENTAL,    GOSSIP_SENDER_CHECK,    GOSSIP_ACTION_INFO_DEF + 2);
+          pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_LEARN_TRIBAL,    GOSSIP_SENDER_CHECK,    GOSSIP_ACTION_INFO_DEF + 3);
+          pPlayer->SEND_GOSSIP_MENU(TALK_LEATHER_SPEC_LEARN, pGameObject->GetGUID());
+          return true;
+        }
+      }
+    }
+
+    if (pPlayer->HasSkill(SKILL_ENGINERING) && pPlayer->GetBaseSkillValue(SKILL_ENGINERING) >= 200 && pPlayer->getLevel() > 9)
+    {
+      if (pPlayer->GetQuestRewardStatus(3643) || pPlayer->GetQuestRewardStatus(3641) || pPlayer->GetQuestRewardStatus(3639))
+      {  
+          if (!HasEngineerSpell(pPlayer)) 
+          {
+            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_LEARN_GNOMISH,    GOSSIP_SENDER_CHECK,    GOSSIP_ACTION_INFO_DEF + 4);
+            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_LEARN_GOBLIN,    GOSSIP_SENDER_CHECK,    GOSSIP_ACTION_INFO_DEF + 5);
+            //unknown textID (TALK_ENGINEER_SPEC_LEARN)
+            pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(eGameObject), pGameObject->GetGUID());
+            return true;
+          }
+          if (pPlayer->HasSpell(S_GNOMISH)) 
+            pPlayer->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_CHAT, GOSSIP_UNLEARN_GNOMISH, GOSSIP_SENDER_CHECK,  GOSSIP_ACTION_INFO_DEF + 6, BOX_UNLEARN_GNOMISH_SPEC, DoHighUnlearnCost(pPlayer),false);
+          if (pPlayer->HasSpell(S_GOBLIN))
+            pPlayer->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_CHAT, GOSSIP_UNLEARN_GOBLIN, GOSSIP_SENDER_CHECK,  GOSSIP_ACTION_INFO_DEF + 7, BOX_UNLEARN_GNOMISH_SPEC, DoHighUnlearnCost(pPlayer),false);
+      }
+    }
+
+    pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(eGameObject), pGameObject->GetGUID()); // Book's default text
+    return true;
+  }
+
+
+  void SendActionMenu(Player* pPlayer, GameObject* pGameObject, uint32 uiAction)
+  {
+    switch(uiAction)
+    {
+    //Learn Leather spec
+    case GOSSIP_ACTION_INFO_DEF + 1:
+      if (!pPlayer->HasSpell(S_DRAGON))
+        pPlayer->CastSpell(pPlayer, S_LEARN_DRAGON, true);
+      pPlayer->CLOSE_GOSSIP_MENU();
+      break;
+    case GOSSIP_ACTION_INFO_DEF + 2:
+      if (!pPlayer->HasSpell(S_ELEMENTAL))
+        pPlayer->CastSpell(pPlayer, S_LEARN_ELEMENTAL, true);
+      pPlayer->CLOSE_GOSSIP_MENU();
+      break;
+    case GOSSIP_ACTION_INFO_DEF + 3:
+      if (!pPlayer->HasSpell(S_TRIBAL))
+        pPlayer->CastSpell(pPlayer, S_LEARN_TRIBAL, true);
+      pPlayer->CLOSE_GOSSIP_MENU();
+      break;
+    //Learn Engineering spec
+    case GOSSIP_ACTION_INFO_DEF + 4:
+      if (!pPlayer->HasSpell(S_GNOMISH))
+        pPlayer->CastSpell(pPlayer, S_LEARN_GNOMISH, true);
+      pPlayer->CLOSE_GOSSIP_MENU();
+      break;
+    case GOSSIP_ACTION_INFO_DEF + 5:
+      if (!pPlayer->HasSpell(S_GOBLIN))
+        pPlayer->CastSpell(pPlayer, S_LEARN_GOBLIN, true);
+      pPlayer->CLOSE_GOSSIP_MENU();
+      break;
+    //Unlearn Engineering spec
+    case GOSSIP_ACTION_INFO_DEF + 6:
+      if (EquippedOk(pPlayer,S_UNLEARN_GNOMISH))
+      {
+        if (pPlayer->HasEnoughMoney(DoHighUnlearnCost(pPlayer)))
+        {
+          pPlayer->CastSpell(pPlayer, S_UNLEARN_GNOMISH, true);
+          ProfessionUnlearnSpells(pPlayer, S_UNLEARN_GNOMISH);
+          pPlayer->ModifyMoney(-DoHighUnlearnCost(pPlayer));
+        } else
+          pPlayer->SendBuyError(BUY_ERR_NOT_ENOUGHT_MONEY, 0, 0, 0);
+      } else
+        pPlayer->SendEquipError(EQUIP_ERR_CANT_DO_RIGHT_NOW,NULL,NULL);
+      pPlayer->CLOSE_GOSSIP_MENU();
+      break;
+    case GOSSIP_ACTION_INFO_DEF + 7:
+      if (EquippedOk(pPlayer,S_UNLEARN_GOBLIN))
+      {
+        if (pPlayer->HasEnoughMoney(DoHighUnlearnCost(pPlayer)))
+        {
+          pPlayer->CastSpell(pPlayer, S_UNLEARN_GOBLIN, true);
+          ProfessionUnlearnSpells(pPlayer, S_UNLEARN_GOBLIN);
+          pPlayer->ModifyMoney(-DoHighUnlearnCost(pPlayer));
+        } else
+          pPlayer->SendBuyError(BUY_ERR_NOT_ENOUGHT_MONEY, 0, 0, 0);
+      } else
+        pPlayer->SendEquipError(EQUIP_ERR_CANT_DO_RIGHT_NOW,NULL,NULL);
+      pPlayer->CLOSE_GOSSIP_MENU();
+      break;
+    }
+  }
+
+  
+  bool OnGossipSelect(Player* pPlayer, GameObject* pGameObject, uint32 uiSender, uint32 uiAction)
+  {
+    pPlayer->PlayerTalkClass->ClearMenus();
+    switch(uiSender)
+    {
+    case GOSSIP_SENDER_MAIN:    SendActionMenu(pPlayer, pGameObject, uiAction); break;
+    case GOSSIP_SENDER_CHECK:   SendActionMenu(pPlayer, pGameObject, uiAction); break;
+    }
+    return true;
+  }
+
+};
+
 /*###
 # start menues leatherworking
 ###*/
@@ -1063,8 +1242,7 @@ public:
                 case 7868:                                      //Sarah Tanner
                 case 7869:                                      //Brumn Winterhoof
                     player->ADD_GOSSIP_ITEM_EXTENDED(0, GOSSIP_UNLEARN_ELEMENTAL, GOSSIP_SENDER_CHECK, uiAction, BOX_UNLEARN_LEATHER_SPEC, DoMedUnlearnCost(player), false);
-                                                                //unknown textID ()
-                    player->SEND_GOSSIP_MENU(player->GetGossipTextId(creature), creature->GetGUID());
+                    player->SEND_GOSSIP_MENU(TALK_ELEMENTAL_UNLEARN, creature->GetGUID());
                     break;
                 case 7870:                                      //Caryssia Moonhunter
                 case 7871:                                      //Se'Jib
@@ -1309,4 +1487,5 @@ void AddSC_npc_professions()
     new npc_engineering_tele_trinket;
     new npc_prof_leather;
     new npc_prof_tailor;
+    new obj_soothsaying_for_dummies;
 }
