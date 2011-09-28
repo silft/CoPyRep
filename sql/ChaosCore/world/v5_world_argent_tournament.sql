@@ -20,7 +20,7 @@ INSERT INTO creature (id,map,spawnMask,phaseMask,modelid,equipment_id,position_x
 (33537,571,1,1,0,0,9081.28,2058.925,67.38979,3.612832,120,0,0,1,0,0,0,0,0);
 
 -- Template updates
-UPDATE creature_template SET speed_run=4, InhabitType=5, IconName='vehichleCursor' WHERE entry=33519; -- Black Knight's Gryphon
+UPDATE creature_template SET speed_run=4, AIName = '', InhabitType=5, IconName='vehichleCursor', ScriptName = 'npc_black_knight_gryphon' WHERE entry=33519; -- Black Knight's Gryphon
 UPDATE creature_template SET faction_A=2080,faction_H=2080,unit_flags=unit_flags|32768,equipment_id=823 WHERE entry=33537; -- Cult Conspirator
 
 -- Addon data
@@ -29,9 +29,9 @@ INSERT INTO creature_template_addon (entry,mount,bytes1,bytes2,emote,auras) VALU
 (33519,0,0,2049,0,NULL),-- Black Knight's Gryphon
 (33537,0,1,1,0,NULL); -- Cult Conspirator
 
--- SAI for Black Knight's Gryphon
+-- SAI for Black Knight's Gryphon (unused for now, its scripted on C++)
 SET @entry :=33519;
-UPDATE creature_template SET AIName='SmartAI' WHERE entry=@entry;
+UPDATE creature_template SET AIName='' WHERE entry=@entry;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=@entry;
 
 DELETE FROM waypoints WHERE entry=33519;
