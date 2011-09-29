@@ -1278,7 +1278,7 @@ class FrostBombTargetSelector
                 return true;
 
             for (std::list<Creature*>::const_iterator itr = _collisionList.begin(); itr != _collisionList.end(); ++itr)
-                if ((*itr)->IsInBetween(_caster, unit) || (*itr)->IsWithinDist(unit, 3.0f))
+                if ((*itr)->IsInBetween(_caster, unit))
                     return true;
 
             return false;
