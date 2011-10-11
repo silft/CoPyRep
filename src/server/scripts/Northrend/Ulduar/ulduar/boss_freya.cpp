@@ -468,8 +468,8 @@ class boss_freya : public CreatureScript
                             break;
                         }
                         case EVENT_UNSTABLE_ENERGY:
-                            me->CastCustomSpell(SPELL_FREYA_UNSTABLE_SUNBEAM, SPELLVALUE_MAX_TARGETS, RAID_MODE<int32>(3, 6));
-                            events.ScheduleEvent(EVENT_UNSTABLE_ENERGY, urand(15000, 20000));
+                            me->CastCustomSpell(SPELL_FREYA_UNSTABLE_SUNBEAM, SPELLVALUE_MAX_TARGETS, RAID_MODE<int32>(2, 5));
+                            events.ScheduleEvent(EVENT_UNSTABLE_ENERGY, urand(25000, 30000));
                             break;
                         case EVENT_WAVE:
                             waveTime = 0;
