@@ -136,6 +136,7 @@ public:
     {
         boss_anubarak_trialAI(Creature* creature) : ScriptedAI(creature), Summons(me)
         {
+            me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_KNOCK_BACK, true);
             m_pInstance = (InstanceScript*)creature->GetInstanceScript();
         }
 
@@ -273,6 +274,9 @@ public:
         void UpdateAI(const uint32 uiDiff)
         {
             if (!UpdateVictim())
+                return;
+
+            if(me->HasUnitState(UNIT_STAT_CASTING))
                 return;
 
             switch (m_uiStage)
