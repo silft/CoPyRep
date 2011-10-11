@@ -230,6 +230,9 @@ public:
         {
             if (Unit* target = GetHitUnit())
             {
+                if (!target->isAlive())
+                    return;
+
                 target->CastSpell(target, GetEffectValue(), true);
                 target->CastSpell(target, HUNTER_SPELL_MASTERS_CALL_TRIGGERED, true);
                 // there is a possibility that this effect should access effect 0 (dummy) target, but i dubt that
