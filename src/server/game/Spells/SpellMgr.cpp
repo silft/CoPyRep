@@ -4306,10 +4306,6 @@ void SpellMgr::LoadSpellCustomAttr()
             spellInfo->SchoolMask = SPELL_SCHOOL_MASK_MAGIC;
             ++count;
             break;
-        case 53209: // Chimera shot
-            spellInfo->SchoolMask = SPELL_SCHOOL_MASK_NORMAL;
-            ++count;
-            break;
 		case 5171:  // Slice and Dice 
         case 6774:  
 		case 52916: // Honor Among Thieves
@@ -4524,15 +4520,11 @@ void SpellMgr::LoadSpellCustomAttr()
         case 64386: // Terrifying Screech (Auriaya)
         case 64389: // Sentinel Blast (Auriaya)
         case 64678: // Sentinel Blast (Auriaya)
-			spellInfo->AuraInterruptFlags &= ~AURA_INTERRUPT_FLAG_TAKE_DAMAGE;
-			spellInfo->AuraInterruptFlags &= ~AURA_INTERRUPT_FLAG_DIRECT_DAMAGE;
-			spellInfo->AuraInterruptFlags &= ~AURA_INTERRUPT_FLAG_HITBYSPELL;
-			spellInfo->AuraInterruptFlags &= ~AURA_INTERRUPT_FLAG_MOVE;
 			spellInfo->ChannelInterruptFlags &= ~AURA_INTERRUPT_FLAG_TAKE_DAMAGE;
 			spellInfo->ChannelInterruptFlags &= ~AURA_INTERRUPT_FLAG_DIRECT_DAMAGE;
 			spellInfo->ChannelInterruptFlags &= ~AURA_INTERRUPT_FLAG_HITBYSPELL;
-			spellInfo->ChannelInterruptFlags = ~AURA_INTERRUPT_FLAG_MOVE;
-			spellInfo->InterruptFlags &= ~AURA_INTERRUPT_FLAG_MOVE;
+			spellInfo->ChannelInterruptFlags &= ~AURA_INTERRUPT_FLAG_MOVE;
+			spellInfo->InterruptFlags = SPELL_INTERRUPT_FLAG_INTERRUPT;
             spellInfo->DurationIndex = 28; // 5 seconds, wrong DBC data?
             ++count;
             break;
