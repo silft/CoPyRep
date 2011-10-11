@@ -250,7 +250,8 @@ enum Spells
     SPELL_SOUL_EFFECT                                      = 72305,
     SPELL_IN_FROSTMOURNE_ROOM                              = 74276,
     SPELL_VILE_SPIRIT_TARGET_SEARCH                        = 70501,
-    SPELL_SOUL_RIP                                         = 69397, 
+    SPELL_SOUL_RIP                                         = 69397,
+    SPELL_SOUL_RIP_DAMAGE                                  = 69398,
     SPELL_DESTROY_SOUL                                     = 74086,
     SPELL_DARK_HUNGER                                      = 69383,
     SPELL_DARK_HUNGER_HEAL_EFFECT                          = 69384,
@@ -2002,38 +2003,17 @@ class npc_vile_spirit : public CreatureScript
                             DoCast(me, SPELL_VILE_SPIRIT_ACTIVE, true);
                             //DoCast(me, SPELL_VILE_SPIRIT_TARGET_SEARCH, true);
                             DoCast(me, SPELL_VILE_SPIRIT_DISTANCE_CHECK, true);
+
                             events.ScheduleEvent(EVENT_CHECK_PLAYER_IN_FROSTMOURNE_ROOM, 1000);
                             break;
                         }
                         case EVENT_CHECK_PLAYER_IN_FROSTMOURNE_ROOM:
                         {
-                            Unit* curVictim = me->getVictim();
+                            Unit* target = SelectRandomAttackablePlayerInTheMap(me->GetMap());
 
-                            if (!curVictim)
-                                curVictim = SelectRandomAttackablePlayerInTheMap(me->GetMap());
+                            if (target && !target->HasAura(SPELL_IN_FROSTMOURNE_ROOM) && target->isAlive() && target->GetTypeId() == TYPEID_PLAYER)
+                                AttackStart(target);
 
-                            if (!curVictim)
-                            {
-                                me->DespawnOrUnsummon();
-                                return;
-                            }
-
-                            if (!curVictim->isAlive() || curVictim->GetTypeId() != TYPEID_PLAYER)
-                            {
-                                Player* player = curVictim->ToPlayer();
-                                uint8 count = 0;
-
-                                if (player)
-                                {
-                                    while ((!player->isTargetableForAttack() || !player->HasAura(SPELL_IN_FROSTMOURNE_ROOM)) && count++ < 20)
-                                        player = SelectRandomAttackablePlayerInTheMap(me->GetMap());
-
-                                    EnterEvadeMode();
-                                    AttackStart(player);
-                                }
-                            }
-
-                            events.ScheduleEvent(EVENT_CHECK_PLAYER_IN_FROSTMOURNE_ROOM, 2000);
                             break;
                         }
                         case EVENT_DESPAWN:
@@ -2618,21 +2598,33 @@ class npc_terenas_menethil : public CreatureScript
                 }
             }
 
-            void DamageDealt(Unit* /*target*/, uint32& damage, DamageEffectType /*damageType*/)
+            void DamageTaken(Unit* /*attacker*/, uint32& damage)
             {
-                //Damage scales with Terenas' health
-                damage = damage * (100 + (uint32)me->GetHealthPct()) / 100;
+                Aura* aur = me->GetAura(SPELL_LIGHT_S_FAVOR);
+                if (aur)
+                    aur->RecalculateAmountOfEffects();
+            }
+
+            void HealReceived(Unit* /*attacker*/, uint32& heal)
+            {
+                Aura* aur = me->GetAura(SPELL_LIGHT_S_FAVOR);
+                if (aur)
+                    aur->RecalculateAmountOfEffects();
             }
 
             void JustDied(Unit* /*killer*/)
             {
                 Player* player = me->FindNearestPlayer(80.0f, true);
-                player->CastSpell(player, SPELL_DESTROY_SOUL, true);
+
+                if (player)
+                    player->CastSpell(player, SPELL_DESTROY_SOUL, true);
 
                 if (Creature* lichKing = ObjectAccessor::GetCreature(*me, me->GetInstanceScript()->GetData64(DATA_THE_LICH_KING)))
                     DoCast(lichKing, IsHeroic() ? SPELL_HARVESTED_SOUL_HEROIC : SPELL_HARVESTED_SOUL_NORMAL, true);
 
-                TeleportPlayerToFrozenThrone(player);
+                if (player)
+                    TeleportPlayerToFrozenThrone(player);
+
                 events.Reset();
             }
 
@@ -2657,14 +2649,14 @@ class npc_terenas_menethil : public CreatureScript
                         case EVENT_ENCOURAGE_PLAYER_TO_ESCAPE:
                         {
                             me->MonsterYell("First, you must escape Frostmourne's hold or be damned as I am; trapped within this cursed blade for all eternity.", LANG_UNIVERSAL, 0);
-                             me->PlayDirectSound(17395);
-                            events.ScheduleEvent(EVENT_ASK_PLAYER_FOR_AID, 10000);
+                            me->PlayDirectSound(17395);
+                            events.ScheduleEvent(EVENT_ASK_PLAYER_FOR_AID, 12000);
                             break;
                         }
                         case EVENT_ASK_PLAYER_FOR_AID:
                         {
                             me->MonsterYell("Aid me in destroying these tortured souls! Together we will loosen Frostmourne's hold and weaken the Lich King from within!", LANG_UNIVERSAL, 0);
-                             me->PlayDirectSound(17396);
+                            me->PlayDirectSound(17396);
                             break;
                         }
                         case EVENT_CHECK_SPIRIT_WARDEN_HEALTH:
@@ -3802,6 +3794,79 @@ class spell_lich_king_fury_of_frostmourne : public SpellScriptLoader
         }
 };
 
+class spell_terenas_light_favor : public SpellScriptLoader
+{
+    public:
+        spell_terenas_light_favor() : SpellScriptLoader("spell_terenas_light_favor") { }
+
+        class spell_terenas_light_favor_AuraScript : public AuraScript
+        {
+            PrepareAuraScript(spell_terenas_light_favor_AuraScript)
+
+            void BonusDamage(AuraEffect const* aurEff, int32& amount, bool& canBeRecalculated)
+            {
+                float healthpct = GetCaster()->GetHealthPct();
+                amount = aurEff->GetBase()->GetSpellProto()->EffectBasePoints[1];
+
+                if (healthpct >= 60 && healthpct <= 69)
+                {
+                    amount *= 3;
+                }
+                if (healthpct >= 70 && healthpct <= 79)
+                {
+                    amount *= 4;
+                }
+                if (healthpct >= 80 && healthpct <= 89)
+                {
+                    amount *= 5;
+                }
+                if (healthpct >= 90)
+                {
+                    amount *= 6;
+                }
+            }
+
+            void Register()
+            {
+                DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_terenas_light_favor_AuraScript::BonusDamage, EFFECT_1, SPELL_AURA_MOD_DAMAGE_PERCENT_DONE);
+            }
+        };
+
+        AuraScript* GetAuraScript() const
+        {
+            return new spell_terenas_light_favor_AuraScript();
+        }
+};
+
+class spell_spirit_warden_soul_rip : public SpellScriptLoader
+{
+    public:
+        spell_spirit_warden_soul_rip() : SpellScriptLoader("spell_spirit_warden_soul_rip") { }
+
+        class spell_spirit_warden_soul_rip_AuraScript : public AuraScript
+        {
+            PrepareAuraScript(spell_spirit_warden_soul_rip_AuraScript);
+
+            void OnPeriodic(AuraEffect const* aurEff)
+            {
+                PreventDefaultAction();
+                // shouldn't be needed, this is channeled
+                if (Unit* caster = GetCaster())
+                    caster->CastCustomSpell(SPELL_SOUL_RIP_DAMAGE, SPELLVALUE_BASE_POINT0, 5000 * aurEff->GetTickNumber(), GetTarget(), true, NULL, aurEff, GetCasterGUID());
+            }
+
+            void Register()
+            {
+                OnEffectPeriodic += AuraEffectPeriodicFn(spell_spirit_warden_soul_rip_AuraScript::OnPeriodic, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY);
+            }
+        };
+
+        AuraScript* GetAuraScript() const
+        {
+            return new spell_spirit_warden_soul_rip_AuraScript();
+        }
+};
+
 void AddSC_boss_lichking()
 {
     new boss_the_lich_king();
@@ -3834,4 +3899,6 @@ void AddSC_boss_lichking()
     new spell_lich_king_tirion_mass_resurrection();
     new spell_lich_king_harvest_soul();
     new spell_lich_king_fury_of_frostmourne();
+    new spell_spirit_warden_soul_rip();
+    new spell_terenas_light_favor;
 }

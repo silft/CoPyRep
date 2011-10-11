@@ -118,6 +118,7 @@ class boss_rotface : public CreatureScript
             {
                 _JustDied();
                 Talk(SAY_DEATH);
+                instance->DoRemoveAurasDueToSpellOnPlayers(MUTATED_INFECTION);
                 instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_MUTATED_INFECTION);
                 instance->SetBossState(DATA_ROTFACE, DONE);
                 instance->SetData(DATA_ROTFACE, DONE);

@@ -326,7 +326,7 @@ class boss_sindragosa : public CreatureScript
                         me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_FROST_AURA, true);
                         _bombsLanded = 0;
                         //10 seconds instead of 8 because ice block affects players even after it's about to appear.
-                        events.ScheduleEvent(EVENT_FROST_BOMB, 10000);
+                        events.ScheduleEvent(EVENT_FROST_BOMB, 13000);
                         break;
                     case POINT_LAND:
                         me->SetFlying(false);
@@ -551,7 +551,7 @@ class boss_sindragosa : public CreatureScript
                             {
                                 //Disallow landing while there is a bomb falling
                                 events.ScheduleEvent(EVENT_LAND, 1000);
-                                events.DelayEvents(1000, EVENT_GROUP_LAND_PHASE);
+                                events.DelayEvents(8000, EVENT_GROUP_LAND_PHASE);
                             }
                             else
                             {

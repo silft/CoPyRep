@@ -342,6 +342,54 @@ class npc_stinky_icc : public CreatureScript
         }
 };
 
+class PlagueStenchTargetSelector
+{
+    public:
+        PlagueStenchTargetSelector(Unit* caster) : _caster(caster) { }
+
+        bool operator()(Unit* unit)
+        {
+            return !unit->IsWithinLOSInMap(_caster);
+        }
+    private:
+        Unit* _caster;
+};
+
+class spell_stinky_plague_stench : public SpellScriptLoader
+{
+    public:
+        spell_stinky_plague_stench() : SpellScriptLoader("spell_stinky_plague_stench") { }
+
+        class spell_stinky_plague_stench_SpellScript : public SpellScript
+        {
+            PrepareSpellScript(spell_stinky_plague_stench_SpellScript);
+
+            bool Validate(SpellEntry const* spellEntry)
+            {
+                if (!sSpellStore.LookupEntry(71160))
+                    return false;
+                if (!sSpellStore.LookupEntry(71161))
+                    return false;
+                return true;
+            }
+
+            void FilterTargets(std::list<Unit*>& unitList)
+            {
+                unitList.remove_if(PlagueStenchTargetSelector(GetCaster()));
+            }
+
+            void Register()
+            {
+                OnUnitTargetSelect += SpellUnitTargetFn(spell_stinky_plague_stench_SpellScript::FilterTargets, EFFECT_0, TARGET_UNIT_AREA_ENEMY_DST);
+            }
+        };
+
+        SpellScript* GetSpellScript() const
+        {
+            return new spell_stinky_plague_stench_SpellScript();
+        }
+};
+
 class spell_festergut_pungent_blight : public SpellScriptLoader
 {
     public:
@@ -470,6 +518,7 @@ void AddSC_boss_festergut()
 {
     new boss_festergut();
     new npc_stinky_icc();
+    new spell_stinky_plague_stench();
     new spell_festergut_pungent_blight();
     new spell_festergut_gastric_bloat();
     new spell_festergut_blighted_spores();
