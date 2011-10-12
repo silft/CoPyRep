@@ -263,6 +263,8 @@ public:
             DespawnCreatures(NPC_FLAMES_INITIAL, 100.0f);
             DespawnCreatures(NPC_PROXIMITY_MINE, 100.0f);
             DespawnCreatures(NPC_ROCKET, 100.0f);
+            DespawnCreatures(NPC_EMERGENCY_BOT, 100.0f);
+
 
             if (Creature* aerial = me->GetCreature(*me, instance->GetData64(DATA_AERIAL_UNIT)))
                 aerial->AI()->DoAction(DO_DESPAWN_SUMMONS);
@@ -766,6 +768,8 @@ public:
                 if (damage >= me->GetHealth())
                 {
                     damage = 0;
+                    if (MimironHardMode)
+                        me->CastSpell((Unit*)NULL, SPELL_FLAME_SUPPRESSANT, true);
                     me->InterruptNonMeleeSpells(true);
                     me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_ATTACKABLE_1);
                     me->AttackStop();
@@ -1604,9 +1608,8 @@ class npc_magnetic_core : public CreatureScript
                 DoCast(SPELL_MAGNETIC_CORE);
                 me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_PACIFIED);
                 me->ForcedDespawn(21000);
-                if (Creature *AerialUnit = Creature::GetCreature((*me), Instance->GetData64(DATA_AERIAL_UNIT)))
-                    if (AerialUnit->isAlive())
-                        AerialUnit->AI()->DoAction(DO_DISABLE_AERIAL);
+                if (Creature *AerialUnit = me->FindNearestCreature(NPC_AERIAL_COMMAND_UNIT,200.0f))
+                    AerialUnit->AI()->DoAction(DO_DISABLE_AERIAL);
             }
             InstanceScript *Instance;
         };
