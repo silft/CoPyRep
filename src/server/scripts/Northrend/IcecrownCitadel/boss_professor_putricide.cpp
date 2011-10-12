@@ -288,34 +288,22 @@ class boss_professor_putricide : public CreatureScript
                         if (HealthAbovePct(80))
                             return;
                         me->SetReactState(REACT_PASSIVE);
-						RemoveAdds();
+                        UnsummonSpecificCreaturesNearby(me,NPC_VOLATILE_OOZE,100.0f);
+                        UnsummonSpecificCreaturesNearby(me,NPC_GAS_CLOUD,100.0f);
                         DoAction(ACTION_CHANGE_PHASE);
                         break;
                     case PHASE_COMBAT_2:
                         if (HealthAbovePct(35))
                             return;
                         me->SetReactState(REACT_PASSIVE);
-						RemoveAdds();
+                        UnsummonSpecificCreaturesNearby(me,NPC_VOLATILE_OOZE,100.0f);
+                        UnsummonSpecificCreaturesNearby(me,NPC_GAS_CLOUD,100.0f);
                         DoAction(ACTION_CHANGE_PHASE);
                         break;
                     default:
                         break;
                 }
             }
-            
-            void RemoveAdds()
-            {
-                std::list<Unit*> unitList;
-                if (!unitList.empty())
-                    for (std::list<Unit*>::iterator itr = unitList.begin(); itr != unitList.end(); ++itr)
-                    {
-                        if ((*itr)->ToCreature()->GetEntry() == NPC_VOLATILE_OOZE)
-                            (*itr)->ToCreature()->DespawnOrUnsummon();
-                        if ((*itr)->ToCreature()->GetEntry() == NPC_GAS_CLOUD)
-                            (*itr)->ToCreature()->DespawnOrUnsummon();
-                    }
-            }
-
 
             void MovementInform(uint32 type, uint32 id)
             {
